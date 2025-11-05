@@ -5,6 +5,7 @@ export class Start extends Phaser.Scene {
     }
 
     create() {
+        this.scale.lockOrientation('portrait');
         // this.background = this.add.tileSprite(640, 360, 1280, 720, 'background');
 
         // const logo = this.add.image(640, 200, 'logo');

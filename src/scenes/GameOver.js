@@ -4,6 +4,7 @@ export class GameOver extends Phaser.Scene {
     }
 
     create() {
+        this.scale.lockOrientation('portrait');
         this.background1 = this.add.image(0, 0, 'background').setOrigin(0);
 
         this.add.text(this.scale.width * 0.5, this.scale.height * 0.5, 'Game Over', {

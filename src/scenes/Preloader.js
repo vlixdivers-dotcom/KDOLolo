@@ -6,6 +6,7 @@ export class Preloader extends Phaser.Scene {
     }
 
     init() {
+        this.scale.lockOrientation('portrait');
         const centreX = this.scale.width * 0.5;
         const centreY = this.scale.height * 0.5;
 

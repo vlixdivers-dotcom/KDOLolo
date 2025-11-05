@@ -16,6 +16,7 @@ export class Game extends Phaser.Scene {
     }
 
     create() {
+        this.scale.lockOrientation('portrait');
         this.initVariables();
         this.initGameUi();
         this.initAnimations();

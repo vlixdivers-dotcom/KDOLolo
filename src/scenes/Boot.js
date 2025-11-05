@@ -16,5 +16,6 @@ export class Boot extends Phaser.Scene
     create ()
     {
         this.scene.start('Preloader');
+        this.scale.lockOrientation('portrait');
     }
 }
