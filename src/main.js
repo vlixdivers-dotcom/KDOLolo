@@ -30,7 +30,8 @@ const config = {
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        lockOrientation: 'portrait'
+        width:320,
+        height:480
     },
 }
 
