@@ -175,6 +175,7 @@ export class Game extends Phaser.Scene {
         this.gameStarted = true;
         this.tutorialText.setVisible(false);
         this.addFlyingGroup();
+
     }
 
     fireBullet(x, y) {

@@ -1,5 +1,6 @@
 import ASSETS from '../assets.js';
 
+
 export default class PlayerBullet extends Phaser.Physics.Arcade.Sprite {
     power = 1;
     moveVelocity = 1000;
