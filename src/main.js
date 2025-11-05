@@ -30,9 +30,7 @@ const config = {
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        scene: (scene) => {
-            scene.lockOrientation('portrait');
-        }
+        forcePortrait: true
     },
 }
 
