@@ -11,12 +11,16 @@ import EnemyBullet from '../gameObjects/EnemyBullet.js';
 import Explosion from '../gameObjects/Explosion.js';
 
 export class Game extends Phaser.Scene {
+
+    preload(){
+        this.load.image('background', 'assets/road_bg.png');
+    }
+
     constructor() {
         super('Game');
     }
 
     create() {
-        this.scale.lockOrientation('portrait');
         this.initVariables();
         this.initGameUi();
         this.initAnimations();
@@ -28,8 +32,16 @@ export class Game extends Phaser.Scene {
 
     update() {
         this.updateMap();
+        this.scale.lockOrientation('portrait');
 
-        if (!this.gameStarted) return;
+        if (!this.gameStarted) {
+            const cursor = this.input.activePointer;
+            console.log(cursor.isDown);
+            if (cursor.isDown) this.startGame();
+            return;
+        }
+   
+
 
         this.player.update();
         if (this.spawnEnemyCounter > 0) this.spawnEnemyCounter--;
@@ -40,7 +52,6 @@ export class Game extends Phaser.Scene {
         this.score = 0;
         this.centreX = this.scale.width * 0.5;
         this.centreY = this.scale.height * 0.5;
-
         // list of tile ids in tiles.png
         // items nearer to the beginning of the array have a higher chance of being randomly chosen when using weighted()
         this.tiles = [50, 50, 50, 50, 50, 50, 50, 50, 50, 110, 110, 110, 110, 110, 50, 50, 50, 50, 50, 50, 50, 50, 50, 110, 110, 110, 110, 110, 36, 48, 60, 72, 84];
@@ -112,14 +123,22 @@ export class Game extends Phaser.Scene {
     initInput() {
         this.cursors = this.input.keyboard.createCursorKeys();
 
+        // this.pointer = this.input.activePointer;
+
+        // this.pointer.isDown.once('down',(key, event) => {
+        //     this.startGame();
+        // })
         // check for spacebar press only once
-        this.cursors.space.once('down', (key, event) => {
-            this.startGame();
-        });
+        // this.cursors.space.once('down', (key, event) => {
+        //     this.startGame();
+        // });
     }
 
     // create tile map data
     initMap() {
+
+        this.background = this.add.tileSprite(320/2, 480/2, 320, 480, 'background');
+
         // const mapData = [];
 
         // for (let y = 0; y < this.mapHeight; y++) {
@@ -142,6 +161,7 @@ export class Game extends Phaser.Scene {
 
     // scroll the tile map
     updateMap() {
+        this.background.tilePositionY -= 2;
         // this.scrollMovement += this.scrollSpeed;
 
         // if (this.scrollMovement >= this.tileSize) {
