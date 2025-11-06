@@ -9,8 +9,8 @@ const config = {
     title: 'Shmup',
     description: '',
     parent: 'game-container',
-    width: 1280,
-    height: 720,
+    width: 320,
+    height: 480,
     backgroundColor: '#000000',
     pixelArt: false,
     physics: {
