@@ -42,14 +42,21 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         const moveDirection = { x: 0, y: 0 }; // default move direction
 
-        if (leftKey) moveDirection.x--;
-        if (rightKey) moveDirection.x++;
-        if (upKey) moveDirection.y--;
-        if (downKey) moveDirection.y++;
-        if (spaceKey || pointer.isDown) this.fire();
+        // if (leftKey) moveDirection.x--;
+        // if (rightKey) moveDirection.x++;
+        // if (upKey) moveDirection.y--;
+        // if (downKey) moveDirection.y++;
 
-        this.body.velocity.x += moveDirection.x * this.velocityIncrement; // increase horizontal velocity
-        this.body.velocity.y += moveDirection.y * this.velocityIncrement; // increase vertical velocity
+        if (pointer.isDown) {
+            this.fire();
+            console.log("body position = " + this.body.position.x + "pointer position = " + pointer.x);
+            this.x = pointer.x;
+            
+        }
+        // if (spaceKey || pointer.isDown) this.fire();
+
+        // this.body.velocity.x += moveDirection.x * this.velocityIncrement; // increase horizontal velocity
+        // this.body.velocity.y += moveDirection.y * this.velocityIncrement; // increase vertical velocity
     }
 
     fire() {
