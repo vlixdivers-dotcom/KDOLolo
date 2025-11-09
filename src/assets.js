@@ -5,12 +5,13 @@ export default {
     //         args: ['assets/sound.mp3', 'assets/sound.m4a', 'assets/sound.ogg']
     //     },
     // },
-    // 'image': {
-    //     spikes: {
-    //         key: 'spikes',
-    //         args: ['assets/spikes.png']
-    //     },
-    // },
+    'image': {
+        enemy: {
+            key: 'crs',
+            args: ['assets/enemy.png', {frameWidth: 64,frameHeight: 64}]
+        }
+    },
+
     'spritesheet': {
         ships: {
             key: 'ships',
@@ -26,5 +27,11 @@ export default {
                 frameHeight: 32
             }]
         },
-    }
+    },
+    // 'sprites': {
+    //     enemy: {
+    //         key: 'crs',
+    //         args: ['assets/enemy.png']
+    //     }
+    // },
 };

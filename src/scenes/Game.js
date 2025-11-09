@@ -12,7 +12,7 @@ import Explosion from '../gameObjects/Explosion.js';
 
 export class Game extends Phaser.Scene {
 
-    preload(){
+    preload() {
         this.load.image('background', 'assets/road_bg.png');
     }
 
@@ -40,7 +40,7 @@ export class Game extends Phaser.Scene {
             if (cursor.isDown) this.startGame();
             return;
         }
-   
+
 
 
         this.player.update();
@@ -137,7 +137,7 @@ export class Game extends Phaser.Scene {
     // create tile map data
     initMap() {
 
-        this.background = this.add.tileSprite(320/2, 480/2, 320, 480, 'background');
+        this.background = this.add.tileSprite(320 / 2, 480 / 2, 320, 480, 'background');
 
         // const mapData = [];
 
@@ -222,25 +222,34 @@ export class Game extends Phaser.Scene {
         this.spawnEnemyCounter = Phaser.Math.RND.between(5, 8) * 60; // spawn next group after x seconds
         const randomId = Phaser.Math.RND.between(0, 11); // id to choose image in tiles.png
         const randomCount = Phaser.Math.RND.between(5, 15); // number of enemies to spawn
-        const randomInterval = Phaser.Math.RND.between(8, 12) * 100; // delay between spawning of each enemy
+        const randomInterval = 5 * 600;//Phaser.Math.RND.between(8, 12) * 100; // delay between spawning of each enemy
         const randomPath = Phaser.Math.RND.between(0, 3); // choose a path, a group follows the same path
         const randomPower = Phaser.Math.RND.between(1, 4); // strength of the enemy to determine damage to inflict and selecting bullet image
         const randomSpeed = Phaser.Math.RND.realInRange(0.0001, 0.001); // increment of pathSpeed in enemy
+
+        console.log(randomInterval);
 
         this.timedEvent = this.time.addEvent(
             {
                 delay: randomInterval,
                 callback: this.addEnemy,
-                args: [randomId, randomPath, randomSpeed, randomPower], // parameters passed to addEnemy()
+                args: [0, 0, randomId, randomPath, randomSpeed, randomPower, 5], // parameters passed to addEnemy()
                 callbackScope: this,
                 repeat: randomCount
             }
         );
     }
 
-    addEnemy(shipId, pathId, speed, power) {
-        const enemy = new EnemyFlying(this, shipId, pathId, speed, power);
-        this.enemyGroup.add(enemy);
+    addEnemy(x, y, shipId, pathId, speed, power, nb) {
+        const enemyWidth = 64;
+        const nbRow = (nb / 5);
+
+        for (let rounds = 0; rounds < nbRow; rounds++) {
+            for (let i = 0; i < nb; i++) {
+                const enemy = new EnemyFlying(this, (enemyWidth / 2) + x + (enemyWidth * i), (enemyWidth/2) - (enemyWidth * rounds), shipId, pathId, speed, power);
+                this.enemyGroup.add(enemy);
+            }
+        }
     }
 
     removeEnemy(enemy) {
