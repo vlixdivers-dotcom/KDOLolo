@@ -16,14 +16,11 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
         [[1330, 360], [640, 50], [50, 360], [640, 670], [1180, 360], [640, 50], [50, 360], [640, 670], [1330, 360]],
     ]
 
-    constructor(scene, x, y, shipId, pathId, speed, power) {
-        const startingId = 12;
-     
+    constructor(scene, x, y) {
         super(scene,  x, y, ASSETS.image.enemy.key);
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
-       // this.setFlipY(true); // flip image vertically
         this.setDepth(10);
         this.scene = scene;
 

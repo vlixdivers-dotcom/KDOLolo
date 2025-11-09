@@ -36,11 +36,9 @@ export class Game extends Phaser.Scene {
 
         if (!this.gameStarted) {
             const cursor = this.input.activePointer;
-            console.log(cursor.isDown);
             if (cursor.isDown) this.startGame();
             return;
         }
-
 
 
         this.player.update();
@@ -138,58 +136,11 @@ export class Game extends Phaser.Scene {
     initMap() {
 
         this.background = this.add.tileSprite(320 / 2, 480 / 2, 320, 480, 'background');
-
-        // const mapData = [];
-
-        // for (let y = 0; y < this.mapHeight; y++) {
-        //     const row = [];
-
-        //     for (let x = 0; x < this.mapWidth; x++) {
-        //         // randomly choose a tile id from this.tiles
-        //         // weightedPick favours items earlier in the array
-        //         const tileIndex = Phaser.Math.RND.weightedPick(this.tiles);
-
-        //         row.push(tileIndex);
-        //     }
-
-        //     mapData.push(row);
-        // }
-        // this.map = this.make.tilemap({ data: mapData, tileWidth: this.tileSize, tileHeight: this.tileSize });
-        // const tileset = this.map.addTilesetImage(ASSETS.spritesheet.tiles.key);
-        // this.groundLayer = this.map.createLayer(0, tileset, 0, this.mapTop);
     }
 
     // scroll the tile map
     updateMap() {
         this.background.tilePositionY -= 2;
-        // this.scrollMovement += this.scrollSpeed;
-
-        // if (this.scrollMovement >= this.tileSize) {
-        //     //  Create new row on top
-        //     let tile;
-        //     let prev;
-
-        //     // loop through map from bottom to top row
-        //     for (let y = this.mapHeight - 2; y > 0; y--) {
-        //         // loop through map from left to right column
-        //         for (let x = 0; x < this.mapWidth; x++) {
-        //             tile = this.map.getTileAt(x, y - 1);
-        //             prev = this.map.getTileAt(x, y);
-
-        //             prev.index = tile.index;
-
-        //             if (y === 1) { // if top row
-        //                 // randomly choose a tile id from this.tiles
-        //                 // weightedPick favours items earlier in the array
-        //                 tile.index = Phaser.Math.RND.weightedPick(this.tiles);
-        //             }
-        //         }
-        //     }
-
-        //     this.scrollMovement -= this.tileSize; // reset to 0
-        // }
-
-        // this.groundLayer.y = this.mapTop + this.scrollMovement; // move one tile up
     }
 
     startGame() {
@@ -219,34 +170,29 @@ export class Game extends Phaser.Scene {
 
     // add a group of flying enemies
     addFlyingGroup() {
-        this.spawnEnemyCounter = Phaser.Math.RND.between(5, 8) * 60; // spawn next group after x seconds
-        const randomId = Phaser.Math.RND.between(0, 11); // id to choose image in tiles.png
-        const randomCount = Phaser.Math.RND.between(5, 15); // number of enemies to spawn
         const randomInterval = 5 * 600;//Phaser.Math.RND.between(8, 12) * 100; // delay between spawning of each enemy
-        const randomPath = Phaser.Math.RND.between(0, 3); // choose a path, a group follows the same path
-        const randomPower = Phaser.Math.RND.between(1, 4); // strength of the enemy to determine damage to inflict and selecting bullet image
-        const randomSpeed = Phaser.Math.RND.realInRange(0.0001, 0.001); // increment of pathSpeed in enemy
-
-        console.log(randomInterval);
-
+        this.spawnEnemyCounter = randomInterval;
         this.timedEvent = this.time.addEvent(
             {
                 delay: randomInterval,
                 callback: this.addEnemy,
-                args: [0, 0, randomId, randomPath, randomSpeed, randomPower, 5], // parameters passed to addEnemy()
+                args: [0, 0, 5], // parameters passed to addEnemy()
                 callbackScope: this,
-                repeat: randomCount
+                repeat: -1
             }
         );
     }
 
-    addEnemy(x, y, shipId, pathId, speed, power, nb) {
+    addEnemy(x, y, nb) {
+        console.log("heya")
         const enemyWidth = 64;
         const nbRow = (nb / 5);
 
         for (let rounds = 0; rounds < nbRow; rounds++) {
             for (let i = 0; i < nb; i++) {
-                const enemy = new EnemyFlying(this, (enemyWidth / 2) + x + (enemyWidth * i), (enemyWidth/2) - (enemyWidth * rounds), shipId, pathId, speed, power);
+                const spawnX =  (enemyWidth / 2) + x + (enemyWidth * i);
+                const spawnY =  (enemyWidth/2) - (enemyWidth * rounds);
+                const enemy = new EnemyFlying(this, spawnX, spawnY );
                 this.enemyGroup.add(enemy);
             }
         }
