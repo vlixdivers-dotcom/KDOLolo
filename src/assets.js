@@ -8,21 +8,28 @@ export default {
     'image': {
         enemy: {
             key: 'crs',
-            args: ['assets/enemy.png', {frameWidth: 64,frameHeight: 64}]
+            args: ['assets/enemy.png', { frameWidth: 64, frameHeight: 64 }]
         }
     },
 
     'spritesheet': {
         ships: {
             key: 'ships',
-            args: ['assets/ships.png', {
-                frameWidth: 64,
-                frameHeight: 64,
+            args: ['assets/player.png', {
+                frameWidth: 83,
+                frameHeight: 99,
             }]
         },
         tiles: {
             key: 'tiles',
             args: ['assets/tiles.png', {
+                frameWidth: 32,
+                frameHeight: 32
+            }]
+        },
+        bullets: {
+            key: 'stone',
+            args: ['assets/bullet.png', {
                 frameWidth: 32,
                 frameHeight: 32
             }]

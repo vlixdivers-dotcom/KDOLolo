@@ -6,7 +6,7 @@ export default class PlayerBullet extends Phaser.Physics.Arcade.Sprite {
     moveVelocity = 1000;
 
     constructor(scene, x, y, power) {
-        super(scene, x, y, ASSETS.spritesheet.tiles.key, power-1);
+        super(scene, x, y, ASSETS.spritesheet.bullets.key, power-1);
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
