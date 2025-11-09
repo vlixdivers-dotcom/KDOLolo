@@ -56,9 +56,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         if (this.health <= 0) this.die();
     }
+    revive(){
 
+        this.setVisible(true); // destroy sprite so it is no longer updated
+    }
     die() {
         this.scene.addExplosion(this.x, this.y);
-        this.destroy(); // destroy sprite so it is no longer updated
+        this.setVisible(false); // destroy sprite so it is no longer updated
     }
 }

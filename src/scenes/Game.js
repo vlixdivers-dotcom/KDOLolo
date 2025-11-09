@@ -33,7 +33,6 @@ export class Game extends Phaser.Scene {
     update() {
         this.updateMap();
         this.scale.lockOrientation('portrait');
-
         if (!this.gameStarted) {
             const cursor = this.input.activePointer;
             if (cursor.isDown) this.startGame();
@@ -147,6 +146,8 @@ export class Game extends Phaser.Scene {
         this.gameStarted = true;
         this.tutorialText.setVisible(false);
         this.addFlyingGroup();
+        this.gameOverText.setVisible(false);
+        this.player.revive();
 
     }
 
