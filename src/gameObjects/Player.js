@@ -4,13 +4,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     velocityIncrement = 50;
     velocityMax = 500;
     drag = 1000;
-    fireRate = 10;
+    fireRate = 2000;
     fireCounter = 0;
     health = 1;
+
     clickCount = 0;
     clickCountTimerValue = .05;
     clickCountTimer = .05;
     inPointerEvent = false;
+
     constructor(scene, x, y, shipId) {
         super(scene, x, y, ASSETS.spritesheet.ships.key, shipId);
 
@@ -50,7 +52,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.clickCountTimer = this.clickCountTimerValue;
         }
 
-        const moveDirection = { x: 0, y: 0 }; // default move direction
+        //const moveDirection = { x: 0, y: 0 }; // default move direction
         if (pointer.isDown) {
             this.fire();
             this.x = pointer.x;

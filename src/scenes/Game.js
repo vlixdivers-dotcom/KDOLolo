@@ -7,6 +7,7 @@ import ANIMATION from '../animation.js';
 import Player from '../gameObjects/Player.js';
 import PlayerBullet from '../gameObjects/PlayerBullet.js';
 import AoeBullet from '../gameObjects/AoeBullet.js';
+import AoeExplosion from '../gameObjects/AoeExplosion.js';
 import EnemyFlying from '../gameObjects/EnemyFlying.js';
 import EnemyBullet from '../gameObjects/EnemyBullet.js';
 import Explosion from '../gameObjects/Explosion.js';
@@ -31,7 +32,7 @@ export class Game extends Phaser.Scene {
         this.initMap();
     }
 
-    update(time,delta) {
+    update(time, delta) {
         this.updateMap();
         this.scale.lockOrientation('portrait');
         if (!this.gameStarted) {
@@ -41,17 +42,20 @@ export class Game extends Phaser.Scene {
         }
 
         this.player.update();
-        if ( this.spawnEnemyCounter > 0) {
+        if (this.spawnEnemyCounter > 0) {
             this.spawnEnemyCounter -= (delta);
-        } else{
+        } else {
             this.addFlyingGroup();
         }
     }
 
     initVariables() {
         this.score = 0;
+
         this.centreX = this.scale.width * 0.5;
         this.centreY = this.scale.height * 0.5;
+
+
         // list of tile ids in tiles.png
         // items nearer to the beginning of the array have a higher chance of being randomly chosen when using weighted()
         this.tiles = [50, 50, 50, 50, 50, 50, 50, 50, 50, 110, 110, 110, 110, 110, 50, 50, 50, 50, 50, 50, 50, 50, 50, 110, 110, 110, 110, 110, 36, 48, 60, 72, 84];
@@ -59,12 +63,16 @@ export class Game extends Phaser.Scene {
 
         this.mapOffset = 10; // offset (in tiles) to move the map above the top of the screen
         this.mapTop = -this.mapOffset * this.tileSize; // offset (in pixels) to move the map above the top of the screen
+
         this.mapHeight = Math.ceil(this.scale.height / this.tileSize) + this.mapOffset + 1; // height of the tile map (in tiles)
         this.mapWidth = Math.ceil(this.scale.width / this.tileSize); // width of the tile map (in tiles)
+
         this.scrollSpeed = 1; // background scrolling speed (in pixels)
         this.scrollMovement = 0; // current scroll amount
-        this.spawnEnemyCounterValue = 3 * 600;
-        this.spawnEnemyCounter = this.spawnEnemyCounter;
+
+        this.spawnEnemyCounterValue = (4.5) * 600;
+        this.spawnEnemyCounter = (4.5) * 600;
+
         this.map; // rference to tile map
         this.groundLayer; // reference to ground layer of tile map
     }
@@ -104,16 +112,24 @@ export class Game extends Phaser.Scene {
             frameRate: ANIMATION.explosion.frameRate,
             repeat: ANIMATION.explosion.repeat
         });
+        console.log(this.anims.create({
+            key: ANIMATION.aoeExplosion.key,
+            frames: this.anims.generateFrameNumbers(ANIMATION.aoeExplosion.texture, ANIMATION.aoeExplosion.config),
+            frameRate: ANIMATION.aoeExplosion.frameRate,
+            repeat: ANIMATION.aoeExplosion.repeat
+        }));
     }
 
     initPhysics() {
         this.enemyGroup = this.add.group();
         this.enemyBulletGroup = this.add.group();
         this.playerBulletGroup = this.add.group();
+        this.playerAoeGroup = this.add.group();
 
         this.physics.add.overlap(this.player, this.enemyBulletGroup, this.hitPlayer, null, this);
         this.physics.add.overlap(this.playerBulletGroup, this.enemyGroup, this.hitEnemy, null, this);
         this.physics.add.overlap(this.player, this.enemyGroup, this.hitPlayer, null, this);
+        this.physics.add.overlap(this.playerAoeGroup, this.enemyGroup, this.hitEnemyWithAoe, null, this);
     }
 
     initPlayer() {
@@ -149,12 +165,17 @@ export class Game extends Phaser.Scene {
         this.playerBulletGroup.add(bullet);
     }
 
-    fireAoe(x,y){
-        const aoe = new AoeBullet(this,x,y);
-    }
-
     removeBullet(bullet) {
         this.playerBulletGroup.remove(bullet, true, true);
+    }
+
+    fireAoe(x, y) {
+        const aoe = new AoeBullet(this, x, y);
+        this.playerAoeGroup.add(aoe);
+    }
+
+    removeAoe(aoe) {
+        this.playerAoeGroup.remove(aoe, true, true);
     }
 
     fireEnemyBullet(x, y, power) {
@@ -169,7 +190,7 @@ export class Game extends Phaser.Scene {
     // add a group of flying enemies
     addFlyingGroup() {
         this.spawnEnemyCounter = this.spawnEnemyCounterValue;
-        this.addEnemy(0,0,5);
+        this.addEnemy(0, 0, 5);
         // this.spawnEnemy = false;
         // const spawnCounter = 5 * 600;//Phaser.Math.RND.between(8, 12) * 100; // delay between spawning of each enemy
     }
@@ -186,7 +207,6 @@ export class Game extends Phaser.Scene {
                 this.enemyGroup.add(enemy);
             }
         }
-
     }
 
     removeEnemy(enemy) {
@@ -195,6 +215,10 @@ export class Game extends Phaser.Scene {
 
     addExplosion(x, y) {
         new Explosion(this, x, y);
+    }
+
+    addAoeExplosion(x, y) {
+        new AoeExplosion(this, x, y);
     }
 
     hitPlayer(player, obstacle) {
@@ -206,9 +230,13 @@ export class Game extends Phaser.Scene {
     }
 
     hitEnemy(bullet, enemy) {
-        this.updateScore(10);
         bullet.remove();
         enemy.hit(bullet.getPower());
+    }
+
+    hitEnemyWithAoe(aoe, enemy) {
+        aoe.remove();
+        enemy.hit(aoe.getPower());
     }
 
     updateScore(points) {

@@ -41,6 +41,13 @@ export default {
                 frameHeight: 32,
             }]
         },
+        aoeExplosion: {
+            key: 'aoeExplosion',
+            args: ['assets/explosion_sheet.png', {
+                frameWidth: 320,
+                frameHeight: 160,
+            }]
+        },
     },
     // 'sprites': {
     //     enemy: {

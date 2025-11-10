@@ -3,11 +3,10 @@ import ASSETS from '../assets.js';
 
 export default class AoeBullet extends Phaser.Physics.Arcade.Sprite {
     power = 1;
-    moveVelocity = 500;
+    moveVelocity = 250;
 
     constructor(scene, x, y, power) {
         super(scene, x, y, ASSETS.spritesheet.aoe.key, power-1);
-        console.log("exist");
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
@@ -35,6 +34,7 @@ export default class AoeBullet extends Phaser.Physics.Arcade.Sprite {
     }
 
     remove() {
-        this.scene.removeBullet(this);
+        this.scene.addAoeExplosion(this.x,this.y);
+        this.scene.removeAoe(this);
     }
 }
