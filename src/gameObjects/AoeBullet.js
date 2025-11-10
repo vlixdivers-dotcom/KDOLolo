@@ -1,17 +1,17 @@
 import ASSETS from '../assets.js';
 
 
-export default class PlayerBullet extends Phaser.Physics.Arcade.Sprite {
+export default class AoeBullet extends Phaser.Physics.Arcade.Sprite {
     power = 1;
-    moveVelocity = 600;
+    moveVelocity = 500;
 
     constructor(scene, x, y, power) {
-        super(scene, x, y, ASSETS.spritesheet.bullets.key, power-1);
-
+        super(scene, x, y, ASSETS.spritesheet.aoe.key, power-1);
+        console.log("exist");
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
-        this.setSize(12, 32); // resize hitbox to correctly fit image instead of using the entire tile size
+        this.setSize(32, 32); // resize hitbox to correctly fit image instead of using the entire tile size
         this.setDepth(10);
         this.scene = scene;
         this.setVelocityY(-this.moveVelocity); // bullet vertical speed

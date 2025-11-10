@@ -6,6 +6,7 @@ import ASSETS from '../assets.js';
 import ANIMATION from '../animation.js';
 import Player from '../gameObjects/Player.js';
 import PlayerBullet from '../gameObjects/PlayerBullet.js';
+import AoeBullet from '../gameObjects/AoeBullet.js';
 import EnemyFlying from '../gameObjects/EnemyFlying.js';
 import EnemyBullet from '../gameObjects/EnemyBullet.js';
 import Explosion from '../gameObjects/Explosion.js';
@@ -30,7 +31,7 @@ export class Game extends Phaser.Scene {
         this.initMap();
     }
 
-    update() {
+    update(time,delta) {
         this.updateMap();
         this.scale.lockOrientation('portrait');
         if (!this.gameStarted) {
@@ -39,10 +40,12 @@ export class Game extends Phaser.Scene {
             return;
         }
 
-
         this.player.update();
-        if (this.spawnEnemyCounter > 0) this.spawnEnemyCounter--;
-        else this.addFlyingGroup();
+        if ( this.spawnEnemyCounter > 0) {
+            this.spawnEnemyCounter -= (delta);
+        } else{
+            this.addFlyingGroup();
+        }
     }
 
     initVariables() {
@@ -60,8 +63,8 @@ export class Game extends Phaser.Scene {
         this.mapWidth = Math.ceil(this.scale.width / this.tileSize); // width of the tile map (in tiles)
         this.scrollSpeed = 1; // background scrolling speed (in pixels)
         this.scrollMovement = 0; // current scroll amount
-        this.spawnEnemyCounter = 0; // timer before spawning next group of enemies
-
+        this.spawnEnemyCounterValue = 3 * 600;
+        this.spawnEnemyCounter = this.spawnEnemyCounter;
         this.map; // rference to tile map
         this.groundLayer; // reference to ground layer of tile map
     }
@@ -119,16 +122,6 @@ export class Game extends Phaser.Scene {
 
     initInput() {
         this.cursors = this.input.keyboard.createCursorKeys();
-
-        // this.pointer = this.input.activePointer;
-
-        // this.pointer.isDown.once('down',(key, event) => {
-        //     this.startGame();
-        // })
-        // check for spacebar press only once
-        // this.cursors.space.once('down', (key, event) => {
-        //     this.startGame();
-        // });
     }
 
     // create tile map data
@@ -156,6 +149,10 @@ export class Game extends Phaser.Scene {
         this.playerBulletGroup.add(bullet);
     }
 
+    fireAoe(x,y){
+        const aoe = new AoeBullet(this,x,y);
+    }
+
     removeBullet(bullet) {
         this.playerBulletGroup.remove(bullet, true, true);
     }
@@ -171,32 +168,25 @@ export class Game extends Phaser.Scene {
 
     // add a group of flying enemies
     addFlyingGroup() {
-        const randomInterval = 5 * 600;//Phaser.Math.RND.between(8, 12) * 100; // delay between spawning of each enemy
-        this.spawnEnemyCounter = randomInterval;
-        this.timedEvent = this.time.addEvent(
-            {
-                delay: randomInterval,
-                callback: this.addEnemy,
-                args: [0, 0, 5], // parameters passed to addEnemy()
-                callbackScope: this,
-                repeat: -1
-            }
-        );
+        this.spawnEnemyCounter = this.spawnEnemyCounterValue;
+        this.addEnemy(0,0,5);
+        // this.spawnEnemy = false;
+        // const spawnCounter = 5 * 600;//Phaser.Math.RND.between(8, 12) * 100; // delay between spawning of each enemy
     }
 
     addEnemy(x, y, nb) {
-        console.log("heya")
         const enemyWidth = 64;
         const nbRow = (nb / 5);
 
         for (let rounds = 0; rounds < nbRow; rounds++) {
             for (let i = 0; i < nb; i++) {
-                const spawnX =  (enemyWidth / 2) + x + (enemyWidth * i);
-                const spawnY =  (enemyWidth/2) - (enemyWidth * rounds);
-                const enemy = new EnemyFlying(this, spawnX, spawnY );
+                const spawnX = (enemyWidth / 2) + x + (enemyWidth * i);
+                const spawnY = (enemyWidth / 2) - (enemyWidth * rounds);
+                const enemy = new EnemyFlying(this, spawnX, spawnY);
                 this.enemyGroup.add(enemy);
             }
         }
+
     }
 
     removeEnemy(enemy) {

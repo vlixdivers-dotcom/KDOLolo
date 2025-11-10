@@ -29,7 +29,11 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
 
-        this.y +=  0.2 *delta; 
+        this.y +=  2; 
+        if (this.y > this.scene.scale.height)
+        {
+             this.die();
+        }
         // if (this.pathIndex > 1) return; // stop updating if reached end of path
 
         // this.path.getPoint(this.pathIndex, this.pathVector); // get current coordinate based on percentage moved

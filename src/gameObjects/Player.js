@@ -7,7 +7,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     fireRate = 10;
     fireCounter = 0;
     health = 1;
-
+    clickCount = 0;
+    clickCountTimerValue = .05;
+    clickCountTimer = .05;
+    inPointerEvent = false;
     constructor(scene, x, y, shipId) {
         super(scene, x, y, ASSETS.spritesheet.ships.key, shipId);
 
@@ -25,22 +28,47 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         super.preUpdate(time, delta);
 
         if (this.fireCounter > 0) this.fireCounter--;
-
-        this.checkInput();
+        this.checkInput((delta / time));
     }
 
-    checkInput() {
+    checkInput(dt) {
         const cursors = this.scene.cursors; // get cursors object from Game scene
         const pointer = this.scene.input.activePointer;
 
+      if (this.clickCount >= 2) {
+            this.clickCount = 0;
+            this.clickCountTimer = this.clickCountTimerValue;
+            this.launchAoe();
+            return;
+        }
+
+
+
+        this.clickCountTimer -= dt;
+        if (this.clickCountTimer <= 0) {
+            this.clickCount = 0;
+            this.clickCountTimer = this.clickCountTimerValue;
+        }
 
         const moveDirection = { x: 0, y: 0 }; // default move direction
-
         if (pointer.isDown) {
             this.fire();
             this.x = pointer.x;
 
+            if (!this.inPointerEvent) {
+                this.clickCount++;
+                this.clickCountTimer = this.clickCountTimerValue;
+            }
+            this.inPointerEvent = true;
+
+        } else {
+            this.inPointerEvent = false;
+
         }
+
+       // console.log(this.clickCount + "  " + this.clickCountTimer);
+  
+
     }
 
     fire() {
@@ -51,12 +79,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.fireBullet(this.x, this.y);
     }
 
+    launchAoe(){
+        this.scene.fireAoe(this.x, this.y);
+    }
+
     hit(damage) {
         this.health -= damage;
 
         if (this.health <= 0) this.die();
     }
-    revive(){
+    revive() {
 
         this.setVisible(true); // destroy sprite so it is no longer updated
     }

@@ -31,7 +31,14 @@ export default {
             key: 'stone',
             args: ['assets/bullet.png', {
                 frameWidth: 32,
-                frameHeight: 32
+                frameHeight: 32,
+            }]
+        },
+        aoe: {
+            key: 'aoe',
+            args: ['assets/aoe.png', {
+                frameWidth: 32,
+                frameHeight: 32,
             }]
         },
     },
