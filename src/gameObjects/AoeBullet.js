@@ -10,7 +10,7 @@ export default class AoeBullet extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
-        this.setSize(32, 32); // resize hitbox to correctly fit image instead of using the entire tile size
+        this.setSize(64, 32); // resize hitbox to correctly fit image instead of using the entire tile size
         this.setDepth(10);
         this.scene = scene;
         this.setVelocityY(-this.moveVelocity); // bullet vertical speed

@@ -6,11 +6,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     drag = 1000;
     fireRate = 20;
     fireCounter = 0;
+
+
     health = 1;
 
     clickCount = 0;
-    clickCountTimerValue = .05;
-    clickCountTimer = .05;
+    clickCountTimerValue = 0.02;
+    clickCountTimer = 0.02;
     inPointerEvent = false;
 
     constructor(scene, x, y, shipId) {
@@ -30,6 +32,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         super.preUpdate(time, delta);
 
         if (this.fireCounter > 0) this.fireCounter--;
+
         this.checkInput((delta / time));
     }
 
@@ -45,13 +48,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             return;
         }
 
-
-
-        this.clickCountTimer -= dt;
-        if (this.clickCountTimer <= 0) {
-            this.clickCount = 0;
-            this.clickCountTimer = this.clickCountTimerValue;
-        }
 
         //const moveDirection = { x: 0, y: 0 }; // default move direction
         if (pointer.isDown) {
@@ -69,9 +65,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         }
 
-        // console.log(this.clickCount + "  " + this.clickCountTimer);
 
-
+        this.clickCountTimer -= dt;
+        if (this.clickCountTimer <= 0) {
+            this.clickCount = 0;
+            this.clickCountTimer = this.clickCountTimerValue;
+        }
     }
 
     fire() {

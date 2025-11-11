@@ -16,4 +16,11 @@ export default {
         frameRate: 12,
         config: { start: 1, end: 10 },
     },
+    'presentateurSheet':
+    {
+        key: 'presentateurSheet',
+        texture: ASSETS.spritesheet.presentateur.key,
+        frameRate: 10,
+        config: { start: 1, end: 4 },
+    },
 };

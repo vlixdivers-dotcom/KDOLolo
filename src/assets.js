@@ -48,6 +48,13 @@ export default {
                 frameHeight: 160,
             }]
         },
+        presentateur: {
+            key: 'presentateur',
+            args: ['assets/Presentateur/presentateur_sheet.png', {
+                frameWidth: 96,
+                frameHeight: 80,
+            }]
+        },
     },
     // 'sprites': {
     //     enemy: {

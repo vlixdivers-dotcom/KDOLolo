@@ -5,7 +5,6 @@ export default class AoeExplosion extends Phaser.Physics.Arcade.Sprite {
     power = 1;
     constructor(scene, x, y) {
         super(scene,  (scene.scale.width / 2) + 10, y - 50, ASSETS.spritesheet.aoeExplosion.key, 1);
-        console.log(`${x} ${y}`);
         scene.add.existing(this);
         scene.physics.add.existing(this);
 

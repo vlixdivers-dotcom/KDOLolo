@@ -37,7 +37,6 @@ export class Preloader extends Phaser.Scene {
                 let args = ASSETS[type][key].args.slice();
                 args.unshift(ASSETS[type][key].key);
                 this.load[type].apply(this.load, args);
-                console.log(this.load, args);
             }
         }
     }

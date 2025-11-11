@@ -11,6 +11,7 @@ import AoeExplosion from '../gameObjects/AoeExplosion.js';
 import EnemyFlying from '../gameObjects/EnemyFlying.js';
 import EnemyBullet from '../gameObjects/EnemyBullet.js';
 import Explosion from '../gameObjects/Explosion.js';
+import Presentateur from '../gameObjects/Presentateur.js';
 
 export class Game extends Phaser.Scene {
 
@@ -24,12 +25,13 @@ export class Game extends Phaser.Scene {
 
     create() {
         this.initVariables();
-        this.initGameUi();
         this.initAnimations();
+        this.initGameUi();
         this.initPlayer();
         this.initInput();
         this.initPhysics();
         this.initMap();
+        // 320 + (96 / 2), - 50 + (80 / 2)
     }
 
     update(time, delta) {
@@ -75,6 +77,9 @@ export class Game extends Phaser.Scene {
 
         this.map; // rference to tile map
         this.groundLayer; // reference to ground layer of tile map
+
+        this.presentateur;
+        this.presentateurBoard;
     }
 
     initGameUi() {
@@ -89,11 +94,14 @@ export class Game extends Phaser.Scene {
 
         // Create score text
         this.scoreText = this.add.text(20, 20, 'Score: 0', {
-            fontFamily: 'Arial Black', fontSize: 28, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 8,
+            fontFamily: 'Arial Black', fontSize: 16, color: '#ffffff',
+            stroke: '#000000', strokeThickness: 4,
         })
             .setDepth(100);
 
+
+        this.presentateur = new Presentateur(this,320 - (96 / 2), 480 - (50 + (80 / 2)) );
+        this.presentateurBoard = this.add.rectangle(0, this.scale.height - 50, 320, 50, '#FFFFFF').setOrigin(0).setDepth(100);
         // Create game over text
         this.gameOverText = this.add.text(this.scale.width * 0.5, this.scale.height * 0.5, 'Game Over', {
             fontFamily: 'Arial Black', fontSize: 64, color: '#ffffff',
@@ -112,12 +120,18 @@ export class Game extends Phaser.Scene {
             frameRate: ANIMATION.explosion.frameRate,
             repeat: ANIMATION.explosion.repeat
         });
-        console.log(this.anims.create({
+        this.anims.create({
             key: ANIMATION.aoeExplosion.key,
             frames: this.anims.generateFrameNumbers(ANIMATION.aoeExplosion.texture, ANIMATION.aoeExplosion.config),
             frameRate: ANIMATION.aoeExplosion.frameRate,
             repeat: ANIMATION.aoeExplosion.repeat
-        }));
+        });
+        this.anims.create({
+            key: ANIMATION.presentateurSheet.key,
+            frames: this.anims.generateFrameNumbers(ANIMATION.presentateurSheet.texture, ANIMATION.presentateurSheet.config),
+            frameRate: ANIMATION.presentateurSheet.frameRate,
+            repeat: ANIMATION.presentateurSheet.repeat
+        });
     }
 
     initPhysics() {
