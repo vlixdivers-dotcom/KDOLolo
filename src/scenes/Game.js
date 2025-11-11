@@ -84,8 +84,8 @@ export class Game extends Phaser.Scene {
 
     initGameUi() {
         // Create tutorial text
-        this.tutorialText = this.add.text(this.centreX, this.centreY, 'Tap to shoot!', {
-            fontFamily: 'Arial Black', fontSize: 42, color: '#ffffff',
+        this.tutorialText = this.add.text(this.centreX, this.centreY, 'TAP TO SHOOT !', {
+            fontFamily: 'vintageWarehouse', fontSize: 42, color: '#ffffff',
             stroke: '#000000', strokeThickness: 8,
             align: 'center'
         })
