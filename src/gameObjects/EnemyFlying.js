@@ -17,7 +17,7 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
     ]
 
     constructor(scene, x, y) {
-        super(scene,  x, y, ASSETS.image.enemy.key);
+        super(scene, x, y, ASSETS.image.enemy.key);
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
@@ -29,10 +29,9 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
 
-        this.y +=  2; 
-        if (this.y > this.scene.scale.height)
-        {
-             this.die();
+        this.y += 2;
+        if (this.y > this.scene.scale.height + 64) {
+            this.die(false);
         }
         // if (this.pathIndex > 1) return; // stop updating if reached end of path
 
@@ -57,11 +56,12 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
         if (this.health <= 0) this.die();
     }
 
-    die() {
-        this.scene.updateScore(10);
-
-        this.scene.addExplosion(this.x, this.y);
-        this.scene.removeEnemy(this);
+    die(withScore = true) {
+        if (withScore) {
+            this.scene.updateScore(10);
+            this.scene.addExplosion(this.x, this.y);
+            this.scene.removeEnemy(this);
+        }
     }
 
     fire() {

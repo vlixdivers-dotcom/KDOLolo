@@ -10,7 +10,7 @@ export default class EnemyBullet extends Phaser.Physics.Arcade.Sprite {
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
-
+    
         this.power = power;
         this.setSize(16, 24); // resize hitbox to correctly fit image instead of using the entire tile size
         this.setFlipY(true); // flip image vertically to point downwards

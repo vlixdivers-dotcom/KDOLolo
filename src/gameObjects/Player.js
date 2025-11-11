@@ -4,7 +4,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     velocityIncrement = 50;
     velocityMax = 500;
     drag = 1000;
-    fireRate = 2000;
+    fireRate = 20;
     fireCounter = 0;
     health = 1;
 
@@ -18,7 +18,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
-
+        this.setSize(1, 1);
         this.setCollideWorldBounds(true); // prevent ship from leaving the screen
         this.setDepth(100); // make ship appear on top of other game objects
         this.scene = scene;
@@ -37,10 +37,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         const cursors = this.scene.cursors; // get cursors object from Game scene
         const pointer = this.scene.input.activePointer;
 
-      if (this.clickCount >= 2) {
+        if (this.clickCount >= 2) {
             this.clickCount = 0;
             this.clickCountTimer = this.clickCountTimerValue;
             this.launchAoe();
+            this.fireCounter = this.fireRate;
             return;
         }
 
@@ -68,8 +69,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         }
 
-       // console.log(this.clickCount + "  " + this.clickCountTimer);
-  
+        // console.log(this.clickCount + "  " + this.clickCountTimer);
+
 
     }
 
@@ -81,7 +82,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.fireBullet(this.x, this.y);
     }
 
-    launchAoe(){
+    launchAoe() {
         this.scene.fireAoe(this.x, this.y);
     }
 

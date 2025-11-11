@@ -125,11 +125,13 @@ export class Game extends Phaser.Scene {
         this.enemyBulletGroup = this.add.group();
         this.playerBulletGroup = this.add.group();
         this.playerAoeGroup = this.add.group();
+        this.playerAoeExplosionGroup = this.add.group();
 
         this.physics.add.overlap(this.player, this.enemyBulletGroup, this.hitPlayer, null, this);
         this.physics.add.overlap(this.playerBulletGroup, this.enemyGroup, this.hitEnemy, null, this);
         this.physics.add.overlap(this.player, this.enemyGroup, this.hitPlayer, null, this);
         this.physics.add.overlap(this.playerAoeGroup, this.enemyGroup, this.hitEnemyWithAoe, null, this);
+        this.physics.add.overlap(this.playerAoeExplosionGroup, this.enemyGroup, this.hitEnemyWithAoeExplosion, null, this);
     }
 
     initPlayer() {
@@ -154,7 +156,6 @@ export class Game extends Phaser.Scene {
     startGame() {
         this.gameStarted = true;
         this.tutorialText.setVisible(false);
-        this.addFlyingGroup();
         this.gameOverText.setVisible(false);
         this.player.revive();
 
@@ -218,7 +219,12 @@ export class Game extends Phaser.Scene {
     }
 
     addAoeExplosion(x, y) {
-        new AoeExplosion(this, x, y);
+        const aoeExplosion = new AoeExplosion(this, x, y);
+        this.playerAoeExplosionGroup.add(aoeExplosion);
+    }
+
+    removeAoeExplosion(aoeExplosion) {
+        this.playerAoeExplosionGroup.remove(aoeExplosion, true, true);
     }
 
     hitPlayer(player, obstacle) {
@@ -236,9 +242,12 @@ export class Game extends Phaser.Scene {
 
     hitEnemyWithAoe(aoe, enemy) {
         aoe.remove();
-        enemy.hit(aoe.getPower());
     }
 
+    hitEnemyWithAoeExplosion(explosionAoe, enemy) {
+        explosionAoe.remove();
+        enemy.hit(explosionAoe.getPower());
+    }
     updateScore(points) {
         this.score += points;
         this.scoreText.setText(`Score: ${this.score}`);

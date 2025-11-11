@@ -13,7 +13,7 @@ export default {
     {
         key: 'aoeExplosion',
         texture: ASSETS.spritesheet.aoeExplosion.key,
-        frameRate: 8,
+        frameRate: 12,
         config: { start: 1, end: 10 },
     },
 };

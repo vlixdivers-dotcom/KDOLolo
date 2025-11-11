@@ -1,20 +1,30 @@
 import ASSETS from '../assets.js';
 import ANIMATION from '../animation.js';
 
-export default class AoeExplosion extends Phaser.GameObjects.Sprite {
-
+export default class AoeExplosion extends Phaser.Physics.Arcade.Sprite {
+    power = 1;
     constructor(scene, x, y) {
-        super(scene, 30 + (scene.scale.width/2) , y, ASSETS.spritesheet.aoeExplosion.key, 1);
+        super(scene,  (scene.scale.width / 2) + 10, y - 50, ASSETS.spritesheet.aoeExplosion.key, 1);
         console.log(`${x} ${y}`);
         scene.add.existing(this);
+        scene.physics.add.existing(this);
 
+        this.setSize(320, 64 * 3);
         this.setDepth(10);
         this.anims.play(ANIMATION.aoeExplosion.key);
-
+        this.scene = scene;
 
         // cleanup after animation completes
         this.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
+            this.scene.removeAoeExplosion(this);
             this.destroy();
         }, this);
+    }
+
+    getPower() {
+        return this.power;
+    }
+
+    remove() {
     }
 }
