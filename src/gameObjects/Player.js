@@ -4,7 +4,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     velocityIncrement = 50;
     velocityMax = 500;
     drag = 1000;
-    fireRate = 1;
+    fireRate = 1.5;
     fireCounter = 0;
 
     molotovFireRate = 20;

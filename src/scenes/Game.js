@@ -12,13 +12,23 @@ import EnemyFlying from '../gameObjects/EnemyFlying.js';
 import EnemyBullet from '../gameObjects/EnemyBullet.js';
 import Explosion from '../gameObjects/Explosion.js';
 import Presentateur from '../gameObjects/Presentateur.js';
+import Score from '../gameObjects/Score.js';
 
 export class Game extends Phaser.Scene {
 
     preload() {
         this.load.image('background', 'assets/road_bg.png');
         this.load.image('aoe_frame', 'assets/aoe_frame.png');
+
+        this.load.image('aN', "assets/ScoreLetter/normal/a.png");
+        this.load.image('bN', "assets/ScoreLetter/normal/b.png");
+        this.load.image('cN', "assets/ScoreLetter/normal/c.png");
+
+        this.load.image('aL', "assets/ScoreLetter/litUp/a.png");
+        this.load.image('bL', "assets/ScoreLetter/litUp/b.png");
+        this.load.image('cL', "assets/ScoreLetter/litUp/c.png");
     }
+
 
     constructor() {
         super('Game');
@@ -46,7 +56,7 @@ export class Game extends Phaser.Scene {
         }
 
         this.player.update();
-        this.aoe_frame.alpha =this.player.GetMolotovFireCounterPercentage();
+        this.aoe_frame.alpha = this.player.GetMolotovFireCounterPercentage();
 
         if (this.spawnEnemyCounter > 0) {
             this.spawnEnemyCounter -= (delta / 1000);
@@ -63,7 +73,6 @@ export class Game extends Phaser.Scene {
 
         this.centreX = this.scale.width * 0.5;
         this.centreY = this.scale.height * 0.5;
-
 
         // list of tile ids in tiles.png
         // items nearer to the beginning of the array have a higher chance of being randomly chosen when using weighted()
@@ -88,8 +97,15 @@ export class Game extends Phaser.Scene {
         this.presentateur;
         this.presentateurBoard;
 
+        this.scoreUIObject;
+        // this.scoreUINormal;
+        // this.scoreUILitUp;
+
         this.aoe_frame;
+    
     }
+    
+ 
 
     initGameUi() {
         // Create tutorial text
@@ -101,20 +117,34 @@ export class Game extends Phaser.Scene {
             .setOrigin(0.5)
             .setDepth(100);
 
+        this.scoreUIObject = new Score(this);
+
+        this.scoreUIObject.setNormalScoreLetters([
+            this.add.image(0 + 16 * 1.5, 0 + 16 * 2, 'aN').setOrigin(0.5).setDepth(100),
+            this.add.image(0 + 16 * 2.5, 0 + 16 * 2, 'cN').setOrigin(0.5).setDepth(100),
+            this.add.image(0 + 16 * 3.5, 0 + 16 * 2, 'aN').setOrigin(0.5).setDepth(100),
+            this.add.image(0 + 16 * 4.5, 0 + 16 * 2, 'bN').setOrigin(0.5).setDepth(100),
+        ]);
+
+        this.scoreUIObject.setLitUpScoreLetters([
+            this.add.image(0 + 16 * 1.5, 0 + 16 * 2, 'aL').setOrigin(0.5).setDepth(100).setAlpha(0),
+            this.add.image(0 + 16 * 2.5, 0 + 16 * 2, 'cL').setOrigin(0.5).setDepth(100).setAlpha(0),
+            this.add.image(0 + 16 * 3.5, 0 + 16 * 2, 'aL').setOrigin(0.5).setDepth(100).setAlpha(0),
+            this.add.image(0 + 16 * 4.5, 0 + 16 * 2, 'bL').setOrigin(0.5).setDepth(100).setAlpha(0),
+        ]);
+
         // Create score text
-        this.scoreText = this.add.text(20, 20, 'Score: 0', {
-            fontFamily: 'Arial Black', fontSize: 16, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 4,
-        })
-            .setDepth(100);
+        // this.scoreText = this.add.text(20, 20, 'Score: 0', {
+        //     fontFamily: 'Arial Black', fontSize: 16, color: '#ffffff',
+        //     stroke: '#000000', strokeThickness: 4,
+        // })
+        //     .setDepth(100);
 
 
         this.presentateur = new Presentateur(this, 320 - (96 / 2), 480 - (50 + (80 / 2)));
         this.presentateurBoard = this.add.rectangle(0, this.scale.height - 50, 320, 50, '#FFFFFF').setOrigin(0).setDepth(100);
 
-        this.aoe_frame = this.add.image(25,  this.scale.height - 65, 'aoe_frame',1).setOrigin(0.5).setDepth(100);
-
-        
+        this.aoe_frame = this.add.image(25, this.scale.height - 65, 'aoe_frame', 1).setOrigin(0.5).setDepth(100);
 
         // Create game over text
         this.gameOverText = this.add.text(this.scale.width * 0.5, this.scale.height * 0.5, 'Game Over', {
@@ -125,6 +155,8 @@ export class Game extends Phaser.Scene {
             .setOrigin(0.5)
             .setDepth(100)
             .setVisible(false);
+
+
     }
 
     initAnimations() {
@@ -277,8 +309,7 @@ export class Game extends Phaser.Scene {
         enemy.hit(explosionAoe.getPower());
     }
     updateScore(points) {
-        this.score += points;
-        this.scoreText.setText(`Score: ${this.score}`);
+        this.scoreUIObject.setScoreValue(this.scoreUIObject.getScoreValue() + points);
     }
 
     GameOver() {

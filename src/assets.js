@@ -9,9 +9,52 @@ export default {
         enemy: {
             key: 'crs',
             args: ['assets/enemy.png', { frameWidth: 64, frameHeight: 64 }]
-        }
-    },
+        },
 
+        // aScoreN: {
+        //     key: 'aScoreN',
+        //     args: ['assets/ScoreLetter/normal/a.png', {
+        //         frameWidth: 16,
+        //         frameHeight: 29
+        //     }]
+        // },
+        // bScoreN: {
+        //     key: 'bScoreN',
+        //     args: ['assets/ScoreLetter/normal/b.png', {
+        //         frameWidth: 16,
+        //         frameHeight: 29,
+        //     }]
+        // },
+        // cScoreN: {
+        //     key: 'cScoreN',
+        //     args: ['assets/ScoreLetter/normal/c.png', {
+        //         frameWidth: 16,
+        //         frameHeight: 29,
+        //     }]
+        // },
+
+        // aScoreLU: {
+        //     key: 'aScoreLU',
+        //     args: ['assets/ScoreLetter/litUp/a.png', {
+        //         frameWidth: 16,
+        //         frameHeight: 29,
+        //     }]
+        // },
+        // bScoreLU: {
+        //     key: 'bScoreLU',
+        //     args: ['assets/ScoreLetter/litUp/b.png', {
+        //         frameWidth: 16,
+        //         frameHeight: 29,
+        //     }]
+        // },
+        // cScoreLU: {
+        //     key: 'cScoreLU',
+        //     args: ['assets/ScoreLetter/litUp/c.png', {
+        //         frameWidth: 16,
+        //         frameHeight: 29,
+        //     }]
+        // }
+    },
     'spritesheet': {
         ships: {
             key: 'ships',
@@ -62,11 +105,29 @@ export default {
                 frameHeight: 80,
             }]
         },
-    },
-    // 'sprites': {
-    //     enemy: {
-    //         key: 'crs',
-    //         args: ['assets/enemy.png']
-    //     }
-    // },
+    }
+
+    // 'scoreUILitUp': {
+    //     a: {
+    //         key: 'a',
+    //         args: ['assets/ScoreLetter/litUp/a.png', {
+    //             frameWidth: 16,
+    //             frameHeight: 29,
+    //         }]
+    //     },
+    //     b: {
+    //         key: 'b',
+    //         args: ['assets/ScoreLetter/litUp/b.png', {
+    //             frameWidth: 16,
+    //             frameHeight: 29,
+    //         }]
+    //     },
+    //     c: {
+    //         key: 'c',
+    //         args: ['assets/ScoreLetter/litUp/c.png', {
+    //             frameWidth: 16,
+    //             frameHeight: 29,
+    //         }]
+    //     },
+    // }
 };

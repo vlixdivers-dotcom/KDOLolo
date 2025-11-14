@@ -2,6 +2,7 @@ import ASSETS from '../assets.js';
 
 export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
     health = 1; // enemy health
+    scorePoints = 1;
     fireCounterMin = 100; // minimum fire rate
     fireCounterMax = 300; // maximum fire rate
     fireCounter;
@@ -57,7 +58,7 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
 
     die(withScore = true) {
         if (withScore) {
-            this.scene.updateScore(10);
+            this.scene.updateScore(this.scorePoints);
             this.scene.addExplosion(this.x, this.y);
             this.scene.removeEnemy(this);
         }
