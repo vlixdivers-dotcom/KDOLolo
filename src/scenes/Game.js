@@ -13,6 +13,7 @@ import EnemyBullet from '../gameObjects/EnemyBullet.js';
 import Explosion from '../gameObjects/Explosion.js';
 import Presentateur from '../gameObjects/Presentateur.js';
 import Score from '../gameObjects/Score.js';
+import UpgradePickup from '../gameObjects/UpgradePickup.js'
 
 export class Game extends Phaser.Scene {
 
@@ -102,10 +103,10 @@ export class Game extends Phaser.Scene {
         // this.scoreUILitUp;
 
         this.aoe_frame;
-    
+
     }
-    
- 
+
+
 
     initGameUi() {
         // Create tutorial text
@@ -271,6 +272,8 @@ export class Game extends Phaser.Scene {
     }
 
     removeEnemy(enemy) {
+        console.log(enemy.GetXY());
+        new UpgradePickup(this, enemy.GetXY().x, enemy.GetXY().y,enemy.GetSpeed());
         this.enemyGroup.remove(enemy, true, true);
     }
 

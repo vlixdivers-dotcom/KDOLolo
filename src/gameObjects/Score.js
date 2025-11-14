@@ -1,6 +1,5 @@
 import ASSETS from '../assets.js';
 
-
 export default class Score extends Phaser.GameObjects.GameObject {
 
     scene = null;

@@ -1,0 +1,24 @@
+import ASSETS from '../assets.js';
+export default class UpgradePickup extends Phaser.Physics.Arcade.Sprite {
+    speed;
+
+    constructor(scene, x, y, speed) {
+        super(scene, x, y, ASSETS.spritesheet.pickupPlaceHolder.key,1);
+
+        this.speed = speed;
+        scene.add.existing(this);
+        scene.physics.add.existing(this);
+        this.setDepth(10);
+        this.scene = scene;
+
+    }
+
+
+    preUpdate(time, delta) {
+        super.preUpdate(time, delta);
+        this.y += this.speed * (delta/1000);
+        if (this.y > this.scene.scale.height + 64) {
+        }
+    }
+
+}

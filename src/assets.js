@@ -10,50 +10,6 @@ export default {
             key: 'crs',
             args: ['assets/enemy.png', { frameWidth: 64, frameHeight: 64 }]
         },
-
-        // aScoreN: {
-        //     key: 'aScoreN',
-        //     args: ['assets/ScoreLetter/normal/a.png', {
-        //         frameWidth: 16,
-        //         frameHeight: 29
-        //     }]
-        // },
-        // bScoreN: {
-        //     key: 'bScoreN',
-        //     args: ['assets/ScoreLetter/normal/b.png', {
-        //         frameWidth: 16,
-        //         frameHeight: 29,
-        //     }]
-        // },
-        // cScoreN: {
-        //     key: 'cScoreN',
-        //     args: ['assets/ScoreLetter/normal/c.png', {
-        //         frameWidth: 16,
-        //         frameHeight: 29,
-        //     }]
-        // },
-
-        // aScoreLU: {
-        //     key: 'aScoreLU',
-        //     args: ['assets/ScoreLetter/litUp/a.png', {
-        //         frameWidth: 16,
-        //         frameHeight: 29,
-        //     }]
-        // },
-        // bScoreLU: {
-        //     key: 'bScoreLU',
-        //     args: ['assets/ScoreLetter/litUp/b.png', {
-        //         frameWidth: 16,
-        //         frameHeight: 29,
-        //     }]
-        // },
-        // cScoreLU: {
-        //     key: 'cScoreLU',
-        //     args: ['assets/ScoreLetter/litUp/c.png', {
-        //         frameWidth: 16,
-        //         frameHeight: 29,
-        //     }]
-        // }
     },
     'spritesheet': {
         ships: {
@@ -103,6 +59,13 @@ export default {
             args: ['assets/Presentateur/presentateur_sheet.png', {
                 frameWidth: 96,
                 frameHeight: 80,
+            }]
+        },
+        pickupPlaceHolder: {
+            key: 'pickupPlaceHolder',
+            args: ['assets/pickup/placeholder.png', {
+                frameWidth: 32,
+                frameHeight: 32,
             }]
         },
     }
