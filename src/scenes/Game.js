@@ -17,6 +17,7 @@ export class Game extends Phaser.Scene {
 
     preload() {
         this.load.image('background', 'assets/road_bg.png');
+        this.load.image('aoe_frame', 'assets/aoe_frame.png');
     }
 
     constructor() {
@@ -31,6 +32,7 @@ export class Game extends Phaser.Scene {
         this.initInput();
         this.initPhysics();
         this.initMap();
+
         // 320 + (96 / 2), - 50 + (80 / 2)
     }
 
@@ -44,11 +46,16 @@ export class Game extends Phaser.Scene {
         }
 
         this.player.update();
+        this.aoe_frame.alpha =this.player.GetMolotovFireCounterPercentage();
+
         if (this.spawnEnemyCounter > 0) {
-            this.spawnEnemyCounter -= (delta);
+            this.spawnEnemyCounter -= (delta / 1000);
         } else {
             this.addFlyingGroup();
         }
+
+
+
     }
 
     initVariables() {
@@ -72,14 +79,16 @@ export class Game extends Phaser.Scene {
         this.scrollSpeed = 1; // background scrolling speed (in pixels)
         this.scrollMovement = 0; // current scroll amount
 
-        this.spawnEnemyCounterValue = (4.5) * 600;
-        this.spawnEnemyCounter = (4.5) * 600;
+        this.spawnEnemyCounterValue = (3);
+        this.spawnEnemyCounter = (3);
 
         this.map; // rference to tile map
         this.groundLayer; // reference to ground layer of tile map
 
         this.presentateur;
         this.presentateurBoard;
+
+        this.aoe_frame;
     }
 
     initGameUi() {
@@ -100,8 +109,13 @@ export class Game extends Phaser.Scene {
             .setDepth(100);
 
 
-        this.presentateur = new Presentateur(this,320 - (96 / 2), 480 - (50 + (80 / 2)) );
+        this.presentateur = new Presentateur(this, 320 - (96 / 2), 480 - (50 + (80 / 2)));
         this.presentateurBoard = this.add.rectangle(0, this.scale.height - 50, 320, 50, '#FFFFFF').setOrigin(0).setDepth(100);
+
+        this.aoe_frame = this.add.image(25,  this.scale.height - 65, 'aoe_frame',1).setOrigin(0.5).setDepth(100);
+
+        
+
         // Create game over text
         this.gameOverText = this.add.text(this.scale.width * 0.5, this.scale.height * 0.5, 'Game Over', {
             fontFamily: 'Arial Black', fontSize: 64, color: '#ffffff',

@@ -48,6 +48,13 @@ export default {
                 frameHeight: 160,
             }]
         },
+        aoeFrame: {
+            key: 'aoeFrame',
+            args: ['assets/aoe_frame.png', {
+                frameWidth: 24,
+                frameHeight: 24,
+            }]
+        },
         presentateur: {
             key: 'presentateur',
             args: ['assets/Presentateur/presentateur_sheet.png', {
