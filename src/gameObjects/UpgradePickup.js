@@ -3,7 +3,7 @@ export default class UpgradePickup extends Phaser.Physics.Arcade.Sprite {
     speed;
 
     constructor(scene, x, y, speed) {
-        super(scene, x, y, ASSETS.spritesheet.pickupPlaceHolder.key,1);
+        super(scene, x, y, ASSETS.spritesheet.pickupPlaceHolder.key);
 
         this.speed = speed;
         scene.add.existing(this);
@@ -16,9 +16,15 @@ export default class UpgradePickup extends Phaser.Physics.Arcade.Sprite {
 
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
-        this.y += this.speed * (delta/1000);
+        this.y += this.speed * (delta / 1000);
         if (this.y > this.scene.scale.height + 64) {
+            this.remove(true);
         }
     }
 
+
+
+    remove(outOfBounds = false) {
+        this.scene.removeUpgradePickup(this);
+    }
 }

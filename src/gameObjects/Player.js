@@ -116,4 +116,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.addExplosion(this.x, this.y);
         this.setVisible(false); // destroy sprite so it is no longer updated
     }
+
+
+        upgrade() {
+        console.log("oh yeah");
+    }
 }

@@ -46,7 +46,7 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
         if (withScore) {
             this.scene.updateScore(this.scorePoints);
             this.scene.addExplosion(this.x, this.y);
-            this.scene.removeEnemy(this);
+            this.scene.removeEnemy(this, withScore);
         }
     }
 

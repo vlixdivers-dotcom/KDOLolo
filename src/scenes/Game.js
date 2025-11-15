@@ -188,11 +188,15 @@ export class Game extends Phaser.Scene {
         this.playerAoeGroup = this.add.group();
         this.playerAoeExplosionGroup = this.add.group();
 
+        this.upgradePickupGroup = this.add.group();
+
         this.physics.add.overlap(this.player, this.enemyBulletGroup, this.hitPlayer, null, this);
         this.physics.add.overlap(this.playerBulletGroup, this.enemyGroup, this.hitEnemy, null, this);
         this.physics.add.overlap(this.player, this.enemyGroup, this.hitPlayer, null, this);
         this.physics.add.overlap(this.playerAoeGroup, this.enemyGroup, this.hitEnemyWithAoe, null, this);
         this.physics.add.overlap(this.playerAoeExplosionGroup, this.enemyGroup, this.hitEnemyWithAoeExplosion, null, this);
+
+        this.physics.add.overlap(this.upgradePickupGroup, this.player, this.hitUpgradePickup, null, this);
     }
 
     initPlayer() {
@@ -271,15 +275,18 @@ export class Game extends Phaser.Scene {
         }
     }
 
-    removeEnemy(enemy) {
-        console.log(enemy.GetXY());
-        new UpgradePickup(this, enemy.GetXY().x, enemy.GetXY().y,enemy.GetSpeed());
+    removeEnemy(enemy, withScore) {
+        if (withScore) {
+           this.upgradePickupGroup.add(new UpgradePickup(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed()));
+        }
         this.enemyGroup.remove(enemy, true, true);
     }
+
 
     addExplosion(x, y) {
         new Explosion(this, x, y);
     }
+
 
     addAoeExplosion(x, y) {
         const aoeExplosion = new AoeExplosion(this, x, y);
@@ -288,6 +295,11 @@ export class Game extends Phaser.Scene {
 
     removeAoeExplosion(aoeExplosion) {
         this.playerAoeExplosionGroup.remove(aoeExplosion, true, true);
+    }
+
+
+    removeUpgradePickup(upgradePickup){
+        this.upgradePickupGroup.remove(upgradePickup,true,true);
     }
 
     hitPlayer(player, obstacle) {
@@ -311,6 +323,14 @@ export class Game extends Phaser.Scene {
         explosionAoe.remove();
         enemy.hit(explosionAoe.getPower());
     }
+
+    hitUpgradePickup(upgradePickup, player){
+        player.upgrade();
+        upgradePickup.remove();
+    }
+
+
+
     updateScore(points) {
         this.scoreUIObject.setScoreValue(this.scoreUIObject.getScoreValue() + points);
     }
