@@ -14,6 +14,7 @@ import Explosion from '../gameObjects/Explosion.js';
 import Presentateur from '../gameObjects/Presentateur.js';
 import Score from '../gameObjects/Score.js';
 import UpgradePickup from '../gameObjects/UpgradePickup.js'
+import TimedUpgradePickup from '../gameObjects/TimedUpgradePickup.js'
 
 export class Game extends Phaser.Scene {
 
@@ -44,7 +45,6 @@ export class Game extends Phaser.Scene {
         this.initPhysics();
         this.initMap();
 
-        // 320 + (96 / 2), - 50 + (80 / 2)
     }
 
     update(time, delta) {
@@ -56,6 +56,8 @@ export class Game extends Phaser.Scene {
             return;
         }
 
+
+
         this.player.update();
         this.aoe_frame.alpha = this.player.GetMolotovFireCounterPercentage();
 
@@ -64,9 +66,6 @@ export class Game extends Phaser.Scene {
         } else {
             this.addFlyingGroup();
         }
-
-
-
     }
 
     initVariables() {
@@ -277,7 +276,12 @@ export class Game extends Phaser.Scene {
 
     removeEnemy(enemy, withScore) {
         if (withScore) {
-           this.upgradePickupGroup.add(new UpgradePickup(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed()));
+
+            const upgradeToSpawn = Phaser.Math.Between(0, 100) > 50 ?
+                new UpgradePickup(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed()) :
+                new TimedUpgradePickup(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed());
+
+            this.upgradePickupGroup.add(upgradeToSpawn);
         }
         this.enemyGroup.remove(enemy, true, true);
     }
@@ -298,8 +302,8 @@ export class Game extends Phaser.Scene {
     }
 
 
-    removeUpgradePickup(upgradePickup){
-        this.upgradePickupGroup.remove(upgradePickup,true,true);
+    removeUpgradePickup(upgradePickup) {
+        this.upgradePickupGroup.remove(upgradePickup, true, true);
     }
 
     hitPlayer(player, obstacle) {
@@ -324,11 +328,10 @@ export class Game extends Phaser.Scene {
         enemy.hit(explosionAoe.getPower());
     }
 
-    hitUpgradePickup(upgradePickup, player){
-        player.upgrade();
+    hitUpgradePickup(upgradePickup, player) {
+        player.upgrade(upgradePickup);
         upgradePickup.remove();
     }
-
 
 
     updateScore(points) {
