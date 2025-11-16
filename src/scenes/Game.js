@@ -22,13 +22,13 @@ export class Game extends Phaser.Scene {
         this.load.image('background', 'assets/road_bg.png');
         this.load.image('aoe_frame', 'assets/aoe_frame.png');
 
-        this.load.image('aN', "assets/ScoreLetter/normal/a.png");
-        this.load.image('bN', "assets/ScoreLetter/normal/b.png");
-        this.load.image('cN', "assets/ScoreLetter/normal/c.png");
+        // this.load.image('aN', "assets/ScoreLetter/normal/a.png");
+        // this.load.image('bN', "assets/ScoreLetter/normal/b.png");
+        // this.load.image('cN', "assets/ScoreLetter/normal/c.png");
 
-        this.load.image('aL', "assets/ScoreLetter/litUp/a.png");
-        this.load.image('bL', "assets/ScoreLetter/litUp/b.png");
-        this.load.image('cL', "assets/ScoreLetter/litUp/c.png");
+        // this.load.image('aL', "assets/ScoreLetter/litUp/a.png");
+        // this.load.image('bL', "assets/ScoreLetter/litUp/b.png");
+        // this.load.image('cL', "assets/ScoreLetter/litUp/c.png");
     }
 
 
@@ -120,19 +120,25 @@ export class Game extends Phaser.Scene {
         this.scoreUIObject = new Score(this);
 
         this.scoreUIObject.setNormalScoreLetters([
-            this.add.image(0 + 16 * 1.5, 0 + 16 * 2, 'aN').setOrigin(0.5).setDepth(100),
-            this.add.image(0 + 16 * 2.5, 0 + 16 * 2, 'cN').setOrigin(0.5).setDepth(100),
-            this.add.image(0 + 16 * 3.5, 0 + 16 * 2, 'aN').setOrigin(0.5).setDepth(100),
-            this.add.image(0 + 16 * 4.5, 0 + 16 * 2, 'bN').setOrigin(0.5).setDepth(100),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 1.5, 0 + 16 * 2, ASSETS.image.aN.key).setDepth(100),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 2.5, 0 + 16 * 2, ASSETS.image.cN.key).setOrigin(0.5).setDepth(100),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 3.5, 0 + 16 * 2, ASSETS.image.aN.key).setOrigin(0.5).setDepth(100),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 4.5, 0 + 16 * 2, ASSETS.image.bN.key).setOrigin(0.5).setDepth(100),
         ]);
 
         this.scoreUIObject.setLitUpScoreLetters([
-            this.add.image(0 + 16 * 1.5, 0 + 16 * 2, 'aL').setOrigin(0.5).setDepth(100).setAlpha(0),
-            this.add.image(0 + 16 * 2.5, 0 + 16 * 2, 'cL').setOrigin(0.5).setDepth(100).setAlpha(0),
-            this.add.image(0 + 16 * 3.5, 0 + 16 * 2, 'aL').setOrigin(0.5).setDepth(100).setAlpha(0),
-            this.add.image(0 + 16 * 4.5, 0 + 16 * 2, 'bL').setOrigin(0.5).setDepth(100).setAlpha(0),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 1.5, 0 + 16 * 2, ASSETS.image.aL.key).setDepth(100).setAlpha(0),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 2.5, 0 + 16 * 2, ASSETS.image.cL.key).setDepth(100).setAlpha(0),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 3.5, 0 + 16 * 2, ASSETS.image.aL.key).setDepth(100).setAlpha(0),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 4.5, 0 + 16 * 2, ASSETS.image.bL.key).setDepth(100).setAlpha(0),
         ]);
 
+        for (let i = 0; i < this.scoreUIObject.getNormalScoreLetters().length; i++) {
+            this.add.existing(this.scoreUIObject.getNormalScoreLetters()[i]);
+        }
+        for (let i = 0; i < this.scoreUIObject.getLitUpScoreLetters().length; i++) {
+            this.add.existing(this.scoreUIObject.getLitUpScoreLetters()[i]);
+        }
         // Create score text
         // this.scoreText = this.add.text(20, 20, 'Score: 0', {
         //     fontFamily: 'Arial Black', fontSize: 16, color: '#ffffff',

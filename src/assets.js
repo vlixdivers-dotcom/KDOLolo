@@ -10,6 +10,48 @@ export default {
             key: 'crs',
             args: ['assets/enemy.png', { frameWidth: 64, frameHeight: 64 }]
         },
+        aN: {
+            key: 'aN',
+            args: ['assets/ScoreLetter/normal/a.png', {
+                frameWidth: 16,
+                frameHeight: 29,
+            }]
+        },
+        bN: {
+            key: 'bN',
+            args: ['assets/ScoreLetter/normal/b.png', {
+                frameWidth: 16,
+                frameHeight: 29,
+            }]
+        },
+        cN: {
+            key: 'cN',
+            args: ['assets/ScoreLetter/normal/c.png', {
+                frameWidth: 16,
+                frameHeight: 29,
+            }]
+        },
+        aL: {
+            key: 'aL',
+            args: ['assets/ScoreLetter/litUp/a.png', {
+                frameWidth: 16,
+                frameHeight: 29,
+            }]
+        },
+        bL: {
+            key: 'bL',
+            args: ['assets/ScoreLetter/litUp/b.png', {
+                frameWidth: 16,
+                frameHeight: 29,
+            }]
+        },
+        cL: {
+            key: 'cL',
+            args: ['assets/ScoreLetter/litUp/c.png', {
+                frameWidth: 16,
+                frameHeight: 29,
+            }]
+        },
     },
     'spritesheet': {
         ships: {

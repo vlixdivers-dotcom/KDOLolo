@@ -39,5 +39,13 @@ export default class Score extends Phaser.GameObjects.GameObject {
         this.litUpScoreLetters = arrayValue;
     }
 
+    getNormalScoreLetters() {
+        return this.normalScoreLetters;
+    }
+
+    getLitUpScoreLetters() {
+        return this.litUpScoreLetters;
+    }
+
 
 }
