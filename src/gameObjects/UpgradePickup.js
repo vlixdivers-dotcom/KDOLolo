@@ -2,7 +2,6 @@ import ASSETS from '../assets.js';
 export default class UpgradePickup extends Phaser.Physics.Arcade.Sprite {
     speed;
     timeBeforeRemove = 0.5;
-    baseValue = undefined;
 
 
     constructor(scene, x, y, speed) {

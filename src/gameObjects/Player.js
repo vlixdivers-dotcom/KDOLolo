@@ -4,6 +4,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     velocityIncrement = 50;
     velocityMax = 500;
     drag = 1000;
+
+    unchangedFireRate = 1.5;
     fireRate = 1.5;
     fireCounter = 0;
 
@@ -65,7 +67,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                     else {
                         switch (this.timedUpgradeManagerObjectArray[i].type) {
                             case 'mainWeaponFireRate':
-                                this.fireRate = this.timedUpgradeManagerObjectArray[i].baseValue;
+                                this.fireRate = this.unchangedFireRate;
                                 break;
                         }
                         console.log(`${this.timedUpgradeManagerObjectArray[i].type} time out`);
@@ -193,7 +195,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         const newObjectToPush = {
             type: upgradePickup.getData('timedType'),
             timer: upgradePickup.getTimeBeforeRemove(),
-            baseValue: upgradePickup.getBaseValue(),
             active: true,
         }
 

@@ -10,13 +10,12 @@ export default class MainWeaponFireRateUpgrade extends Upgrade {
         
         this.setTexture(ASSETS.spritesheet.tiles.key,2);
         this.setData('timedType', 'mainWeaponFireRate');
-        this.timeBeforeRemove = 10;
+        this.timeBeforeRemove = 3;
     }
 
 
     SetUpgradeEffect(player) {
-        this.baseValue = player.GetFireRate();
-        player.setFireRate(this.baseValue - this.fireRateUpgradeValue);
+        player.setFireRate(player.GetFireRate() - this.fireRateUpgradeValue);
         player.StartTimedUpgradeCounter(this);
     }
 
