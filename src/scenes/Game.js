@@ -14,7 +14,7 @@ import Explosion from '../gameObjects/Explosion.js';
 import Presentateur from '../gameObjects/Presentateur.js';
 import Score from '../gameObjects/Score.js';
 import UpgradePickup from '../gameObjects/UpgradePickup.js'
-import TimedUpgradePickup from '../gameObjects/TimedUpgradePickup.js'
+import MainWeaponFireRateUpgrade from '../gameObjects/MainWeaponFireRateUpgrade.js'
 
 export class Game extends Phaser.Scene {
 
@@ -22,13 +22,6 @@ export class Game extends Phaser.Scene {
         this.load.image('background', 'assets/road_bg.png');
         this.load.image('aoe_frame', 'assets/aoe_frame.png');
 
-        // this.load.image('aN', "assets/ScoreLetter/normal/a.png");
-        // this.load.image('bN', "assets/ScoreLetter/normal/b.png");
-        // this.load.image('cN', "assets/ScoreLetter/normal/c.png");
-
-        // this.load.image('aL', "assets/ScoreLetter/litUp/a.png");
-        // this.load.image('bL', "assets/ScoreLetter/litUp/b.png");
-        // this.load.image('cL', "assets/ScoreLetter/litUp/c.png");
     }
 
 
@@ -98,11 +91,8 @@ export class Game extends Phaser.Scene {
         this.presentateurBoard;
 
         this.scoreUIObject;
-        // this.scoreUINormal;
-        // this.scoreUILitUp;
 
         this.aoe_frame;
-
     }
 
 
@@ -139,12 +129,6 @@ export class Game extends Phaser.Scene {
         for (let i = 0; i < this.scoreUIObject.getLitUpScoreLetters().length; i++) {
             this.add.existing(this.scoreUIObject.getLitUpScoreLetters()[i]);
         }
-        // Create score text
-        // this.scoreText = this.add.text(20, 20, 'Score: 0', {
-        //     fontFamily: 'Arial Black', fontSize: 16, color: '#ffffff',
-        //     stroke: '#000000', strokeThickness: 4,
-        // })
-        //     .setDepth(100);
 
 
         this.presentateur = new Presentateur(this, 320 - (96 / 2), 480 - (50 + (80 / 2)));
@@ -284,8 +268,8 @@ export class Game extends Phaser.Scene {
         if (withScore) {
 
             const upgradeToSpawn = Phaser.Math.Between(0, 100) > 50 ?
-                new UpgradePickup(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed()) :
-                new TimedUpgradePickup(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed());
+                new UpgradePickup(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed()) : 
+                new MainWeaponFireRateUpgrade(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed());
 
             this.upgradePickupGroup.add(upgradeToSpawn);
         }

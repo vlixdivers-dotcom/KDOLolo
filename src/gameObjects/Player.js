@@ -28,10 +28,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         this.setSize(32, 32);
         this.setCollideWorldBounds(true); // prevent ship from leaving the screen
-        this.setDepth(10); // make ship appear on top of other game objects
+        this.setDepth(50); // make ship appear on top of other game objects
         this.scene = scene;
         this.setMaxVelocity(this.velocityMax); // limit maximum speed of ship
         this.setDrag(this.drag);
+
+
+
     }
 
     preUpdate(time, delta) {
@@ -41,14 +44,39 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if (this.molotovFireCounter > 0) this.molotovFireCounter -= delta / 1000;
         if (this.timedUpgradeCounter > 0) this.timedUpgradeCounter -= delta / 1000;
 
-        if (this.timedUpgradeManagerObjectArray.length > 0) {
-            for (let i = 0; i < this.timedUpgradeManagerObjectArray.length; i++) {
-                this.timedUpgradeManagerObjectArray[i].timer -= delta / 1000;
-                console.log(this.timedUpgradeManagerObjectArray[i].type);
-            }
-        }
+
 
         this.checkInput(delta / 1000);
+        this.manageTimedUpgrade(delta / 1000);
+
+
+    }
+
+
+    manageTimedUpgrade(dt) {
+        if (this.timedUpgradeManagerObjectArray.length > 0) {
+
+            for (let i = 0; i < this.timedUpgradeManagerObjectArray.length; i++) {
+                if (this.timedUpgradeManagerObjectArray[i].active) {
+                    if (this.timedUpgradeManagerObjectArray[i].timer > 0) {
+                        this.timedUpgradeManagerObjectArray[i].timer -= dt;
+                        console.log(`${this.timedUpgradeManagerObjectArray[i].type} at timer ${this.timedUpgradeManagerObjectArray[i].timer}`);
+                    }
+                    else {
+                        switch (this.timedUpgradeManagerObjectArray[i].type) {
+                            case 'mainWeaponFireRate':
+                                this.fireRate = this.timedUpgradeManagerObjectArray[i].baseValue;
+                                break;
+                        }
+                        console.log(`${this.timedUpgradeManagerObjectArray[i].type} time out`);
+                        this.timedUpgradeManagerObjectArray[i].active = false;
+                    }
+
+                }
+
+            }
+
+        }
     }
 
     create() {
@@ -132,6 +160,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         return this.fireRate;
     }
 
+
+    setFireRate(value) {
+        this.fireRate = value;
+        this.fireCounter = this.fireRate;
+    }
+
+
     upgrade(upgradePickup) {
         upgradePickup.SetUpgradeEffect(this);
     }
@@ -145,6 +180,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
             if (index >= 0) {
                 this.timedUpgradeManagerObjectArray[index].timer = upgradePickup.getTimeBeforeRemove();
+                this.timedUpgradeManagerObjectArray[index].active = true;
                 return;
             }
             // if (this.timedUpgradeManagerObjectArray.find((element) => element.type === upgradePickup.getData('timedType'))) {
@@ -158,6 +194,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             type: upgradePickup.getData('timedType'),
             timer: upgradePickup.getTimeBeforeRemove(),
             baseValue: upgradePickup.getBaseValue(),
+            active: true,
         }
 
         this.timedUpgradeManagerObjectArray.push(newObjectToPush);

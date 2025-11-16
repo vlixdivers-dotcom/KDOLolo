@@ -1,7 +1,7 @@
 import ASSETS from '../assets.js';
 export default class UpgradePickup extends Phaser.Physics.Arcade.Sprite {
     speed;
-    timeBeforeRemove = 10;
+    timeBeforeRemove = 0.5;
     baseValue = undefined;
 
 
@@ -15,7 +15,7 @@ export default class UpgradePickup extends Phaser.Physics.Arcade.Sprite {
         this.scene = scene;
 
         this.setDataEnabled();
-        this.setData('timedType', 'mainWeaponFireRate');
+        this.setData('timedType', 'base');
 
     }
 
@@ -34,12 +34,7 @@ export default class UpgradePickup extends Phaser.Physics.Arcade.Sprite {
     }
 
     SetUpgradeEffect(player) {
-        console.log("yeah");
-
-        if (this.timeBeforeRemove >= 0) {
-            this.baseValue = player.GetFireRate();
-            player.StartTimedUpgradeCounter(this);
-        }
+        player.StartTimedUpgradeCounter(this);
     }
 
 

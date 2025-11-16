@@ -8,6 +8,9 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
     fireCounter;
     power = 1; // enemy strength
     speed = 50;
+
+    chanceToDropUpgrade = 100;
+
     // path coordinates for enemy to follow
     paths = [
         [[200, -50], [1080, 160], [200, 340], [1080, 520], [200, 700], [1080, 780]],
@@ -67,12 +70,15 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
     }
 
 
-    GetXY(){
-        return {x: this.x, y: this.y}
+    getChanceToDropUpgrade() {
+        return this.chanceToDropUpgrade;
     }
 
-    GetSpeed()
-    {
+    GetXY() {
+        return { x: this.x, y: this.y }
+    }
+
+    GetSpeed() {
         return this.speed;
     }
 }
