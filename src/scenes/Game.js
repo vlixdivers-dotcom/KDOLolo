@@ -117,32 +117,28 @@ export class Game extends Phaser.Scene {
             .setOrigin(0.5)
             .setDepth(100);
 
-        //this.scoreUIObject = new Score(this);
+        this.scoreUIObject = new Score(this);
 
-        const a = new Phaser.GameObjects.Sprite(this, 0 + 16 * 1.5, 0 + 16 * 2, ASSETS.image.aN.key).setDepth(100);
+        this.scoreUIObject.setNormalScoreLetters([
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 1.5, 0 + 16 * 2, ASSETS.image.aN.key).setDepth(100),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 2.5, 0 + 16 * 2, ASSETS.image.cN.key).setOrigin(0.5).setDepth(100),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 3.5, 0 + 16 * 2, ASSETS.image.aN.key).setOrigin(0.5).setDepth(100),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 4.5, 0 + 16 * 2, ASSETS.image.bN.key).setOrigin(0.5).setDepth(100),
+        ]);
 
-        this.add.existing(a);
+        this.scoreUIObject.setLitUpScoreLetters([
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 1.5, 0 + 16 * 2, ASSETS.image.aL.key).setDepth(100).setAlpha(0),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 2.5, 0 + 16 * 2, ASSETS.image.cL.key).setDepth(100).setAlpha(0),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 3.5, 0 + 16 * 2, ASSETS.image.aL.key).setDepth(100).setAlpha(0),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 4.5, 0 + 16 * 2, ASSETS.image.bL.key).setDepth(100).setAlpha(0),
+        ]);
 
-        // this.scoreUIObject.setNormalScoreLetters([
-        //     new Phaser.GameObjects.Sprite(this, 0 + 16 * 1.5, 0 + 16 * 2, ASSETS.image.aN.key).setDepth(100),
-        //     new Phaser.GameObjects.Sprite(this, 0 + 16 * 2.5, 0 + 16 * 2, ASSETS.image.cN.key).setOrigin(0.5).setDepth(100),
-        //     new Phaser.GameObjects.Sprite(this, 0 + 16 * 3.5, 0 + 16 * 2, ASSETS.image.aN.key).setOrigin(0.5).setDepth(100),
-        //     new Phaser.GameObjects.Sprite(this, 0 + 16 * 4.5, 0 + 16 * 2, ASSETS.image.bN.key).setOrigin(0.5).setDepth(100),
-        // ]);
-
-        // this.scoreUIObject.setLitUpScoreLetters([
-        //     new Phaser.GameObjects.Sprite(this, 0 + 16 * 1.5, 0 + 16 * 2, ASSETS.image.aL.key).setDepth(100).setAlpha(0),
-        //     new Phaser.GameObjects.Sprite(this, 0 + 16 * 2.5, 0 + 16 * 2, ASSETS.image.cL.key).setDepth(100).setAlpha(0),
-        //     new Phaser.GameObjects.Sprite(this, 0 + 16 * 3.5, 0 + 16 * 2, ASSETS.image.aL.key).setDepth(100).setAlpha(0),
-        //     new Phaser.GameObjects.Sprite(this, 0 + 16 * 4.5, 0 + 16 * 2, ASSETS.image.bL.key).setDepth(100).setAlpha(0),
-        // ]);
-
-        // for (let i = 0; i < this.scoreUIObject.getNormalScoreLetters().length; i++) {
-        //     this.add.existing(this.scoreUIObject.getNormalScoreLetters()[i]);
-        // }
-        // for (let i = 0; i < this.scoreUIObject.getLitUpScoreLetters().length; i++) {
-        //     this.add.existing(this.scoreUIObject.getLitUpScoreLetters()[i]);
-        // }
+        for (let i = 0; i < this.scoreUIObject.getNormalScoreLetters().length; i++) {
+            this.add.existing(this.scoreUIObject.getNormalScoreLetters()[i]);
+        }
+        for (let i = 0; i < this.scoreUIObject.getLitUpScoreLetters().length; i++) {
+            this.add.existing(this.scoreUIObject.getLitUpScoreLetters()[i]);
+        }
         // Create score text
         // this.scoreText = this.add.text(20, 20, 'Score: 0', {
         //     fontFamily: 'Arial Black', fontSize: 16, color: '#ffffff',

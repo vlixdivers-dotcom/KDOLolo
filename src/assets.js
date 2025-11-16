@@ -12,42 +12,42 @@ export default {
         },
         aN: {
             key: 'aN',
-            args: ['assets/ScoreLetter/normal/a.png', {
+            args: ['assets/ScoreLetter/aN.png', {
                 frameWidth: 16,
                 frameHeight: 29,
             }]
         },
         bN: {
             key: 'bN',
-            args: ['assets/ScoreLetter/normal/b.png', {
+            args: ['assets/ScoreLetter/bN.png', {
                 frameWidth: 16,
                 frameHeight: 29,
             }]
         },
         cN: {
             key: 'cN',
-            args: ['assets/ScoreLetter/normal/c.png', {
+            args: ['assets/ScoreLetter/cN.png', {
                 frameWidth: 16,
                 frameHeight: 29,
             }]
         },
         aL: {
             key: 'aL',
-            args: ['assets/ScoreLetter/litUp/a.png', {
+            args: ['assets/ScoreLetter/aL.png', {
                 frameWidth: 16,
                 frameHeight: 29,
             }]
         },
         bL: {
             key: 'bL',
-            args: ['assets/ScoreLetter/litUp/b.png', {
+            args: ['assets/ScoreLetter/bL.png', {
                 frameWidth: 16,
                 frameHeight: 29,
             }]
         },
         cL: {
             key: 'cL',
-            args: ['assets/ScoreLetter/litUp/c.png', {
+            args: ['assets/ScoreLetter/cL.png', {
                 frameWidth: 16,
                 frameHeight: 29,
             }]
