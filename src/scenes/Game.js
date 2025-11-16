@@ -117,7 +117,7 @@ export class Game extends Phaser.Scene {
             .setOrigin(0.5)
             .setDepth(100);
 
-        this.scoreUIObject = new Score(this);
+        //this.scoreUIObject = new Score(this);
 
         const a = new Phaser.GameObjects.Sprite(this, 0 + 16 * 1.5, 0 + 16 * 2, ASSETS.image.aN.key).setDepth(100);
 
