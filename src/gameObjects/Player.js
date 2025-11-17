@@ -22,7 +22,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     timedUpgradeManagerObjectArray = [];
 
 
-
     constructor(scene, x, y, shipId) {
         super(scene, x, y, ASSETS.spritesheet.ships.key, shipId);
 
@@ -42,6 +41,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
 
+        if (this.scene.getInBetweenRound() === 2) return;
+
         if (this.fireCounter > 0) this.fireCounter -= delta / 1000;
         if (this.molotovFireCounter > 0) this.molotovFireCounter -= delta / 1000;
         if (this.timedUpgradeCounter > 0) this.timedUpgradeCounter -= delta / 1000;
@@ -50,7 +51,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.checkInput(delta / 1000);
         this.manageTimedUpgrade(delta / 1000);
-
 
     }
 
@@ -62,7 +62,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 if (this.timedUpgradeManagerObjectArray[i].active) {
                     if (this.timedUpgradeManagerObjectArray[i].timer > 0) {
                         this.timedUpgradeManagerObjectArray[i].timer -= dt;
-                        console.log(`${this.timedUpgradeManagerObjectArray[i].type} at timer ${this.timedUpgradeManagerObjectArray[i].timer}`);
                     }
                     else {
                         switch (this.timedUpgradeManagerObjectArray[i].type) {
@@ -70,7 +69,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                                 this.fireRate = this.unchangedFireRate;
                                 break;
                         }
-                        console.log(`${this.timedUpgradeManagerObjectArray[i].type} time out`);
                         this.timedUpgradeManagerObjectArray[i].active = false;
                     }
 
@@ -185,11 +183,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 this.timedUpgradeManagerObjectArray[index].active = true;
                 return;
             }
-            // if (this.timedUpgradeManagerObjectArray.find((element) => element.type === upgradePickup.getData('timedType'))) {
-            //     this.timedUpgradeManagerObjectArray[this.timedUpgradeManagerObjectArray.findIndex(
-            //         (element) => element.type === upgradePickup.getData('timedType'))].timer = upgradePickup.getTimeBeforeRemove();
-            // }
-
         }
 
         const newObjectToPush = {

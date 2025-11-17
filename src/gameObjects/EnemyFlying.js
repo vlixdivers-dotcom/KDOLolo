@@ -9,7 +9,7 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
     power = 1; // enemy strength
     speed = 50;
 
-    chanceToDropUpgrade = 100;
+    chanceToDropUpgrade = 3;
 
     // path coordinates for enemy to follow
     paths = [
@@ -47,10 +47,9 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
 
     die(withScore = true) {
         if (withScore) {
-            this.scene.updateScore(this.scorePoints);
             this.scene.addExplosion(this.x, this.y);
-            this.scene.removeEnemy(this, withScore);
         }
+            this.scene.removeEnemy(this, withScore);
     }
 
     fire() {
@@ -72,6 +71,11 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
 
     getChanceToDropUpgrade() {
         return this.chanceToDropUpgrade;
+    }
+
+
+    getScorePoints(){
+        return this.scorePoints;
     }
 
     GetXY() {

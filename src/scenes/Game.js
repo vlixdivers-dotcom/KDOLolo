@@ -15,6 +15,7 @@ import Presentateur from '../gameObjects/Presentateur.js';
 import Score from '../gameObjects/Score.js';
 import UpgradePickup from '../gameObjects/UpgradePickup.js'
 import MainWeaponFireRateUpgrade from '../gameObjects/MainWeaponFireRateUpgrade.js'
+import RoundReward from '../gameObjects/RoundReward.js'
 
 export class Game extends Phaser.Scene {
 
@@ -38,21 +39,32 @@ export class Game extends Phaser.Scene {
         this.initPhysics();
         this.initMap();
 
+        this.roundReward = new RoundReward(this, this.player);
     }
 
     update(time, delta) {
         this.updateMap();
         this.scale.lockOrientation('portrait');
+
+
         if (!this.gameStarted) {
             const cursor = this.input.activePointer;
             if (cursor.isDown) this.startGame();
             return;
         }
 
+        if (this.inBetweenRounds === 2) {
 
+            return;
+        }
 
-        this.player.update();
         this.aoe_frame.alpha = this.player.GetMolotovFireCounterPercentage();
+
+
+        if (this.inBetweenRounds === 1) {
+            this.spawnEnemyCounter = this.spawnEnemyCounterValue;
+            return;
+        }
 
         if (this.spawnEnemyCounter > 0) {
             this.spawnEnemyCounter -= (delta / 1000);
@@ -81,8 +93,8 @@ export class Game extends Phaser.Scene {
         this.scrollSpeed = 1; // background scrolling speed (in pixels)
         this.scrollMovement = 0; // current scroll amount
 
-        this.spawnEnemyCounterValue = (3);
-        this.spawnEnemyCounter = (3);
+        this.spawnEnemyCounterValue = (4);
+        this.spawnEnemyCounter = (0);
 
         this.map; // rference to tile map
         this.groundLayer; // reference to ground layer of tile map
@@ -93,6 +105,12 @@ export class Game extends Phaser.Scene {
         this.scoreUIObject;
 
         this.aoe_frame;
+
+        this.blackRectangle;
+
+        this.inBetweenRounds = 0;
+
+
     }
 
 
@@ -107,7 +125,9 @@ export class Game extends Phaser.Scene {
             .setOrigin(0.5)
             .setDepth(100);
 
+
         this.scoreUIObject = new Score(this);
+
 
         this.scoreUIObject.setNormalScoreLetters([
             new Phaser.GameObjects.Sprite(this, 0 + 16 * 1.5, 0 + 16 * 2, ASSETS.image.aN.key).setDepth(100),
@@ -133,6 +153,9 @@ export class Game extends Phaser.Scene {
 
         this.presentateur = new Presentateur(this, 320 - (96 / 2), 480 - (50 + (80 / 2)));
         this.presentateurBoard = this.add.rectangle(0, this.scale.height - 50, 320, 50, '#FFFFFF').setOrigin(0).setDepth(100);
+
+
+
 
         this.aoe_frame = this.add.image(25, this.scale.height - 65, 'aoe_frame', 1).setOrigin(0.5).setDepth(100);
 
@@ -267,13 +290,24 @@ export class Game extends Phaser.Scene {
     removeEnemy(enemy, withScore) {
         if (withScore) {
 
-            const upgradeToSpawn = Phaser.Math.Between(0, 100) > 50 ?
-                new UpgradePickup(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed()) : 
-                new MainWeaponFireRateUpgrade(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed());
+            if (this.inBetweenRounds === 0) {
+                this.updateScore(enemy.getScorePoints());
+            }
 
-            this.upgradePickupGroup.add(upgradeToSpawn);
+            if (Phaser.Math.Between(0, 100) < enemy.getChanceToDropUpgrade()) {
+                const upgradeToSpawn = Phaser.Math.Between(0, 100) > 50 ?
+                    new UpgradePickup(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed()) :
+                    new MainWeaponFireRateUpgrade(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed());
+                this.upgradePickupGroup.add(upgradeToSpawn);
+            }
+
         }
         this.enemyGroup.remove(enemy, true, true);
+
+        if (this.inBetweenRounds === 1 && this.enemyGroup.getLength() === 0) {
+            this.inBetweenRounds = 2;
+            this.showInRoundReward();
+        }
     }
 
 
@@ -326,6 +360,26 @@ export class Game extends Phaser.Scene {
 
     updateScore(points) {
         this.scoreUIObject.setScoreValue(this.scoreUIObject.getScoreValue() + points);
+    }
+
+    getInBetweenRound() {
+        return this.inBetweenRounds;
+    }
+
+
+    setInBetweenRound(value) {
+        this.inBetweenRounds = value;
+
+    }
+
+
+    showInRoundReward() {
+        this.roundReward.showReward(this.scoreUIObject.getScoreMilestoneIndex());
+    }
+
+    launchNextRound(){
+        this.scoreUIObject.setScoreMilestoneIndex(this.scoreUIObject.getScoreMilestoneIndex() + 1);
+        this.inBetweenRounds = 0;
     }
 
     GameOver() {
