@@ -6,7 +6,7 @@ import { GameOver } from './scenes/GameOver.js';
 
 const config = {
     type: Phaser.AUTO,
-    title: 'Shmup',
+    title: 'KDOLolo',
     description: '',
     parent: 'game-container',
     width: 320,

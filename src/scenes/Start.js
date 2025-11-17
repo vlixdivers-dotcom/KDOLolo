@@ -1,11 +1,16 @@
 export class Start extends Phaser.Scene {
-
+    cursor;
     constructor() {
         super('Start');
+
+        console.log('yo');
+
+
     }
 
     create() {
         this.scale.lockOrientation('portrait');
+        this.cursor = this.input.activePointer;
         // this.background = this.add.tileSprite(640, 360, 1280, 720, 'background');
 
         // const logo = this.add.image(640, 200, 'logo');
@@ -32,7 +37,7 @@ export class Start extends Phaser.Scene {
     }
 
     update() {
-        
+        if (this.cursor.isDown) this.scene.start('Game');
     }
-    
+
 }
