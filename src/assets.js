@@ -1,10 +1,10 @@
 export default {
-    // 'audio': {
-    //     score: {
-    //         key: 'sound',
-    //         args: ['assets/sound.mp3', 'assets/sound.m4a', 'assets/sound.ogg']
-    //     },
-    // },
+    'audio': {
+        introMusic: {
+            key: 'introMusic',
+            args: ['assets/Music/LInternationaleLoop.ogg']
+        },
+    },
     'image': {
         enemy: {
             key: 'crs',
@@ -50,6 +50,48 @@ export default {
             args: ['assets/ScoreLetter/cL.png', {
                 frameWidth: 16,
                 frameHeight: 29,
+            }]
+        },
+        startBackground: {
+            key: 'startBackground',
+            args: ['assets/TitleScreen/Background.png', {
+                frameWidth: 320,
+                frameHeight: 480,
+            }]
+        },
+        startTitle: {
+            key: 'startTitle',
+            args: ['assets/TitleScreen/Title.png', {
+                frameWidth: 151,
+                frameHeight: 168,
+            }]
+        },
+        tete1: {
+            key: 'tete1',
+            args: ['assets/TitleScreen/Tete1.png', {
+                frameWidth: 97,
+                frameHeight: 146,
+            }]
+        },
+        tete2: {
+            key: 'tete2',
+            args: ['assets/TitleScreen/Tete2.png', {
+                frameWidth: 151,
+                frameHeight: 168,
+            }]
+        },
+        tete3: {
+            key: 'tete3',
+            args: ['assets/TitleScreen/Tete3.png', {
+                frameWidth: 110,
+                frameHeight: 148,
+            }]
+        },
+        tete4: {
+            key: 'tete4',
+            args: ['assets/TitleScreen/Tete4.png', {
+                frameWidth: 98,
+                frameHeight: 171,
             }]
         },
     },

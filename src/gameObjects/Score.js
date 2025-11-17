@@ -4,7 +4,7 @@ export default class Score extends Phaser.GameObjects.GameObject {
 
     scene = null;
     scoreValue = 0;
-    scoreMilestone = [10,20,30,40];
+    scoreMilestone = [5, 15, 21, 32];
     scoreMilestoneIndex = 0;
     normalScoreLetters = [];
     litUpScoreLetters = [];
@@ -25,16 +25,24 @@ export default class Score extends Phaser.GameObjects.GameObject {
         this.scoreValue = value;
         this.changeLettersOpacity();
 
-        if (this.scoreValue >= this.scoreMilestone[this.scoreMilestoneIndex]){
+        if (this.getMilestoneValue() >= this.scoreMilestone[this.scoreMilestoneIndex]) {
             this.scene.setInBetweenRound(1);
         }
     }
 
 
+    getMilestoneValue() {
+        return this.scoreValue - (this.scoreMilestoneIndex > 0 ? this.scoreMilestone[this.scoreMilestoneIndex - 1] : 0);
+    }
+
     changeLettersOpacity() {
         let i = Phaser.Math.RoundTo(Phaser.Math.FloorTo(this.scoreValue / 10), 0);
-        if (i < this.normalScoreLetters.length)
-            this.litUpScoreLetters[i].setAlpha((this.scoreValue / 10) - i);
+
+        const alphaValue = this.getMilestoneValue() / this.scoreMilestone[this.scoreMilestoneIndex];
+
+
+        if (this.scoreMilestoneIndex < this.normalScoreLetters.length)
+            this.litUpScoreLetters[this.scoreMilestoneIndex].setAlpha(alphaValue);
     }
 
     setNormalScoreLetters(arrayValue) {
@@ -59,6 +67,6 @@ export default class Score extends Phaser.GameObjects.GameObject {
     }
 
     setScoreMilestoneIndex(value) {
-         this.scoreMilestoneIndex = value;
+        this.scoreMilestoneIndex = value;
     }
 }

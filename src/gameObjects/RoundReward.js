@@ -30,7 +30,42 @@ export default class RoundReward extends Phaser.GameObjects.GameObject {
             imagePath: ASSETS.image.aN.key,
             title: 'Whey de Facho in Shape',
             description: 'La combinaison de molécule te boost,\n deux parpaings peuvent être lancés'
-        }]]
+        }],
+    [
+        {
+            imagePath: ASSETS.image.bN.key,
+            title: 'Larmes de Sarkozy',
+            description: 'Acre et remplie de haine,\n certains parpaings en sont recouvers',
+        },
+        {
+            imagePath: ASSETS.image.aN.key,
+            title: 'Talc de Baba',
+            description: 'Une paille pour du talc ?,\n whoooo tu te sens rapide !!'
+        }],
+    [
+        {
+            imagePath: ASSETS.image.bN.key,
+            title: 'Images de Sainte Soline',
+            description: 'Chargeeeeeeez,\n prends plus de molotov camarade !',
+        },
+        {
+            imagePath: ASSETS.image.aN.key,
+            title: 'Slip de Bolloré',
+            description: 'Retiré lors de sa chute,\n utilise le pour lancé des parpaings'
+        }],
+    [
+        {
+            imagePath: ASSETS.image.bN.key,
+            title: 'Les faits',
+            description: 'La vérité est dérangeante pour les fachos,\n les mots sont perçant..',
+        },
+        {
+            imagePath: ASSETS.image.aN.key,
+            title: 'Troisiéme Oeil',
+            description: 'Toute cette babosserie a payé,\n tu sens ton troisiéme oeil s\'ouvrir'
+        }]
+    ];
+    
     constructor(scene, player) {
         super(scene);
 
@@ -96,9 +131,9 @@ export default class RoundReward extends Phaser.GameObjects.GameObject {
         this.firstChoice.title.setText(this.choices[currentRound][0].title).setAlpha(this.shown);
         this.firstChoice.description.setText(this.choices[currentRound][0].description).setAlpha(this.shown);
 
-        this.secondChoice.image.setTexture(this.choices[currentRound][0].imagePath).setAlpha(this.shown);
-        this.secondChoice.title.setText(this.choices[currentRound][0].title).setAlpha(this.shown);
-        this.secondChoice.description.setText(this.choices[currentRound][0].description).setAlpha(this.shown);
+        this.secondChoice.image.setTexture(this.choices[currentRound][1].imagePath).setAlpha(this.shown);
+        this.secondChoice.title.setText(this.choices[currentRound][1].title).setAlpha(this.shown);
+        this.secondChoice.description.setText(this.choices[currentRound][1].description).setAlpha(this.shown);
     }
 
     hideReward() {
@@ -116,7 +151,7 @@ export default class RoundReward extends Phaser.GameObjects.GameObject {
     }
 
     setEffectToPlayer(firstChoice) {
-        
+
         if (firstChoice) {
             switch (this.choiceIndex) {
                 case 0:
