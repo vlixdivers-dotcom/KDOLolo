@@ -65,7 +65,7 @@ export default class RoundReward extends Phaser.GameObjects.GameObject {
             description: 'Toute cette babosserie a payé,\n tu sens ton troisiéme oeil s\'ouvrir'
         }]
     ];
-    
+
     constructor(scene, player) {
         super(scene);
 
@@ -75,7 +75,7 @@ export default class RoundReward extends Phaser.GameObjects.GameObject {
         this.blackBackground = this.scene.add.rectangle(0, 0, 320, 480, '#FFFFFF').setOrigin(0).setDepth(110).setAlpha(this.shown / 2);
 
         this.firstChoice.image = this.scene.add.image(this.scene.scale.width / 2,
-           ( this.scene.scale.height / 2 ) - 100, this.choices[0][0].imagePath).setOrigin(0.5).setDepth(120).setAlpha(this.shown);
+            (this.scene.scale.height / 2) - 100, this.choices[0][0].imagePath).setOrigin(0.5).setDepth(120).setAlpha(this.shown);
         this.firstChoice.title = this.scene.add.text(this.firstChoice.image.x,
             this.firstChoice.image.y + 26, this.choices[0][0].title, {
             fontFamily: 'Arial', fontSize: 16, color: '#ffffff',
@@ -155,12 +155,16 @@ export default class RoundReward extends Phaser.GameObjects.GameObject {
         if (firstChoice) {
             switch (this.choiceIndex) {
                 case 0:
+                    this.player.haveLivreDeMerdellaUpgrade();
                     break;
                 case 1:
+                    this.player.haveLarmeUpgrade();
                     break;
                 case 2:
+                    this.player.haveSainteSolineUpgrade();
                     break;
                 case 3:
+                    this.player.haveLesFaitsUpgrade();
                     break;
                 default:
                     break;
@@ -168,12 +172,16 @@ export default class RoundReward extends Phaser.GameObjects.GameObject {
         } else {
             switch (this.choiceIndex) {
                 case 0:
+                    this.player.haveWheyUpgrade();
                     break;
                 case 1:
+                    this.player.haveTalcUpgrade();
                     break;
                 case 2:
+                    this.player.haveSlipUpgrade();
                     break;
                 case 3:
+                    this.player.haveTroisiemeOeilUpgrade();
                     break;
                 default:
                     break;

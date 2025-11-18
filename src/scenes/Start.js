@@ -13,11 +13,6 @@ export class Start extends Phaser.Scene {
     musicPlay = false;
     constructor() {
         super('Start');
-
-        console.log('yo');
-
-
-
     }
 
     create() {
@@ -81,6 +76,7 @@ export class Start extends Phaser.Scene {
         this.cursor = this.input.activePointer;
         if (this.cursor.isDown) {
             this.scene.start('Game');
+            this.music.stop();
         }
     }
 

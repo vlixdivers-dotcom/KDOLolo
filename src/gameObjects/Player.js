@@ -193,4 +193,39 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.timedUpgradeManagerObjectArray.push(newObjectToPush);
     }
+
+
+    haveLivreDeMerdellaUpgrade(){
+
+    }
+
+
+    haveWheyUpgrade(){
+
+    }
+
+    haveLarmeUpgrade(){
+
+    }
+
+    haveTalcUpgrade(){
+
+    }
+
+    haveSainteSolineUpgrade(){
+
+    }
+
+    haveSlipUpgrade(){
+
+    }
+
+    haveLesFaitUpgrade(){
+
+    }
+
+    haveTroisiemeOeilUpgrade(){
+
+    }
+
 }

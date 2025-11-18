@@ -100,7 +100,6 @@ export class Game extends Phaser.Scene {
         this.groundLayer; // reference to ground layer of tile map
 
         this.presentateur;
-        this.presentateurBoard;
 
         this.scoreUIObject;
 
@@ -151,11 +150,11 @@ export class Game extends Phaser.Scene {
         }
 
 
-        this.presentateur = new Presentateur(this, 320 - (96 / 2), 480 - (50 + (80 / 2)));
-        this.presentateurBoard = this.add.rectangle(0, this.scale.height - 50, 320, 50, '#FFFFFF').setOrigin(0).setDepth(100);
+        const presentateurBoard = this.add.rectangle(0, this.scale.height - 50, 320, 50, '#FFFFFF').setOrigin(0).setDepth(100);
+        this.presentateur = new Presentateur(this, 320 - (96 / 2), 480 - (50 + (80 / 2)),presentateurBoard);
 
 
-
+        this.presentateur.setNewTextToPrint("Salut les fachos");
 
         this.aoe_frame = this.add.image(25, this.scale.height - 65, 'aoe_frame', 1).setOrigin(0.5).setDepth(100);
 
@@ -227,6 +226,7 @@ export class Game extends Phaser.Scene {
 
     // scroll the tile map
     updateMap() {
+        if (this.inBetweenRounds === 2)
         this.background.tilePositionY -= 2;
     }
 
