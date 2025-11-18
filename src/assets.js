@@ -69,29 +69,43 @@ export default {
         tete1: {
             key: 'tete1',
             args: ['assets/TitleScreen/Tete1.png', {
-                frameWidth: 97,
-                frameHeight: 146,
+                frameWidth: 69,
+                frameHeight: 83,
             }]
         },
         tete2: {
             key: 'tete2',
             args: ['assets/TitleScreen/Tete2.png', {
-                frameWidth: 151,
-                frameHeight: 168,
+                frameWidth: 79,
+                frameHeight: 88,
             }]
         },
         tete3: {
             key: 'tete3',
             args: ['assets/TitleScreen/Tete3.png', {
-                frameWidth: 110,
-                frameHeight: 148,
+                frameWidth: 53,
+                frameHeight: 71,
             }]
         },
         tete4: {
             key: 'tete4',
             args: ['assets/TitleScreen/Tete4.png', {
-                frameWidth: 98,
-                frameHeight: 171,
+                frameWidth: 55,
+                frameHeight: 73,
+            }]
+        },
+        tete5: {
+            key: 'tete5',
+            args: ['assets/TitleScreen/Tete5.png', {
+                frameWidth: 49,
+                frameHeight: 71,
+            }]
+        },
+        tete6: {
+            key: 'tete6',
+            args: ['assets/TitleScreen/Tete6.png', {
+                frameWidth: 66,
+                frameHeight: 81,
             }]
         },
     },

@@ -7,6 +7,8 @@ export class Start extends Phaser.Scene {
     heads = [];
 
     music;
+
+    angleToInvertRotation = 30;
     constructor() {
         super('Start');
 
@@ -28,10 +30,13 @@ export class Start extends Phaser.Scene {
         this.music.play();
 
 
-        this.heads = [this.add.image(50, 480, ASSETS.image.tete1.key).setOrigin(0.5, 1).setDepth(20),
-        this.add.image(100, 480, ASSETS.image.tete2.key).setOrigin(0.5, 1).setDepth(20),
-        this.add.image(200, 480, ASSETS.image.tete3.key).setOrigin(0.5, 1).setDepth(20),
-        this.add.image(250, 480, ASSETS.image.tete4.key).setOrigin(0.5, 1).setDepth(20)];
+        this.heads = [{image: this.add.image(22+30, 36+50, ASSETS.image.tete1.key).setOrigin(0.5).setDepth(20), rotation: 1},
+        {image: this.add.image(226+30, 32+50, ASSETS.image.tete2.key).setOrigin(0.5).setDepth(20), rotation: -1},
+        {image: this.add.image(262+30, 163+50, ASSETS.image.tete3.key).setOrigin(0.5).setDepth(20), rotation: 1},
+        {image: this.add.image(8+30, 183+50, ASSETS.image.tete4.key).setOrigin(0.5).setDepth(20), rotation: -1},
+        {image: this.add.image(49+30, 338+50, ASSETS.image.tete5.key).setOrigin(0.5).setDepth(20), rotation: 1},
+        {image: this.add.image(191+60, 328+70, ASSETS.image.tete6.key).setOrigin(0.5).setDepth(20), rotation:-1}
+        ];
         // this.background = this.add.tileSprite(640, 360, 1280, 720, 'background');
 
         // const logo = this.add.image(640, 200, 'logo');
@@ -58,9 +63,17 @@ export class Start extends Phaser.Scene {
     }
 
     update() {
+
+        this.heads.forEach((element) => {
+            element.image.angle +=  (0.75 * element.rotation);
+            if (element.image.angle * element.rotation  > this.angleToInvertRotation){
+                element.rotation *= -1;
+            }
+        })
+
+
         this.cursor = this.input.activePointer;
         if (this.cursor.isDown){
-        this.music.stop();
         this.scene.start('Game');
         } 
     }
