@@ -19,6 +19,10 @@ export class Start extends Phaser.Scene {
     }
 
     create() {
+
+        this.input.on("preupdate" ,()=> {
+
+        })
         this.scale.lockOrientation('portrait');
 
 
