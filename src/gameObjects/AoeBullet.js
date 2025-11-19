@@ -10,6 +10,9 @@ export default class AoeBullet extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
+
+        this.power = power;
+
         this.setSize(64, 32); // resize hitbox to correctly fit image instead of using the entire tile size
         this.setDepth(10);
         this.scene = scene;
@@ -34,7 +37,7 @@ export default class AoeBullet extends Phaser.Physics.Arcade.Sprite {
     }
 
     remove() {
-        this.scene.addAoeExplosion(this.x,this.y);
+        this.scene.addAoeExplosion(this.x,this.y,this.power);
         this.scene.removeAoe(this);
     }
 }

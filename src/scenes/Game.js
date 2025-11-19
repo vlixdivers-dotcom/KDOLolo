@@ -59,6 +59,7 @@ export class Game extends Phaser.Scene {
         }
 
         this.aoe_frame.alpha = this.player.GetMolotovFireCounterPercentage();
+        this.nb_aoe.text = `X${this.player.GetNBMolotov()}`;
 
 
         if (this.inBetweenRounds === 1) {
@@ -104,6 +105,8 @@ export class Game extends Phaser.Scene {
         this.scoreUIObject;
 
         this.aoe_frame;
+
+        this.nb_aoe;
 
         this.blackRectangle;
 
@@ -151,12 +154,19 @@ export class Game extends Phaser.Scene {
 
 
         const presentateurBoard = this.add.rectangle(0, this.scale.height - 50, 320, 50, '#FFFFFF').setOrigin(0).setDepth(100);
-        this.presentateur = new Presentateur(this, 320 - (96 / 2), 480 - (50 + (80 / 2)),presentateurBoard);
+        this.presentateur = new Presentateur(this, 320 - (96 / 2), 480 - (50 + (80 / 2)), presentateurBoard);
 
 
         this.presentateur.setNewTextToPrint("Salut les fachos");
 
         this.aoe_frame = this.add.image(25, this.scale.height - 65, 'aoe_frame', 1).setOrigin(0.5).setDepth(100);
+        this.nb_aoe = this.add.text(this.aoe_frame.x+10, this.aoe_frame.y-15, "X1", {
+            fontFamily: 'vintageWarehouse', fontSize: 6, color: '#ffffff',
+            stroke: '#000000', strokeThickness: 4,
+            align: 'center'
+        })
+            .setOrigin(0.5)
+            .setDepth(100);
 
         // Create game over text
         this.gameOverText = this.add.text(this.scale.width * 0.5, this.scale.height * 0.5, 'Game Over', {
@@ -227,7 +237,7 @@ export class Game extends Phaser.Scene {
     // scroll the tile map
     updateMap() {
         if (this.inBetweenRounds === 2)
-        this.background.tilePositionY -= 2;
+            this.background.tilePositionY -= 2;
     }
 
     startGame() {
@@ -238,8 +248,8 @@ export class Game extends Phaser.Scene {
 
     }
 
-    fireBullet(x, y) {
-        const bullet = new PlayerBullet(this, x, y);
+    fireBullet(x, y, power) {
+        const bullet = new PlayerBullet(this, x, y, power);
         this.playerBulletGroup.add(bullet);
     }
 
@@ -247,8 +257,8 @@ export class Game extends Phaser.Scene {
         this.playerBulletGroup.remove(bullet, true, true);
     }
 
-    fireAoe(x, y) {
-        const aoe = new AoeBullet(this, x, y);
+    fireAoe(x, y, power) {
+        const aoe = new AoeBullet(this, x, y, power);
         this.playerAoeGroup.add(aoe);
     }
 
@@ -316,8 +326,8 @@ export class Game extends Phaser.Scene {
     }
 
 
-    addAoeExplosion(x, y) {
-        const aoeExplosion = new AoeExplosion(this, x, y);
+    addAoeExplosion(x, y, power) {
+        const aoeExplosion = new AoeExplosion(this, x, y, power);
         this.playerAoeExplosionGroup.add(aoeExplosion);
     }
 
@@ -377,7 +387,7 @@ export class Game extends Phaser.Scene {
         this.roundReward.showReward(this.scoreUIObject.getScoreMilestoneIndex());
     }
 
-    launchNextRound(){
+    launchNextRound() {
         this.scoreUIObject.setScoreMilestoneIndex(this.scoreUIObject.getScoreMilestoneIndex() + 1);
         this.inBetweenRounds = 0;
     }
