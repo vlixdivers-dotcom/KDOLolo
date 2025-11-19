@@ -13,8 +13,8 @@ import EnemyBullet from '../gameObjects/EnemyBullet.js';
 import Explosion from '../gameObjects/Explosion.js';
 import Presentateur from '../gameObjects/Presentateur.js';
 import Score from '../gameObjects/Score.js';
-import UpgradePickup from '../gameObjects/UpgradePickup.js'
 import MainWeaponFireRateUpgrade from '../gameObjects/MainWeaponFireRateUpgrade.js'
+import AoeTimerReset from '../gameObjects/AoeTimerReset.js'
 import RoundReward from '../gameObjects/RoundReward.js'
 
 export class Game extends Phaser.Scene {
@@ -306,7 +306,7 @@ export class Game extends Phaser.Scene {
 
             if (Phaser.Math.Between(0, 100) < enemy.getChanceToDropUpgrade()) {
                 const upgradeToSpawn = Phaser.Math.Between(0, 100) > 50 ?
-                    new UpgradePickup(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed()) :
+                    new AoeTimerReset(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed()) :
                     new MainWeaponFireRateUpgrade(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed());
                 this.upgradePickupGroup.add(upgradeToSpawn);
             }

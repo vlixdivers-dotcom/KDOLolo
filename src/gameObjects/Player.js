@@ -193,6 +193,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         return this.nbMolotov;
     }
 
+    addAMolotov()
+    {
+        if (this.nbMolotov < this.maxNBMolotov){
+            this.nbMolotov++;
+        }
+    }
+
     hit(damage) {
         this.health -= damage;
 

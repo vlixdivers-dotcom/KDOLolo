@@ -21,9 +21,10 @@ export class Start extends Phaser.Scene {
 
         this.add.image(0, 0, ASSETS.image.startBackground.key).setOrigin(0).setDepth(10);
         this.add.image(this.scale.width / 2, this.scale.height / 2, ASSETS.image.startTitle.key).setOrigin(0.5).setDepth(20);
-
+        
+        this.sound.unlock();
         this.music = this.sound.add(ASSETS.audio.introMusic.key, { loop: true });
-
+        this.music.play();
 
 
         this.heads = [{ image: this.add.image(22 + 30, 36 + 50, ASSETS.image.tete1.key).setOrigin(0.5).setDepth(20), rotation: 1 },
@@ -59,11 +60,11 @@ export class Start extends Phaser.Scene {
     }
 
     update() {
-        
-        if (!this.musicPlay){
-            this.music.play();
-            this.musicPlay = true;
-        }
+
+        // if (!this.musicPlay){
+
+        //     this.musicPlay = true;
+        // }
 
         this.heads.forEach((element) => {
             element.image.angle += (0.75 * element.rotation);
