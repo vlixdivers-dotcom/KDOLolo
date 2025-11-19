@@ -160,7 +160,7 @@ export class Game extends Phaser.Scene {
         this.presentateur.setNewTextToPrint("Salut les fachos");
 
         this.aoe_frame = this.add.image(25, this.scale.height - 65, 'aoe_frame', 1).setOrigin(0.5).setDepth(100);
-        this.nb_aoe = this.add.text(this.aoe_frame.x+10, this.aoe_frame.y-15, "X1", {
+        this.nb_aoe = this.add.text(this.aoe_frame.x + 10, this.aoe_frame.y - 15, "X1", {
             fontFamily: 'vintageWarehouse', fontSize: 6, color: '#ffffff',
             stroke: '#000000', strokeThickness: 4,
             align: 'center'
@@ -248,8 +248,8 @@ export class Game extends Phaser.Scene {
 
     }
 
-    fireBullet(x, y, power) {
-        const bullet = new PlayerBullet(this, x, y, power);
+    fireBullet(x, y, power, explosive, piercing) {
+        const bullet = new PlayerBullet(this, x, y, power,true,true);
         this.playerBulletGroup.add(bullet);
     }
 
@@ -349,7 +349,7 @@ export class Game extends Phaser.Scene {
     }
 
     hitEnemy(bullet, enemy) {
-        bullet.remove();
+        if (!bullet.getIsPiercing()) bullet.remove();
         enemy.hit(bullet.getPower());
     }
 

@@ -22,8 +22,7 @@ export class Start extends Phaser.Scene {
         this.add.image(0, 0, ASSETS.image.startBackground.key).setOrigin(0).setDepth(10);
         this.add.image(this.scale.width / 2, this.scale.height / 2, ASSETS.image.startTitle.key).setOrigin(0.5).setDepth(20);
         
-        this.sound.unlock();
-        this.music = this.sound.add(ASSETS.audio.introMusic.key, { loop: true });
+        this.music = this.sound.add(ASSETS.audio.introMusic.key, { loop: true,mute:false });
         this.music.play();
 
 
@@ -60,6 +59,7 @@ export class Start extends Phaser.Scene {
     }
 
     update() {
+        this.sound.unlock();
 
         // if (!this.musicPlay){
 

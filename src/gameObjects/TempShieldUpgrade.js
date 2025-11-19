@@ -9,7 +9,7 @@ export default class TempShieldUpgrade extends Upgrade {
         super(scene, x, y, speed);
         
         this.setTexture(ASSETS.spritesheet.tiles.key,2);
-        this.setData('timedType', 'mainWeaponFireRate');
+        this.setData('timedType', 'shield');
         this.timeBeforeRemove = 3;
     }
 

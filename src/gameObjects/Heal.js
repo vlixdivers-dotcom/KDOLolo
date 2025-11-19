@@ -3,20 +3,15 @@ import Upgrade from './UpgradePickup.js';
 
 export default class Heal extends Upgrade {
 
-    fireRateUpgradeValue = 1;
 
     constructor(scene, x, y, speed) {
         super(scene, x, y, speed);
-        
         this.setTexture(ASSETS.spritesheet.tiles.key,2);
-        this.setData('timedType', 'mainWeaponFireRate');
-        this.timeBeforeRemove = 3;
     }
 
 
     SetUpgradeEffect(player) {
-        player.setFireRate(player.GetFireRate() - this.fireRateUpgradeValue);
-        player.StartTimedUpgradeCounter(this);
+        player.heal(player.getHealth()+1);
     }
 
 }
