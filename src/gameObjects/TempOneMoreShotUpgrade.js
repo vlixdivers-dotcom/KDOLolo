@@ -7,15 +7,15 @@ export default class TempOneMoreShotUpgrade extends Upgrade {
     constructor(scene, x, y, speed) {
         super(scene, x, y, speed);
         
-        this.setTexture(ASSETS.spritesheet.tiles.key,2);
+        this.setTexture(ASSETS.image.tempMultiShot.key);
         this.setData('timedType', 'oneMoreShot');
-        this.timeBeforeRemove = 3;
+        this.timeBeforeRemove = 10;
     }
 
 
     SetUpgradeEffect(player) {
-        player.setChanceToMultiShots(100);
-        player.setNBShots(player.getNBShots()+1);
+        player.setChanceToMultiShots(this.getChanceToMultiShots() + 20);
+        player.setNbShots(player.getNBShots() + 1);
         player.StartTimedUpgradeCounter(this);
     }
 

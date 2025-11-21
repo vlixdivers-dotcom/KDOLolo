@@ -24,14 +24,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     maxHealth = 3;
     health = 3;
-    
+
     clickCount = 0;
     clickCountTimerValue = 0.2;
     clickCountTimer = 0.2;
     inPointerEvent = false;
 
+    hitCooldownCounter = 0;
+    hitCooldownTimer = 3;
 
-    chanceToFireMultiShot = { unchanged: 0, realValue: 100, unchangedNBShots: 1, realNBShots: 1, maxNBShots: 4 };
+    chanceToFireMultiShot = { unchanged: 0, realValue: 0, unchangedNBShots: 1, realNBShots: 1, maxNBShots: 4 };
     chanceToFireExplosiveShot = { unchanged: 0, realValue: 0 };
     chanceToFirePiercingShot = { unchanged: 0, realValue: 0 };
 
@@ -39,7 +41,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     isShielded = false;
 
-
+    shieldImage = null;
     constructor(scene, x, y, shipId) {
         super(scene, x, y, ASSETS.spritesheet.ships.key, shipId);
 
@@ -51,13 +53,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene = scene;
         this.setMaxVelocity(this.velocityMax); // limit maximum speed of ship
         this.setDrag(this.drag);
+        this.y -= this.width + 20;
 
-
+        this.shieldImage = this.scene.add.image(this.x, this.y, ASSETS.image.shieldImage.key).setOrigin(0.5).setDepth(52).setAlpha(0);
 
     }
 
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
+
+        this.shieldImage.x = this.x;
+        this.shieldImage.y = this.y;
 
         if (this.scene.getInBetweenRound() === 2) return;
 
@@ -71,6 +77,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         }
         if (this.timedUpgradeCounter > 0) this.timedUpgradeCounter -= delta / 1000;
 
+        if (this.hitCooldownCounter > 0) {
+            this.hitCooldownCounter -= delta / 1000;
+            this.setVisible(Phaser.Math.FloorTo(((this.hitCooldownCounter / this.hitCooldownTimer) * 10) % 2));
+        }
 
 
         this.checkInput(delta / 1000);
@@ -86,21 +96,41 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 if (this.timedUpgradeManagerObjectArray[i].active) {
                     if (this.timedUpgradeManagerObjectArray[i].timer > 0) {
                         this.timedUpgradeManagerObjectArray[i].timer -= dt;
+
+                        switch (this.timedUpgradeManagerObjectArray[i].type) {
+                            case 'mainWeaponFireRate':
+                                this.scene.setTempUpgradeUITimer(2, this.timedUpgradeManagerObjectArray[i].timer);
+                                break;
+                            case 'oneMoreShot':
+                                this.scene.setTempUpgradeUITimer(1, this.timedUpgradeManagerObjectArray[i].timer);
+                                break;
+                            case 'explosiveShot':
+                                this.scene.setTempUpgradeUITimer(0, this.timedUpgradeManagerObjectArray[i].timer);
+                                break;
+                            case 'shield':
+                                this.scene.setTempUpgradeUITimer(3, this.timedUpgradeManagerObjectArray[i].timer);
+                                break;
+                        }
                     }
                     else {
                         switch (this.timedUpgradeManagerObjectArray[i].type) {
                             case 'mainWeaponFireRate':
                                 this.fireRate = this.unchangedFireRate;
+                                this.scene.setTempUpgradeUITimer(2, this.timedUpgradeManagerObjectArray[i].timer);
                                 break;
                             case 'oneMoreShot':
                                 this.chanceToFireMultiShot.realValue = this.chanceToFireMultiShot.unchanged;
                                 this.chanceToFireMultiShot.realNBShots = this.chanceToFireMultiShot.unchangedNBShots;
+                                this.scene.setTempUpgradeUITimer(1, this.timedUpgradeManagerObjectArray[i].timer);
                                 break;
                             case 'explosiveShot':
                                 this.chanceToFireExplosiveShot.realValue = this.chanceToFireExplosiveShot.unchanged;
+                                this.scene.setTempUpgradeUITimer(0, this.timedUpgradeManagerObjectArray[i].timer);
                                 break;
                             case 'shield':
                                 this.isShielded = false;
+                                this.scene.setTempUpgradeUITimer(3, this.timedUpgradeManagerObjectArray[i].timer);
+                                this.shieldImage.setAlpha(this.timedUpgradeManagerObjectArray[i].timer);
                                 break;
                         }
                         this.timedUpgradeManagerObjectArray[i].active = false;
@@ -161,7 +191,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.fireCounter = this.fireRate;
 
         if (Phaser.Math.Between(0, 100) < this.chanceToFireMultiShot.realValue) {
-
             let shotPatterns;
             const xGap = 20;
             const yGap = 20;
@@ -181,16 +210,20 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                     break;
             }
 
+            console.log(this.chanceToFireMultiShot.realNBShots);
 
             for (let i = 0; i < this.chanceToFireMultiShot.realNBShots; i++) {
-                if (i < shotPatterns.length)
+                if (i < shotPatterns.length) {
                     this.scene.fireBullet(shotPatterns[i].x, shotPatterns[i].y, this.shotPower,
                         (Phaser.Math.Between(0, 100) < this.chanceToFireExplosiveShot.realValue),
                         (Phaser.Math.Between(0, 100) < this.chanceToFirePiercingShot.realValue));
+                }
             }
-
+            return;
         }
-
+        this.scene.fireBullet(this.x, this.y, this.shotPower,
+            (Phaser.Math.Between(0, 100) < this.chanceToFireExplosiveShot.realValue),
+            (Phaser.Math.Between(0, 100) < this.chanceToFirePiercingShot.realValue));
     }
 
     launchAoe() {
@@ -210,19 +243,29 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     addAMolotov() {
         if (this.nbMolotov < this.maxNBMolotov) {
-            this.nbMolotov++;
+            this.nbMolotov = Phaser.Math.Clamp(this.nbMolotov + 1, 0, this.maxNBMolotov);
+            if (this.nbMolotov >= this.maxNBMolotov) {
+                this.molotovFireCounter = this.molotovFireRate;
+            }
         }
     }
 
 
     putOnShield() {
-        isShielded = true;
+        this.isShielded = true;
+        this.shieldImage.setAlpha(0.5);
+
     }
 
     hit(damage) {
-        if (isShielded) return;
+        if (this.isShielded || this.hitCooldownCounter > 0) return;
+
+
+        this.hitCooldownCounter = this.hitCooldownTimer;
 
         this.health -= damage;
+
+        console.log(this.health);
 
         if (this.health <= 0) this.die();
     }
@@ -242,6 +285,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     die() {
         this.scene.addExplosion(this.x, this.y);
         this.setVisible(false); // destroy sprite so it is no longer updated
+        this.scene.GameOver();
     }
 
 
@@ -265,14 +309,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     setNbShots(nbShotsValue, permanentUpgrade = false) {
-        let clampedNBValue = Phaser.Math.Clamp(nbShotsValue, 1, this.maxNBShots);
+        let clampedNBValue = Phaser.Math.Clamp(nbShotsValue, 1, this.chanceToFireMultiShot.maxNBShots);
         if (permanentUpgrade == true) {
             this.chanceToFireMultiShot.unchangedNBShots = clampedNBValue;
         }
         this.chanceToFireMultiShot.realNBShots = clampedNBValue;
     }
 
-
+    getChanceToMultiShots(){
+        return this.chanceToFireExplosiveShot.realValue;
+    }
     setChanceToMultiShots(chanceValue, permanentUpgrade = false) {
         if (permanentUpgrade == true) {
             this.chanceToFireMultiShot.unchanged = chanceValue;

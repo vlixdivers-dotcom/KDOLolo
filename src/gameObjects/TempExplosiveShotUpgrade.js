@@ -6,14 +6,14 @@ export default class TempExplosiveShotUpgrade extends Upgrade {
     constructor(scene, x, y, speed) {
         super(scene, x, y, speed);
 
-        this.setTexture(ASSETS.spritesheet.tiles.key, 2);
+        this.setTexture(ASSETS.image.tempExplosiveShot.key);
         this.setData('timedType', 'explosiveShot');
-        this.timeBeforeRemove = 3;
+        this.timeBeforeRemove = 10;
     }
 
 
     SetUpgradeEffect(player) {
-        player.setChanceToExplosiveShot(player.getChanceToExplosiveShot()+30);
+        player.setChanceToExplosiveShots(player.getChanceToExplosiveShots()+20);
         player.StartTimedUpgradeCounter(this);
     }
 

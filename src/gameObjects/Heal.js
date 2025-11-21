@@ -6,7 +6,7 @@ export default class Heal extends Upgrade {
 
     constructor(scene, x, y, speed) {
         super(scene, x, y, speed);
-        this.setTexture(ASSETS.spritesheet.tiles.key,2);
+        this.setTexture(ASSETS.image.heal.key);
     }
 
 

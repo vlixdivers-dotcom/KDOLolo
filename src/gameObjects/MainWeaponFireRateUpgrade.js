@@ -3,14 +3,14 @@ import Upgrade from './UpgradePickup.js';
 
 export default class MainWeaponFireRateUpgrade extends Upgrade {
 
-    fireRateUpgradeValue = 1;
+    fireRateUpgradeValue = 0.4;
 
     constructor(scene, x, y, speed) {
         super(scene, x, y, speed);
         
-        this.setTexture(ASSETS.spritesheet.tiles.key,2);
+        this.setTexture(ASSETS.image.tempFireRate.key);
         this.setData('timedType', 'mainWeaponFireRate');
-        this.timeBeforeRemove = 3;
+        this.timeBeforeRemove = 5;
     }
 
 

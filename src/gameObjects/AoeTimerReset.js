@@ -6,7 +6,7 @@ export default class AoeTimerReset extends Upgrade {
     constructor(scene, x, y, speed) {
         super(scene, x, y, speed);
         
-        this.setTexture(ASSETS.spritesheet.tiles.key,3);
+        this.setTexture(ASSETS.image.molotovAdd.key);
     }
 
 

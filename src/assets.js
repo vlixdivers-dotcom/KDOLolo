@@ -8,7 +8,35 @@ export default {
     'image': {
         enemy: {
             key: 'crs',
-            args: ['assets/enemy.png', { frameWidth: 64, frameHeight: 64 }]
+            args: ['assets/enemies/Enemy.png', { frameWidth: 64, frameHeight: 64 }]
+        },
+        tempExplosiveShot: {
+            key: 'tempExplosiveShot',
+            args: ['assets/Upgrade/TempExplosiveRate.png', { frameWidth: 32, frameHeight: 32 }]
+        },
+        tempMultiShot: {
+            key: 'tempMultiShot',
+            args: ['assets/Upgrade/TempDoubleShot.png', { frameWidth: 32, frameHeight: 32 }]
+        },
+        tempShield: {
+            key: 'tempShield',
+            args: ['assets/Upgrade/TempShield.png', { frameWidth: 32, frameHeight: 32 }]
+        },
+        tempFireRate: {
+            key: 'tempFireRate',
+            args: ['assets/Upgrade/TempFireRate.png', { frameWidth: 32, frameHeight: 32 }]
+        },
+        molotovAdd: {
+            key: 'molotovAdd',
+            args: ['assets/Upgrade/MolotovAdd.png', { frameWidth: 32, frameHeight: 32 }]
+        },
+        heal: {
+            key: 'heal',
+            args: ['assets/Upgrade/Heal.png', { frameWidth: 32, frameHeight: 32 }]
+        },
+        shieldImage: {
+            key: 'shieldImage',
+            args: ['assets/Shield.png', { frameWidth: 64, frameHeight: 75 }]
         },
         aN: {
             key: 'aN',
@@ -113,8 +141,8 @@ export default {
         ships: {
             key: 'ships',
             args: ['assets/player.png', {
-                frameWidth: 83,
-                frameHeight: 99,
+                frameWidth: 64,
+                frameHeight: 75,
             }]
         },
         tiles: {
@@ -166,6 +194,7 @@ export default {
                 frameHeight: 32,
             }]
         },
+
     }
 
     // 'scoreUILitUp': {

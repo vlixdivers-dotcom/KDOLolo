@@ -14,6 +14,10 @@ import Explosion from '../gameObjects/Explosion.js';
 import Presentateur from '../gameObjects/Presentateur.js';
 import Score from '../gameObjects/Score.js';
 import MainWeaponFireRateUpgrade from '../gameObjects/MainWeaponFireRateUpgrade.js'
+import TempExplosiveShotUpgrade from '../gameObjects/TempExplosiveShotUpgrade.js'
+import TempOneMoreShotUpgrade from '../gameObjects/TempOneMoreShotUpgrade.js'
+import TempShieldUpgrade from '../gameObjects/TempShieldUpgrade.js'
+import HealUpgrade from '../gameObjects/Heal.js'
 import AoeTimerReset from '../gameObjects/AoeTimerReset.js'
 import RoundReward from '../gameObjects/RoundReward.js'
 
@@ -56,6 +60,13 @@ export class Game extends Phaser.Scene {
         if (this.inBetweenRounds === 2) {
 
             return;
+        }
+
+
+        for (let i = 0; i < this.tempUpgradeUI.length; i++) {
+            if (this.tempUpgradeUI[i].object !== null) {
+                this.tempUpgradeUI[i].object.setAlpha(this.tempUpgradeUI[i].refTimer);
+            }
         }
 
         this.aoe_frame.alpha = this.player.GetMolotovFireCounterPercentage();
@@ -112,6 +123,32 @@ export class Game extends Phaser.Scene {
 
         this.inBetweenRounds = 0;
 
+        this.tempUpgradeUI = [
+            {
+                object: null,
+                image: ASSETS.image.tempExplosiveShot.key,
+                type: "explosiveShot",
+                refTimer: 0,
+            },
+            {
+                object: null,
+                image: ASSETS.image.tempMultiShot.key,
+                type: "multiShot",
+                refTimer: 0,
+            },
+            {
+                object: null,
+                image: ASSETS.image.tempFireRate.key,
+                type: "fireRate",
+                refTimer: 0,
+            },
+            {
+                object: null,
+                image: ASSETS.image.tempShield.key,
+                type: "shield",
+                refTimer: 0,
+            }
+        ]
 
     }
 
@@ -179,6 +216,13 @@ export class Game extends Phaser.Scene {
             .setVisible(false);
 
 
+        for (let i = 0; i < this.tempUpgradeUI.length; i++) {
+            this.tempUpgradeUI[i].object = this.add.image(
+                25 * 1,
+                this.scale.height - 110 - (35 * i),
+                this.tempUpgradeUI[i].image).setOrigin(0.5).setDepth(100).setAlpha(0);
+        }
+
     }
 
     initAnimations() {
@@ -220,8 +264,13 @@ export class Game extends Phaser.Scene {
         this.physics.add.overlap(this.upgradePickupGroup, this.player, this.hitUpgradePickup, null, this);
     }
 
+
+    setTempUpgradeUITimer(index, value) {
+        this.tempUpgradeUI[index].refTimer = value;
+    }
+
     initPlayer() {
-        this.player = new Player(this, this.centreX, this.scale.height - 100, 8);
+        this.player = new Player(this, this.centreX, this.scale.height, 8);
     }
 
     initInput() {
@@ -249,7 +298,10 @@ export class Game extends Phaser.Scene {
     }
 
     fireBullet(x, y, power, explosive, piercing) {
-        const bullet = new PlayerBullet(this, x, y, power,true,true);
+        console.log(explosive);
+
+        const bullet = new PlayerBullet(this, x, y, power, explosive, piercing);
+
         this.playerBulletGroup.add(bullet);
     }
 
@@ -304,11 +356,8 @@ export class Game extends Phaser.Scene {
                 this.updateScore(enemy.getScorePoints());
             }
 
-            if (Phaser.Math.Between(0, 100) < enemy.getChanceToDropUpgrade()) {
-                const upgradeToSpawn = Phaser.Math.Between(0, 100) > 50 ?
-                    new AoeTimerReset(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed()) :
-                    new MainWeaponFireRateUpgrade(this, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed());
-                this.upgradePickupGroup.add(upgradeToSpawn);
+            if (Phaser.Math.Between(0, 100) < enemy.getChanceToDropUpgrade() + 100) {
+                this.upgradePickupGroup.add(this.spawnUpgrade(5, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed()));
             }
 
         }
@@ -320,6 +369,31 @@ export class Game extends Phaser.Scene {
         }
     }
 
+    spawnUpgrade(max, x, y, speed) {
+        let upgrade = null;
+        switch (Phaser.Math.Between(0, max)) {
+            case 0:
+                upgrade = new MainWeaponFireRateUpgrade(this, x, y, speed);
+                break;
+            case 1:
+                upgrade = new TempExplosiveShotUpgrade(this, x, y, speed);
+                break;
+            case 2:
+                upgrade = new TempOneMoreShotUpgrade(this, x, y, speed);
+                break;
+            case 3:
+                upgrade = new TempShieldUpgrade(this, x, y, speed);
+                break;
+            case 4:
+                upgrade = new AoeTimerReset(this, x, y, speed);
+                break;
+            case 5:
+                upgrade = new HealUpgrade(this, x, y, speed);
+                break;
+        }
+
+        return upgrade;
+    }
 
     addExplosion(x, y) {
         new Explosion(this, x, y);
@@ -345,12 +419,22 @@ export class Game extends Phaser.Scene {
         player.hit(obstacle.getPower());
         obstacle.die();
 
-        this.GameOver();
     }
 
     hitEnemy(bullet, enemy) {
-        if (!bullet.getIsPiercing()) bullet.remove();
+
+
+        bullet.setEnemiesTouched(bullet.getEnemiesTouched() +1)
         enemy.hit(bullet.getPower());
+
+        if (bullet.getIsExplosive() && bullet.getEnemiesTouched() < 2) return;
+
+        if (!bullet.getIsPiercing()) {
+            bullet.remove();
+        }
+
+
+
     }
 
     hitEnemyWithAoe(aoe, enemy) {

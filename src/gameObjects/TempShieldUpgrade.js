@@ -8,14 +8,14 @@ export default class TempShieldUpgrade extends Upgrade {
     constructor(scene, x, y, speed) {
         super(scene, x, y, speed);
         
-        this.setTexture(ASSETS.spritesheet.tiles.key,2);
+        this.setTexture(ASSETS.image.tempShield.key);
         this.setData('timedType', 'shield');
-        this.timeBeforeRemove = 3;
+        this.timeBeforeRemove = 100;
     }
 
 
     SetUpgradeEffect(player) {
-        player.setFireRate(player.GetFireRate() - this.fireRateUpgradeValue);
+        player.putOnShield();
         player.StartTimedUpgradeCounter(this);
     }
 
