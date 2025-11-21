@@ -150,6 +150,7 @@ export class Game extends Phaser.Scene {
             }
         ]
 
+        this.maxRound = 4;
     }
 
 
@@ -424,7 +425,7 @@ export class Game extends Phaser.Scene {
     hitEnemy(bullet, enemy) {
 
 
-        bullet.setEnemiesTouched(bullet.getEnemiesTouched() +1)
+        bullet.setEnemiesTouched(bullet.getEnemiesTouched() + 1)
         enemy.hit(bullet.getPower());
 
         if (bullet.getIsExplosive() && bullet.getEnemiesTouched() < 2) return;
@@ -468,11 +469,17 @@ export class Game extends Phaser.Scene {
 
 
     showInRoundReward() {
+        if (this.scoreUIObject.getScoreMilestoneIndex() >= this.maxRound) {
+            this.cameras.getCamera('').fadeOut(1500, 0, 0, 0, (camera, progress) => { }).on("camerafadeoutcomplete", () => this.scene.start('EndGame'));
+            return;
+        }
         this.roundReward.showReward(this.scoreUIObject.getScoreMilestoneIndex());
     }
 
     launchNextRound() {
         this.scoreUIObject.setScoreMilestoneIndex(this.scoreUIObject.getScoreMilestoneIndex() + 1);
+
+
         this.inBetweenRounds = 0;
     }
 
