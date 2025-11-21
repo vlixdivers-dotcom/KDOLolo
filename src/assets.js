@@ -89,7 +89,7 @@ export default {
         },
         acceuilScreen: {
             key: 'acceuilScreen',
-            args: ['assets/TitleScreen/acceuil.png', {
+            args: ['assets/acceuil.png', {
                 frameWidth: 320,
                 frameHeight: 480,
             }]

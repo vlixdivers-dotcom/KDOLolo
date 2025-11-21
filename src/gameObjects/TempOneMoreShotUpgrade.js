@@ -14,7 +14,7 @@ export default class TempOneMoreShotUpgrade extends Upgrade {
 
 
     SetUpgradeEffect(player) {
-        player.setChanceToMultiShots(this.getChanceToMultiShots() + 20);
+        player.setChanceToMultiShots(player.getChanceToMultiShots() + 20);
         player.setNbShots(player.getNBShots() + 1);
         player.StartTimedUpgradeCounter(this);
     }
