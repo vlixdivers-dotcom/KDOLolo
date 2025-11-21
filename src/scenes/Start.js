@@ -11,18 +11,32 @@ export class Start extends Phaser.Scene {
     angleToInvertRotation = 30;
 
     musicPlay = false;
+
+    pressPlayText;
+
+    musicByText;
+
+    blinkingTextTimer = 10;
+
+
+    fadeOutStarted = false;
+    fadeInStarted = false;
+    ableToStart = false;
+
     constructor() {
         super('Start');
     }
 
+
+    timerBeforeAbleToStart = 2;
     create() {
         this.scale.lockOrientation('portrait');
 
 
         this.add.image(0, 0, ASSETS.image.startBackground.key).setOrigin(0).setDepth(10);
         this.add.image(this.scale.width / 2, this.scale.height / 2, ASSETS.image.startTitle.key).setOrigin(0.5).setDepth(20);
-        
-        this.music = this.sound.add(ASSETS.audio.introMusic.key, { loop: true,mute:false });
+
+        this.music = this.sound.add(ASSETS.audio.introMusic.key, { loop: true, mute: false,volume:0 });
         this.music.play();
 
 
@@ -33,6 +47,17 @@ export class Start extends Phaser.Scene {
         { image: this.add.image(49 + 30, 338 + 50, ASSETS.image.tete5.key).setOrigin(0.5).setDepth(20), rotation: 1 },
         { image: this.add.image(191 + 60, 328 + 70, ASSETS.image.tete6.key).setOrigin(0.5).setDepth(20), rotation: -1 }
         ];
+
+
+        this.pressPlayText = this.add.text(this.scale.width / 2, this.scale.height / 2 + 175, 'APPUI POUR\nCOMMENCER LA LUTTE', {
+            fontFamily: 'vintageWarehouse', fontSize: '12px', fill: '#FFF', stroke: '#000000', strokeThickness: 8,
+            align: 'center'
+        }).setOrigin(0.5).setDepth(30);
+
+        this.musicByText = this.add.text(this.scale.width / 2, this.scale.height / 2 - 200, 'Musique faite par :\n el Bombaflexos l\'annaconda', {
+            fontSize: '10px', fill: '#FFF', stroke: '#000000', strokeThickness: 8,
+            align: 'center'
+        }).setOrigin(0.5).setDepth(30);
         // this.background = this.add.tileSprite(640, 360, 1280, 720, 'background');
 
         // const logo = this.add.image(640, 200, 'logo');
@@ -58,8 +83,7 @@ export class Start extends Phaser.Scene {
         // });
     }
 
-    update() {
-        this.sound.unlock();
+    update(time, delta) {
 
         // if (!this.musicPlay){
 
@@ -73,11 +97,36 @@ export class Start extends Phaser.Scene {
             }
         })
 
+        this.blinkingTextTimer -= delta / 1000;
 
+        this.pressPlayText.setAlpha(Phaser.Math.FloorTo((this.blinkingTextTimer) % 2));
+
+
+        if (this.blinkingTextTimer <= 0) this.blinkingTextTimer = 10;
+
+
+
+
+
+
+        if (!this.fadeInStarted) {
+            this.fadeInStarted = true
+            this.cameras.getCamera('').fadeIn(1500, 0, 0, 0, (camera, progress) => {
+                this.music.volume = progress;
+            }).on("camerafadeincomplete", () => {
+                this.ableToStart = true;
+            })
+        }
+
+        if (this.fadeOutStarted || !this.ableToStart) return;
         this.cursor = this.input.activePointer;
         if (this.cursor.isDown) {
-            this.scene.start('Game');
-            this.music.stop();
+            this.cameras.getCamera('').fadeOut(2000, 0, 0, 0, (camera, progress) => {
+                this.music.volume = 1 - progress;
+            }).on("camerafadeoutcomplete", () => {
+                this.scene.start('Game');
+            })
+            this.fadeOutStarted = true;
         }
     }
 

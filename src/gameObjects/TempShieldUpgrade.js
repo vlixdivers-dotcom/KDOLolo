@@ -10,7 +10,7 @@ export default class TempShieldUpgrade extends Upgrade {
         
         this.setTexture(ASSETS.image.tempShield.key);
         this.setData('timedType', 'shield');
-        this.timeBeforeRemove = 100;
+        this.timeBeforeRemove = 10;
     }
 
 

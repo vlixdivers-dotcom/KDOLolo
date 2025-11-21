@@ -87,6 +87,13 @@ export default {
                 frameHeight: 480,
             }]
         },
+        acceuilScreen: {
+            key: 'acceuilScreen',
+            args: ['assets/TitleScreen/acceuil.png', {
+                frameWidth: 320,
+                frameHeight: 480,
+            }]
+        },
         startTitle: {
             key: 'startTitle',
             args: ['assets/TitleScreen/Title.png', {
