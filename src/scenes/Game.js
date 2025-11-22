@@ -178,7 +178,7 @@ export class Game extends Phaser.Scene {
         this.healthPointEmptyUI = [];
     }
 
-    setHealthPointAlpha(index, litUp){
+    setHealthPointAlpha(index, litUp) {
         this.healthPointUI[index].setAlpha(litUp);
     }
 
@@ -527,6 +527,9 @@ export class Game extends Phaser.Scene {
     }
 
     hitEnemyWithAoe(aoe, enemy) {
+        if (enemy.getData('enemyType') === 'smoke') {
+            return;
+        }
         aoe.remove();
     }
 

@@ -22,34 +22,34 @@ export default class RoundReward extends Phaser.GameObjects.GameObject {
 
     choices = [[
         {
-            imagePath: ASSETS.image.bN.key,
+            imagePath: ASSETS.image.livre.key,
             title: 'Livre de Merdella',
             description: 'Cette bouse te remplie de rage,\n les parpaings se lancent comme par magie',
         },
         {
-            imagePath: ASSETS.image.aN.key,
+            imagePath: ASSETS.image.whey.key,
             title: 'Whey de Facho in Shape',
             description: 'La combinaison de molécule te boost,\n deux parpaings peuvent être lancés'
         }],
     [
         {
-            imagePath: ASSETS.image.bN.key,
+            imagePath: ASSETS.image.larmes.key,
             title: 'Larmes de Sarkozy',
-            description: 'Acre et remplie de haine,\n certains parpaings en sont recouvers',
+            description: 'Âcre et remplie de haine,\n certains parpaings en sont recouvers',
         },
         {
-            imagePath: ASSETS.image.aN.key,
+            imagePath: ASSETS.image.talc.key,
             title: 'Talc de Baba',
             description: 'Une paille pour du talc ?,\n whoooo tu te sens rapide !!'
         }],
     [
         {
-            imagePath: ASSETS.image.bN.key,
+            imagePath: ASSETS.image.sainte_soline.key,
             title: 'Images de Sainte Soline',
-            description: 'Chargeeeeeeez,\n prends plus de molotov camarade !',
+            description: 'Trouvé sur un crs...\n Prends plus de molotov camarade !\n Chargeeeeeeez !!',
         },
         {
-            imagePath: ASSETS.image.aN.key,
+            imagePath: ASSETS.image.slip.key,
             title: 'Slip de Bolloré',
             description: 'Retiré lors de sa chute,\n utilise le pour lancé des parpaings'
         }],
@@ -77,7 +77,7 @@ export default class RoundReward extends Phaser.GameObjects.GameObject {
         this.firstChoice.image = this.scene.add.image(this.scene.scale.width / 2,
             (this.scene.scale.height / 2) - 100, this.choices[0][0].imagePath).setOrigin(0.5).setDepth(120).setAlpha(this.shown);
         this.firstChoice.title = this.scene.add.text(this.firstChoice.image.x,
-            this.firstChoice.image.y + 26, this.choices[0][0].title, {
+            this.firstChoice.image.y + this.firstChoice.image.width, this.choices[0][0].title, {
             fontFamily: 'Arial', fontSize: 16, color: '#ffffff',
             stroke: '#000000', strokeThickness: 8,
             align: 'center'
@@ -91,9 +91,9 @@ export default class RoundReward extends Phaser.GameObjects.GameObject {
 
 
         this.secondChoice.image = this.scene.add.image(this.scene.scale.width / 2,
-            this.scene.scale.height / 2 + 25, this.choices[0][1].imagePath).setOrigin(0.5).setDepth(120).setAlpha(this.shown);
+            this.scene.scale.height / 2 + 50, this.choices[0][1].imagePath).setOrigin(0.5).setDepth(120).setAlpha(this.shown);
         this.secondChoice.title = this.scene.add.text(this.secondChoice.image.x,
-            this.secondChoice.image.y + 26, this.choices[0][1].title, {
+            this.secondChoice.image.y + this.secondChoice.image.height/2, this.choices[0][1].title, {
             fontFamily: 'Arial', fontSize: 16, color: '#ffffff',
             stroke: '#000000', strokeThickness: 8,
             align: 'center'

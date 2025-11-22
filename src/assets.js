@@ -51,6 +51,30 @@ export default {
             key: 'shieldImage',
             args: ['assets/Shield.png', { frameWidth: 64, frameHeight: 75 }]
         },
+        livre: {
+            key: 'livre',
+            args: ['assets/PermUpgrade/Livre.png', { frameWidth: 94, frameHeight: 94 }]
+        },
+        whey: {
+            key: 'whey',
+            args: ['assets/PermUpgrade/Whey.png', { frameWidth: 94, frameHeight: 94 }]
+        },
+        larmes: {
+            key: 'larmes',
+            args: ['assets/PermUpgrade/Larmes.png', { frameWidth: 94, frameHeight: 94 }]
+        },
+        talc: {
+            key: 'talc',
+            args: ['assets/PermUpgrade/Talc.png', { frameWidth: 94, frameHeight: 94 }]
+        },
+        sainte_soline: {
+            key: 'sainte_soline',
+            args: ['assets/PermUpgrade/Sainte_Soline.png', { frameWidth: 94, frameHeight: 94 }]
+        },
+        slip: {
+            key: 'slip',
+            args: ['assets/PermUpgrade/Slip.png', { frameWidth: 94, frameHeight: 94 }]
+        },
         aN: {
             key: 'aN',
             args: ['assets/ScoreLetter/aN.png', {

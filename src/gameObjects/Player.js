@@ -276,7 +276,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.health -= damage;
 
 
-        this.scene.setHealthPointAlpha(this.health,false);
+        this.scene.setHealthPointAlpha(this.health,0);
 
         if (this.health <= 0) this.die();
     }
@@ -291,7 +291,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     heal(value) {
         this.health = Phaser.Math.Clamp(value, 1, this.maxHealth);
-        this.scene.setHealthPointAlpha(this.health,true);
+        this.scene.setHealthPointAlpha(this.health-1,1);
 
     }
 
