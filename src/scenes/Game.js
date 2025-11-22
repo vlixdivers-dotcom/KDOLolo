@@ -361,14 +361,14 @@ export class Game extends Phaser.Scene {
     }
 
     addEnemy(x, y, nb) {
-        const enemyWidth = 176;
+        const enemyWidth = 64;
         const nbRow = (nb / 5);
 
         for (let rounds = 0; rounds < nbRow; rounds++) {
-            for (let i = 0; i < 2; i++) {
+            for (let i = 0; i < 5; i++) {
                 const spawnX = (enemyWidth / 2) + x + (enemyWidth * i);
-                const spawnY = (enemyWidth / 2) - (enemyWidth * rounds);
-                const enemy = new TankEnemy(this, spawnX, spawnY);
+                const spawnY = (- 40) + (enemyWidth / 2) - (enemyWidth * rounds);
+                const enemy = new EnemyFlying(this, spawnX, spawnY);
                 this.enemyGroup.add(enemy);
             }
         }
@@ -381,8 +381,11 @@ export class Game extends Phaser.Scene {
                 this.updateScore(enemy.getScorePoints());
             }
 
-            if (Phaser.Math.Between(0, 100) < enemy.getChanceToDropUpgrade() + 100) {
-                this.upgradePickupGroup.add(this.spawnUpgrade(5, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed()));
+            if (Phaser.Math.Between(0, 100) < enemy.getChanceToDropUpgrade()) {
+                let upgrade = this.spawnUpgrade(5, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed());
+                console.log(upgrade);
+                if (upgrade !== null)
+                this.upgradePickupGroup.add(upgrade);
             }
 
         }
@@ -396,25 +399,57 @@ export class Game extends Phaser.Scene {
 
     spawnUpgrade(max, x, y, speed) {
         let upgrade = null;
-        switch (Phaser.Math.Between(0, max)) {
+        switch (Phaser.Math.Between(0, max - (this.maxRound - this.scoreUIObject.getScoreMilestoneIndex()))) {
             case 0:
-                upgrade = new MainWeaponFireRateUpgrade(this, x, y, speed);
+                upgrade = this.upgradeChancesToDrop(2, 5, 15, 30,x,y,speed);
                 break;
             case 1:
-                upgrade = new TempExplosiveShotUpgrade(this, x, y, speed);
+                upgrade = this.upgradeChancesToDrop(10, 15, 30, 45,x,y,speed);
                 break;
             case 2:
-                upgrade = new TempOneMoreShotUpgrade(this, x, y, speed);
+                upgrade = this.upgradeChancesToDrop(10, 20, 35, 50,x,y,speed);
                 break;
             case 3:
-                upgrade = new TempShieldUpgrade(this, x, y, speed);
+                upgrade = this.upgradeChancesToDrop(15, 25, 30, 50,x,y,speed);
                 break;
             case 4:
-                upgrade = new AoeTimerReset(this, x, y, speed);
+                upgrade = this.upgradeChancesToDrop(15, 25, 30, 50,x,y,speed);
                 break;
             case 5:
-                upgrade = new HealUpgrade(this, x, y, speed);
+                upgrade = this.upgradeChancesToDrop(25, 50, 70, 90,x,y,speed);
                 break;
+        }
+
+        return upgrade;
+    }
+
+    upgradeChancesToDrop(explosiveChances, moreShotsChances, shieldChances, aoeTimerResetChances,x,y,speed) {
+        let upgrade = null;
+
+        let mainUpgradeChances = Phaser.Math.Between(0, 100);
+
+        if (mainUpgradeChances <= 30) {
+            upgrade = new MainWeaponFireRateUpgrade(this, x, y, speed);
+            return upgrade;
+        }
+        else if (mainUpgradeChances <= 50 + ((this.player.getMaxHealth() - this.player.getHealth()) * 10)) {
+            upgrade = new HealUpgrade(this, x, y, speed);
+            return upgrade;
+        }
+
+
+        let chances = Phaser.Math.Between(0, 100);
+        if (chances <= explosiveChances) {
+            upgrade = new TempExplosiveShotUpgrade(this, x, y, speed);
+        }
+        else if (chances <= moreShotsChances) {
+            upgrade = new TempOneMoreShotUpgrade(this, x, y, speed);
+        }
+        else if (chances <= shieldChances) {
+            upgrade = new TempShieldUpgrade(this, x, y, speed);
+        }
+        else if (chances <= aoeTimerResetChances) {
+            upgrade = new AoeTimerReset(this, x, y, speed);
         }
 
         return upgrade;
@@ -449,7 +484,7 @@ export class Game extends Phaser.Scene {
 
         this.addExplosion(player.x, player.y);
 
-        if (obstacle.getHealth() > 10)return ;
+        if (obstacle.getHealth() > 10) return;
         obstacle.die();
 
     }

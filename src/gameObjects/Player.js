@@ -284,6 +284,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         return this.health;
     }
 
+    getMaxHealth() {
+        return this.maxHealth;
+    }
+
     heal(value) {
         this.health = Phaser.Math.Clamp(value, 1, this.maxHealth);
     }
