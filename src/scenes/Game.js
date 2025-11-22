@@ -4,21 +4,32 @@
 */
 import ASSETS from '../assets.js';
 import ANIMATION from '../animation.js';
+
 import Player from '../gameObjects/Player.js';
 import PlayerBullet from '../gameObjects/PlayerBullet.js';
 import AoeBullet from '../gameObjects/AoeBullet.js';
 import AoeExplosion from '../gameObjects/AoeExplosion.js';
+
 import EnemyFlying from '../gameObjects/EnemyFlying.js';
+import ShieldedEnemy from '../gameObjects/ShieldedEnemy.js';
+import ShooterEnemy from '../gameObjects/ShooterEnemy.js';
+import SmokeEnemy from '../gameObjects/SmokeEnemy.js';
+import TankEnemy from '../gameObjects/TankEnemy.js';
 import EnemyBullet from '../gameObjects/EnemyBullet.js';
+
 import Explosion from '../gameObjects/Explosion.js';
+
 import Presentateur from '../gameObjects/Presentateur.js';
+
 import Score from '../gameObjects/Score.js';
+
 import MainWeaponFireRateUpgrade from '../gameObjects/MainWeaponFireRateUpgrade.js'
 import TempExplosiveShotUpgrade from '../gameObjects/TempExplosiveShotUpgrade.js'
 import TempOneMoreShotUpgrade from '../gameObjects/TempOneMoreShotUpgrade.js'
 import TempShieldUpgrade from '../gameObjects/TempShieldUpgrade.js'
 import HealUpgrade from '../gameObjects/Heal.js'
 import AoeTimerReset from '../gameObjects/AoeTimerReset.js'
+
 import RoundReward from '../gameObjects/RoundReward.js'
 
 export class Game extends Phaser.Scene {
@@ -233,12 +244,21 @@ export class Game extends Phaser.Scene {
             frameRate: ANIMATION.explosion.frameRate,
             repeat: ANIMATION.explosion.repeat
         });
+
+        this.anims.create({
+            key: ANIMATION.smokeScreen.key,
+            frames: this.anims.generateFrameNumbers(ANIMATION.smokeScreen.texture, ANIMATION.smokeScreen.config),
+            frameRate: ANIMATION.smokeScreen.frameRate,
+            repeat: ANIMATION.smokeScreen.repeat
+        });
+
         this.anims.create({
             key: ANIMATION.aoeExplosion.key,
             frames: this.anims.generateFrameNumbers(ANIMATION.aoeExplosion.texture, ANIMATION.aoeExplosion.config),
             frameRate: ANIMATION.aoeExplosion.frameRate,
             repeat: ANIMATION.aoeExplosion.repeat
         });
+
         this.anims.create({
             key: ANIMATION.presentateurSheet.key,
             frames: this.anims.generateFrameNumbers(ANIMATION.presentateurSheet.texture, ANIMATION.presentateurSheet.config),
@@ -310,6 +330,10 @@ export class Game extends Phaser.Scene {
         this.playerBulletGroup.remove(bullet, true, true);
     }
 
+    removeBulletCollision(bullet) {
+        this.playerBulletGroup.remove(bullet, false, true);
+    }
+
     fireAoe(x, y, power) {
         const aoe = new AoeBullet(this, x, y, power);
         this.playerAoeGroup.add(aoe);
@@ -337,14 +361,14 @@ export class Game extends Phaser.Scene {
     }
 
     addEnemy(x, y, nb) {
-        const enemyWidth = 64;
+        const enemyWidth = 176;
         const nbRow = (nb / 5);
 
         for (let rounds = 0; rounds < nbRow; rounds++) {
-            for (let i = 0; i < nb; i++) {
+            for (let i = 0; i < 2; i++) {
                 const spawnX = (enemyWidth / 2) + x + (enemyWidth * i);
                 const spawnY = (enemyWidth / 2) - (enemyWidth * rounds);
-                const enemy = new EnemyFlying(this, spawnX, spawnY);
+                const enemy = new TankEnemy(this, spawnX, spawnY);
                 this.enemyGroup.add(enemy);
             }
         }
@@ -416,14 +440,25 @@ export class Game extends Phaser.Scene {
     }
 
     hitPlayer(player, obstacle) {
-        this.addExplosion(player.x, player.y);
         player.hit(obstacle.getPower());
+
+        if (obstacle.getData('enemyType') === 'smoke') {
+            player.startSmokeEffect(obstacle.getTimeBeforeRemove());
+            return;
+        }
+
+        this.addExplosion(player.x, player.y);
+
+        if (obstacle.getHealth() > 10)return ;
         obstacle.die();
 
     }
 
     hitEnemy(bullet, enemy) {
-
+        if (enemy.getData('enemyType') === 'smoke') {
+            bullet.remove();
+            return;
+        }
 
         bullet.setEnemiesTouched(bullet.getEnemiesTouched() + 1)
         enemy.hit(bullet.getPower());

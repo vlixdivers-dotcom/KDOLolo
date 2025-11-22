@@ -2,7 +2,7 @@ import ASSETS from '../assets.js';
 
 export default class EnemyBullet extends Phaser.Physics.Arcade.Sprite {
     power = 1;
-    moveVelocity = 200;
+    moveVelocity = 500;
 
     constructor(scene, x, y, power) {
         const tileId = 11;

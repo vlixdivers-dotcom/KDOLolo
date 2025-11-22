@@ -16,6 +16,14 @@ export default {
         frameRate: 12,
         config: { start: 1, end: 10 },
     },
+    'smokeScreen':
+    {
+        key: 'smokeScreen',
+        texture: ASSETS.spritesheet.smokeScreen.key,
+        frameRate: 12,
+        repeat: -1,
+        config: { start: 1, end: 15 },
+    },
     'presentateurSheet':
     {
         key: 'presentateurSheet',

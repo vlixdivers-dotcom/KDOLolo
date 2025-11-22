@@ -42,6 +42,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     isShielded = false;
 
     shieldImage = null;
+
+    smokeEffectTimer = 0;
+    smokeEffected = false;
+
     constructor(scene, x, y, shipId) {
         super(scene, x, y, ASSETS.spritesheet.ships.key, shipId);
 
@@ -82,6 +86,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.setVisible(Phaser.Math.FloorTo(((this.hitCooldownCounter / this.hitCooldownTimer) * 10) % 2));
         }
 
+        if (this.smokeEffectTimer > 0 ) this.smokeEffectTimer -= delta/1000;
+        if (this.smokeEffectTimer <= 0 && this.smokeEffected)
+        {
+            this.fireRate -= 0.5;
+            this.smokeEffected = false;
+        }
 
         this.checkInput(delta / 1000);
         this.manageTimedUpgrade(delta / 1000);
@@ -300,7 +310,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.unchangedFireRate = clampedValue;
         }
         this.fireRate = clampedValue;
-        this.fireCounter = this.fireRate;
     }
 
 
@@ -316,7 +325,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.chanceToFireMultiShot.realNBShots = clampedNBValue;
     }
 
-    getChanceToMultiShots(){
+    getChanceToMultiShots() {
         return this.chanceToFireExplosiveShot.realValue;
     }
     setChanceToMultiShots(chanceValue, permanentUpgrade = false) {
@@ -366,6 +375,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.timedUpgradeManagerObjectArray.push(newObjectToPush);
     }
 
+    startSmokeEffect(timer) {
+        this.smokeEffectTimer = timer;
+        this.smokeEffected = true;
+
+        this.setFireRate(this.GetFireRate() + 0.5);
+    }
 
     haveLivreDeMerdellaUpgrade() {
         this.setFireRate(this.GetFireRate() - 0.5, true);

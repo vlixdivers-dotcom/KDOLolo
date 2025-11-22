@@ -10,6 +10,19 @@ export default {
             key: 'crs',
             args: ['assets/enemies/Enemy.png', { frameWidth: 64, frameHeight: 64 }]
         },
+        enemyLBD: {
+            key: 'enemyLBD',
+            args: ['assets/enemies/ShooterEnemy.png', { frameWidth: 32, frameHeight: 64 }]
+        },
+        enemyShielded: {
+            key: 'enemyShielded',
+            args: ['assets/enemies/ShieldedEnemy.png', { frameWidth: 32, frameHeight: 64 }]
+        },
+        enemyTank: {
+            key: 'enemyTank',
+            args: ['assets/enemies/TankEnemy.png', { frameWidth: 176, frameHeight: 128 }]
+        },
+
         tempExplosiveShot: {
             key: 'tempExplosiveShot',
             args: ['assets/Upgrade/TempExplosiveRate.png', { frameWidth: 32, frameHeight: 32 }]
@@ -200,6 +213,10 @@ export default {
                 frameWidth: 32,
                 frameHeight: 32,
             }]
+        },
+        smokeScreen: {
+            key: 'smokeScreen',
+            args: ['assets/enemies/Smoke15Frames.png', { frameWidth: 64, frameHeight: 64 }]
         },
 
     }

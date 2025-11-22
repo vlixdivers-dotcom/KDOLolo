@@ -32,7 +32,7 @@ export default class PlayerBullet extends Phaser.Physics.Arcade.Sprite {
 
         if (this.enemiesTouched > 0) {
             this.timeAfterTrigger += delta / 1000;
-            if (this.timeAfterTrigger > 0.05) this.remove();
+            if (this.timeAfterTrigger > 0.05) this.removeCollision();
         }
     }
 
@@ -57,6 +57,7 @@ export default class PlayerBullet extends Phaser.Physics.Arcade.Sprite {
     }
 
     getEnemiesTouched() {
+        this.timeAfterTrigger = 0;
         return this.enemiesTouched;
     }
 
@@ -72,4 +73,12 @@ export default class PlayerBullet extends Phaser.Physics.Arcade.Sprite {
 
         }
     }
+
+
+    removeCollision() {
+        this.scene.removeBulletCollision(this);
+
+        this.setVisible(false);
+    }
+
 }
