@@ -9,9 +9,10 @@ export default class ShooterEnemy extends EnemyFlying {
     constructor(scene, x, y) {
         super(scene, x, y, ASSETS.image.enemyLBD.key);
         this.setTexture(ASSETS.image.enemyLBD.key);
-        this.setSize(32,64);
+        this.setSize(32, 64);
         this.health = 2;
-
+        this.baseImage = ASSETS.image.enemyLBD.key;
+        this.touchedImage = ASSETS.image.enemyLBDTouched.key;
         this.fireCounter = Phaser.Math.RND.between(this.fireCounterMin, this.fireCounterMax);
     }
 

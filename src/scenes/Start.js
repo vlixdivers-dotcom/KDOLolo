@@ -37,7 +37,7 @@ export class Start extends Phaser.Scene {
         this.add.image(this.scale.width / 2, this.scale.height / 2, ASSETS.image.startTitle.key).setOrigin(0.5).setDepth(20);
 
         this.music = this.sound.add(ASSETS.audio.introMusic.key, { loop: true, mute: false,volume:0 });
-        // this.music.play();
+         this.music.play();
 
 
         this.heads = [{ image: this.add.image(22 + 30, 36 + 50, ASSETS.image.tete1.key).setOrigin(0.5).setDepth(20), rotation: 1 },

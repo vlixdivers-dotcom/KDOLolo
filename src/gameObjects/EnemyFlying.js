@@ -1,7 +1,7 @@
 import ASSETS from '../assets.js';
 
 export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
-    health = 1; // enemy health
+    health = 2; // enemy health
     scorePoints = 1;
     fireCounterMin = 100; // minimum fire rate
     fireCounterMax = 300; // maximum fire rate
@@ -11,7 +11,9 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
 
     chanceToDropUpgrade = 30;
 
-
+    baseImage;
+    touchedImage;
+    touchedImageShown = false;
     constructor(scene, x, y) {
         super(scene, x, y, ASSETS.image.enemy.key);
 
@@ -20,6 +22,9 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
 
         this.setDepth(10);
         this.scene = scene;
+
+        this.baseImage = ASSETS.image.enemy.key;
+        this.touchedImage = ASSETS.image.enemyTouched.key;
 
         this.setDataEnabled();
         this.setData('enemyType', 'crs');
@@ -32,12 +37,26 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
 
         if (this.y > this.scene.scale.height + 64) {
             this.die(false);
+
+            return;
         }
+
+        if (this.touchedImageShown) {
+            this.setTexture(this.baseImage)
+            this.touchedImageShown = false;
+        }
+
+
+
+
+
     }
 
     hit(damage) {
         this.health -= damage;
 
+        this.setTexture(this.touchedImage);
+        this.touchedImageShown = true;
         if (this.health <= 0) this.die();
     }
 
@@ -45,7 +64,7 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
         if (withScore) {
             this.scene.addExplosion(this.x, this.y);
         }
-            this.scene.removeEnemy(this, withScore);
+        this.scene.removeEnemy(this, withScore);
     }
 
     fire() {
@@ -56,12 +75,11 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
     initPath(pathId, speed) {
     }
 
-    getWidth()
-    {
-    return    this.width;
+    getWidth() {
+        return this.width;
     }
 
-    getHealth(){
+    getHealth() {
         return this.health;
     }
 
@@ -79,7 +97,7 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
     }
 
 
-    getScorePoints(){
+    getScorePoints() {
         return this.scorePoints;
     }
 

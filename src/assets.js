@@ -23,6 +23,24 @@ export default {
             args: ['assets/enemies/TankEnemy.png', { frameWidth: 176, frameHeight: 128 }]
         },
 
+
+        enemyTouched: {
+            key: 'crsTouched',
+            args: ['assets/enemies/EnemyTouched.png', { frameWidth: 64, frameHeight: 64 }]
+        },
+        enemyLBDTouched: {
+            key: 'enemyLBDTouched',
+            args: ['assets/enemies/ShooterEnemyTouched.png', { frameWidth: 32, frameHeight: 64 }]
+        },
+        enemyShieldedTouched: {
+            key: 'enemyShieldedTouched',
+            args: ['assets/enemies/ShieldedEnemyTouched.png', { frameWidth: 32, frameHeight: 64 }]
+        },
+        enemyTankTouched: {
+            key: 'enemyTankTouched',
+            args: ['assets/enemies/TankEnemyTouched.png', { frameWidth: 176, frameHeight: 128 }]
+        },
+
         tempExplosiveShot: {
             key: 'tempExplosiveShot',
             args: ['assets/Upgrade/TempExplosiveRate.png', { frameWidth: 32, frameHeight: 32 }]
@@ -192,6 +210,20 @@ export default {
             args: ['assets/TitleScreen/Tete6.png', {
                 frameWidth: 66,
                 frameHeight: 81,
+            }]
+        },
+        fin: {
+            key: 'fin',
+            args: ['assets/TitleScreen/fin.png', {
+                frameWidth: 320,
+                frameHeight: 480,
+            }]
+        },
+        finText: {
+            key: 'finText',
+            args: ['assets/TitleScreen/finText.png', {
+                frameWidth: 182,
+                frameHeight: 209,
             }]
         },
     },

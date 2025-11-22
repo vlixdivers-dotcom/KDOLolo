@@ -52,7 +52,7 @@ export class Preloader extends Phaser.Scene {
     update() {
         this.cursor = this.input.activePointer;
         if (this.cursor.isDown) {
-            this.scene.start('Start');
+            this.scene.start('Game');
         }
     }
 }

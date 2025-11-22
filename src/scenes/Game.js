@@ -561,7 +561,8 @@ export class Game extends Phaser.Scene {
 
     showInRoundReward() {
         if (this.scoreUIObject.getScoreMilestoneIndex() >= this.maxRound - 1) {
-            this.cameras.getCamera('').fadeOut(1500, 0, 0, 0, (camera, progress) => { }).on("camerafadeoutcomplete", () => this.scene.start('EndGame'));
+
+            this.launchNextRound()
             return;
         }
         this.roundReward.showReward(this.scoreUIObject.getScoreMilestoneIndex());
@@ -574,6 +575,10 @@ export class Game extends Phaser.Scene {
     }
 
     finishPresentateurDialog() {
+        if (this.scoreUIObject.getScoreMilestoneIndex() >= this.maxRound ) {
+            this.cameras.getCamera('').fadeOut(1500, 0, 0, 0, (camera, progress) => { }).on("camerafadeoutcomplete", () => this.scene.start('EndGame'));
+            return;
+        }
         this.inBetweenRounds = 0;
         this.spawnEnemyCounter = 0;
     }

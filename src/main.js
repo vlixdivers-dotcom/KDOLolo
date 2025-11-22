@@ -3,6 +3,7 @@ import { Preloader } from './scenes/Preloader.js';
 import { Start } from './scenes/Start.js';
 import { Game } from './scenes/Game.js';
 import { GameOver } from './scenes/GameOver.js';
+import { EndGame } from './scenes/EndGame.js';
 
 const config = {
     type: Phaser.AUTO,
@@ -25,7 +26,8 @@ const config = {
         Preloader,
         Start,
         Game,
-        GameOver
+        GameOver,
+        EndGame
     ],
     scale: {
         mode: Phaser.Scale.FIT,

@@ -46,7 +46,7 @@ export default class RoundReward extends Phaser.GameObjects.GameObject {
         {
             imagePath: ASSETS.image.sainte_soline.key,
             title: 'Images de Sainte Soline',
-            description: 'Trouvé sur un crs...\n Prends plus de molotov camarade !\n Chargeeeeeeez !!',
+            description: 'Chargeeeeeeez !! \n Prends plus de molotov camarade ! ',
         },
         {
             imagePath: ASSETS.image.slip.key,
@@ -75,9 +75,9 @@ export default class RoundReward extends Phaser.GameObjects.GameObject {
         this.blackBackground = this.scene.add.rectangle(0, 0, 320, 480, '#FFFFFF').setOrigin(0).setDepth(110).setAlpha(this.shown / 2);
 
         this.firstChoice.image = this.scene.add.image(this.scene.scale.width / 2,
-            (this.scene.scale.height / 2) - 100, this.choices[0][0].imagePath).setOrigin(0.5).setDepth(120).setAlpha(this.shown);
+            (this.scene.scale.height / 2) - 125 , this.choices[0][0].imagePath).setOrigin(0.5).setDepth(120).setAlpha(this.shown);
         this.firstChoice.title = this.scene.add.text(this.firstChoice.image.x,
-            this.firstChoice.image.y + this.firstChoice.image.width, this.choices[0][0].title, {
+            this.firstChoice.image.y + this.firstChoice.image.width + 10, this.choices[0][0].title, {
             fontFamily: 'Arial', fontSize: 16, color: '#ffffff',
             stroke: '#000000', strokeThickness: 8,
             align: 'center'
@@ -91,15 +91,15 @@ export default class RoundReward extends Phaser.GameObjects.GameObject {
 
 
         this.secondChoice.image = this.scene.add.image(this.scene.scale.width / 2,
-            this.scene.scale.height / 2 + 50, this.choices[0][1].imagePath).setOrigin(0.5).setDepth(120).setAlpha(this.shown);
+            this.scene.scale.height / 2 + 75, this.choices[0][1].imagePath).setOrigin(0.5).setDepth(120).setAlpha(this.shown);
         this.secondChoice.title = this.scene.add.text(this.secondChoice.image.x,
-            this.secondChoice.image.y + this.secondChoice.image.height/2, this.choices[0][1].title, {
+            this.secondChoice.image.y + this.secondChoice.image.height/2 + 10, this.choices[0][1].title, {
             fontFamily: 'Arial', fontSize: 16, color: '#ffffff',
             stroke: '#000000', strokeThickness: 8,
             align: 'center'
         }).setOrigin(0.5).setDepth(120).setAlpha(this.shown);
         this.secondChoice.description = this.scene.add.text(this.secondChoice.title.x,
-            this.secondChoice.title.y + 24, this.choices[0][1].description, {
+            this.secondChoice.title.y + 30, this.choices[0][1].description, {
             fontFamily: 'Arial', fontSize: 12, color: '#ffffff',
             stroke: '#000000', strokeThickness: 2,
             align: 'center'
