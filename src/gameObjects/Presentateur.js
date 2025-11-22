@@ -28,14 +28,17 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
         { text: "C'est Rascal Prout", frame: 3 },
     ],
     [
-        { text: "C'est Rascal Prout", frame: 3 },
+        { text: "Je m'en vais couvrir ma maison de tranche de jambon", frame: 2 },
+        { text: "de tranche de jambon", frame: 3 },
     ],
     ];
 
     slidingSpeech = [
-        "tttttttttttt",
-        "aaaaaaaaaaa"
+        "ALERTE : Nicolas Sarkozy aurait chier liquide à cause du régime yaourt ",
+        "Le gauchisme responsable du froid ?",
+        "Pourquoi Clément Viktorovich parle de Lego...Affaire à suivre",
     ];
+    
     textSliding = false;
 
 
@@ -145,9 +148,9 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
 
         if (this.textSliding) {
             this.presentateurText.x -= (delta / 1000) * 200;
-
-            if (this.presentateurText.x < 0 - this.scene.scale.width / 2) {
-                this.presentateurText.x = this.scene.scale.width + this.scene.scale.width / 2
+            console.log(0 - this.scene.scale.width - this.presentateurText.width/2);
+            if (this.presentateurText.x < 0 - this.scene.scale.width - this.presentateurText.width/2) {
+                this.presentateurText.x = this.scene.scale.width + this.presentateurText.width/2 ;
             }
         }
 

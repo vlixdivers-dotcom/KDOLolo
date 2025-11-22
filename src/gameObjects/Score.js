@@ -8,10 +8,20 @@ export default class Score extends Phaser.GameObjects.GameObject {
     scoreMilestoneIndex = 0;
     normalScoreLetters = [];
     litUpScoreLetters = [];
+    nbCopsNeutralized = 0;
+    nbCopsNeutralizedText;
 
     constructor(scene) {
         super(scene);
         this.scene = scene;
+
+        this.nbCopsNeutralizedText = this.scene.add.text(0, 100, 'POLICIER "NEUTRALISER": ' + this.nbCopsNeutralized, {
+            fontFamily: 'vintageWarehouse', fontSize: 6, color: '#FF0000',
+            stroke: '#000000', strokeThickness: 4,
+            align: 'center'
+        })
+            .setOrigin(0)
+            .setDepth(100);
     }
 
     preload() {
@@ -23,6 +33,8 @@ export default class Score extends Phaser.GameObjects.GameObject {
 
     setScoreValue(value) {
         this.scoreValue = value;
+        this.nbCopsNeutralized++;
+        this.nbCopsNeutralizedText.text = ('POLICIER "NEUTRALISER": ' + this.nbCopsNeutralized);
         this.changeLettersOpacity();
 
         if (this.getMilestoneValue() >= this.scoreMilestone[this.scoreMilestoneIndex]) {

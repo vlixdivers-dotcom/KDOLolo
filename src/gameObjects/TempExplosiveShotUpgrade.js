@@ -8,7 +8,7 @@ export default class TempExplosiveShotUpgrade extends Upgrade {
 
         this.setTexture(ASSETS.image.tempExplosiveShot.key);
         this.setData('timedType', 'explosiveShot');
-        this.timeBeforeRemove = 10;
+        this.timeBeforeRemove = 30;
     }
 
 

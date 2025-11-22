@@ -244,7 +244,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     GetMolotovFireCounterPercentage() {
-        return Phaser.Math.Clamp(1 - (this.molotovFireCounter / this.molotovFireRate), 0.2, 1);
+        return Phaser.Math.Clamp( (this.molotovFireCounter / this.molotovFireRate), 0.2, 1);
     }
 
     GetNBMolotov() {
@@ -275,7 +275,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.health -= damage;
 
-        console.log(this.health);
+
+        this.scene.setHealthPointAlpha(this.health,false);
 
         if (this.health <= 0) this.die();
     }
@@ -290,6 +291,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     heal(value) {
         this.health = Phaser.Math.Clamp(value, 1, this.maxHealth);
+        this.scene.setHealthPointAlpha(this.health,true);
+
     }
 
     revive() {

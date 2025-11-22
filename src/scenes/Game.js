@@ -173,9 +173,14 @@ export class Game extends Phaser.Scene {
         this.maxRound = 4;
 
         this.enemySpawner = new EnemySpawner(this, 0, -180);
+
+        this.healthPointUI = [];
+        this.healthPointEmptyUI = [];
     }
 
-
+    setHealthPointAlpha(index, litUp){
+        this.healthPointUI[index].setAlpha(litUp);
+    }
 
     initGameUi() {
         // Create tutorial text
@@ -192,18 +197,20 @@ export class Game extends Phaser.Scene {
 
 
         this.scoreUIObject.setNormalScoreLetters([
-            new Phaser.GameObjects.Sprite(this, 0 + 16 * 1.5, 0 + 16 * 2, ASSETS.image.aN.key).setDepth(100),
-            new Phaser.GameObjects.Sprite(this, 0 + 16 * 2.5, 0 + 16 * 2, ASSETS.image.cN.key).setOrigin(0.5).setDepth(100),
-            new Phaser.GameObjects.Sprite(this, 0 + 16 * 3.5, 0 + 16 * 2, ASSETS.image.aN.key).setOrigin(0.5).setDepth(100),
-            new Phaser.GameObjects.Sprite(this, 0 + 16 * 4.5, 0 + 16 * 2, ASSETS.image.bN.key).setOrigin(0.5).setDepth(100),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 1, 0 + 16 * 2, ASSETS.image.aN.key).setDepth(100),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 2, 0 + 16 * 2, ASSETS.image.cN.key).setOrigin(0.5).setDepth(100),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 3, 0 + 16 * 2, ASSETS.image.aN.key).setOrigin(0.5).setDepth(100),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 4, 0 + 16 * 2, ASSETS.image.bN.key).setOrigin(0.5).setDepth(100),
         ]);
 
         this.scoreUIObject.setLitUpScoreLetters([
-            new Phaser.GameObjects.Sprite(this, 0 + 16 * 1.5, 0 + 16 * 2, ASSETS.image.aL.key).setDepth(100).setAlpha(0),
-            new Phaser.GameObjects.Sprite(this, 0 + 16 * 2.5, 0 + 16 * 2, ASSETS.image.cL.key).setDepth(100).setAlpha(0),
-            new Phaser.GameObjects.Sprite(this, 0 + 16 * 3.5, 0 + 16 * 2, ASSETS.image.aL.key).setDepth(100).setAlpha(0),
-            new Phaser.GameObjects.Sprite(this, 0 + 16 * 4.5, 0 + 16 * 2, ASSETS.image.bL.key).setDepth(100).setAlpha(0),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 1, 0 + 16 * 2, ASSETS.image.aL.key).setDepth(100).setAlpha(0),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 2, 0 + 16 * 2, ASSETS.image.cL.key).setDepth(100).setAlpha(0),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 3, 0 + 16 * 2, ASSETS.image.aL.key).setDepth(100).setAlpha(0),
+            new Phaser.GameObjects.Sprite(this, 0 + 16 * 4, 0 + 16 * 2, ASSETS.image.bL.key).setDepth(100).setAlpha(0),
         ]);
+
+
 
         for (let i = 0; i < this.scoreUIObject.getNormalScoreLetters().length; i++) {
             this.add.existing(this.scoreUIObject.getNormalScoreLetters()[i]);
@@ -212,6 +219,12 @@ export class Game extends Phaser.Scene {
             this.add.existing(this.scoreUIObject.getLitUpScoreLetters()[i]);
         }
 
+
+        for (let i = 0; i < 3; i++) {
+
+            this.healthPointUI.push(this.add.image(12 + (24 * i), 75, ASSETS.image.healthFull.key).setOrigin(0.5).setDepth(100));
+            this.healthPointEmptyUI.push(this.add.image(this.healthPointUI[i].x, 75, ASSETS.image.healthEmpty.key).setOrigin(0.5).setDepth(90));
+        }
 
         const presentateurBoard = this.add.rectangle(0, this.scale.height - 50, 320, 50, '#FFFFFF').setOrigin(0).setDepth(100);
         this.presentateur = new Presentateur(this, 320 - (96 / 2), 480 - (50 + (80 / 2)), presentateurBoard);
@@ -382,7 +395,7 @@ export class Game extends Phaser.Scene {
                 this.updateScore(enemy.getScorePoints());
             }
 
-            if (Phaser.Math.Between(0, 100) < enemy.getChanceToDropUpgrade()) {
+            if (Phaser.Math.Between(0, 100) < enemy.getChanceToDropUpgrade() + ((this.scoreUIObject.getScoreMilestoneIndex() * 10) / 2)) {
                 let upgrade = this.spawnUpgrade(5, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed());
 
                 if (upgrade !== null)
@@ -429,11 +442,11 @@ export class Game extends Phaser.Scene {
 
         let mainUpgradeChances = Phaser.Math.Between(0, 100);
 
-        if (mainUpgradeChances <= 40) {
+        if (mainUpgradeChances <= 60) {
             upgrade = new MainWeaponFireRateUpgrade(this, x, y, speed);
             return upgrade;
         }
-        else if (mainUpgradeChances <= 50 + ((this.player.getMaxHealth() - this.player.getHealth()) * 10)) {
+        else if (mainUpgradeChances <= 70 + ((this.player.getMaxHealth() - this.player.getHealth()) * 10)) {
             upgrade = new HealUpgrade(this, x, y, speed);
             return upgrade;
         }
@@ -442,15 +455,19 @@ export class Game extends Phaser.Scene {
         let chances = Phaser.Math.Between(0, 100);
         if (chances <= explosiveChances) {
             upgrade = new TempExplosiveShotUpgrade(this, x, y, speed);
+            return upgrade;
         }
-        else if (chances <= moreShotsChances) {
+        if (chances <= moreShotsChances) {
             upgrade = new TempOneMoreShotUpgrade(this, x, y, speed);
+            return upgrade;
         }
-        else if (chances <= shieldChances) {
+        if (chances <= shieldChances) {
             upgrade = new TempShieldUpgrade(this, x, y, speed);
+            return upgrade;
         }
-        else if (chances <= aoeTimerResetChances) {
+        if (chances <= aoeTimerResetChances) {
             upgrade = new AoeTimerReset(this, x, y, speed);
+            return upgrade;
         }
 
         return upgrade;
@@ -540,7 +557,7 @@ export class Game extends Phaser.Scene {
 
 
     showInRoundReward() {
-        if (this.scoreUIObject.getScoreMilestoneIndex() >= this.maxRound) {
+        if (this.scoreUIObject.getScoreMilestoneIndex() >= this.maxRound - 1) {
             this.cameras.getCamera('').fadeOut(1500, 0, 0, 0, (camera, progress) => { }).on("camerafadeoutcomplete", () => this.scene.start('EndGame'));
             return;
         }

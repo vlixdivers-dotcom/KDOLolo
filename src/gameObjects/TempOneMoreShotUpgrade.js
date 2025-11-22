@@ -9,7 +9,7 @@ export default class TempOneMoreShotUpgrade extends Upgrade {
         
         this.setTexture(ASSETS.image.tempMultiShot.key);
         this.setData('timedType', 'oneMoreShot');
-        this.timeBeforeRemove = 10;
+        this.timeBeforeRemove = 30;
     }
 
 

@@ -93,6 +93,20 @@ export default {
                 frameHeight: 29,
             }]
         },
+        healthFull: {
+            key: 'healthFull',
+            args: ['assets/HealthPointFull.png', {
+                frameWidth: 24,
+                frameHeight: 24,
+            }]
+        },
+        healthEmpty: {
+            key: 'healthEmpty',
+            args: ['assets/HealthPointVide.png', {
+                frameWidth: 24,
+                frameHeight: 24,
+            }]
+        },
         startBackground: {
             key: 'startBackground',
             args: ['assets/TitleScreen/Background.png', {
