@@ -60,12 +60,19 @@ export class Game extends Phaser.Scene {
     }
 
     update(time, delta) {
+        const cursor = this.input.activePointer;
         this.updateMap();
+
         this.scale.lockOrientation('portrait');
 
 
+        if (this.inBetweenRounds === 4) {
+            this.presentateur.startStoryText(this.scoreUIObject.getScoreMilestoneIndex(), cursor.isDown);
+            return;
+        }
+
+
         if (!this.gameStarted) {
-            const cursor = this.input.activePointer;
             if (cursor.isDown) this.startGame();
             return;
         }
@@ -134,7 +141,7 @@ export class Game extends Phaser.Scene {
 
         this.blackRectangle;
 
-        this.inBetweenRounds = 0;
+        this.inBetweenRounds = 4;
 
         this.tempUpgradeUI = [
             {
@@ -165,14 +172,14 @@ export class Game extends Phaser.Scene {
 
         this.maxRound = 4;
 
-        this.enemySpawner = new EnemySpawner(this, 0, 0 - 40);
+        this.enemySpawner = new EnemySpawner(this, 0, -180);
     }
 
 
 
     initGameUi() {
         // Create tutorial text
-        this.tutorialText = this.add.text(this.centreX, this.centreY, 'TAP TO SHOOT !', {
+        this.tutorialText = this.add.text(this.centreX, this.centreY, '', {
             fontFamily: 'vintageWarehouse', fontSize: 42, color: '#ffffff',
             stroke: '#000000', strokeThickness: 8,
             align: 'center'
@@ -210,7 +217,6 @@ export class Game extends Phaser.Scene {
         this.presentateur = new Presentateur(this, 320 - (96 / 2), 480 - (50 + (80 / 2)), presentateurBoard);
 
 
-        this.presentateur.setNewTextToPrint("Salut les fachos");
 
         this.aoe_frame = this.add.image(25, this.scale.height - 65, 'aoe_frame', 1).setOrigin(0.5).setDepth(100);
         this.nb_aoe = this.add.text(this.aoe_frame.x + 10, this.aoe_frame.y - 15, "X1", {
@@ -480,7 +486,7 @@ export class Game extends Phaser.Scene {
         this.addExplosion(player.x, player.y);
 
         if (obstacle.getData("enemyType") && obstacle.getHealth() > 10) return;
-        
+
         obstacle.die();
 
     }
@@ -495,7 +501,7 @@ export class Game extends Phaser.Scene {
 
         if (bullet.getIsExplosive() && bullet.getEnemiesTouched() < 2) return;
 
-        if (!bullet.getIsPiercing() ) {
+        if (!bullet.getIsPiercing()) {
             bullet.remove();
         }
 
@@ -542,10 +548,14 @@ export class Game extends Phaser.Scene {
     }
 
     launchNextRound() {
-        this.scoreUIObject.setScoreMilestoneIndex(this.scoreUIObject.getScoreMilestoneIndex() + 1);
-        this.spawnEnemyCounter = 0;
 
+        this.scoreUIObject.setScoreMilestoneIndex(this.scoreUIObject.getScoreMilestoneIndex() + 1);
+        this.inBetweenRounds = 4;
+    }
+
+    finishPresentateurDialog() {
         this.inBetweenRounds = 0;
+        this.spawnEnemyCounter = 0;
     }
 
     GameOver() {

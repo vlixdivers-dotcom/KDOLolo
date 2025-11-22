@@ -9,28 +9,177 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
 
     enemiesSpawnPossibilities = [
         [
-            [[0, 0, 0, 2, 0]], [[0, 1, 0, 1, 0], [0, 0, 0, 0, 0, 0]]
+
+
+
+            [[0, 2, 0, 0, 0]],
+            [[0, 0, 0, 2, 0]],
+            [[0, 0, 0, 0, 2]],
+            [[0, 2, 0, 0, 0]],
+            [[0, 0, 0, 2, 0]],
+            [[0, 0, 0, 0, 2]],
+            [[2, 0, 0, 0, 0]],
+            [[0, 0, 0, 0, 2]],
+            [[0, 1, 0, 0, 0]],
+            [[2, 0, 0, 0, 0]],
+            [[0, 0, 0, 0, 2]],
+            [[0, 1, 0, 0, 0]],
+            [[0, 0, 0, 1, 0]],
+            [[0, 0, 2, 0, 0]],
+            [[0, 0, 0, 1, 0]],
+            [[0, 0, 2, 0, 0]],
+
+            [
+                [0, 1, 0, 1, 0, 0],
+                [0, 0, 0, 0, 0, 0]
+            ],
+            [
+                [0, 0, 0, 1, 0, 0],
+                [0, 0, 0, 0, 0, 0]
+            ],
+            [
+                [0, 1, 0, 0, 0, 0],
+                [0, 0, 2, 0, 0, 0]
+            ],
+            [
+                [0, 0, 2, 2, 0, 1],
+                [0, 0, 0, 0, 0, 0]
+            ],
         ],
         [
-            [1, 1, 0, 0, 1, 1], [0, 0, 2, 2, 0]
+            [[1, 1, 0, 0, 0, 1, 1]]
+            , [[0, 0, 2, 2, 0]]
+            , [[0, 0, 2, 0, 0]]
+            [[0, 0, 0, 0, 0]],
+            [[0, 0, 0, 0, 0]],
+            [[0, 1, 0, 0, 1, 0]],
+            [[1, 0, 0, 0, 1, 0]],
+            [[0, 0, 2, 0, 0]],
+            [[0, 0, 1, 1, 1, 1, 0]],
+            [[0, 0, 0, 3, 0, 0, 0]],
+
+
+            [
+                [0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0]],
+
+            [
+                [1, 0, 1, 0, 1, 0, 1],
+                [0, 0, 0, 0, 0]
+            ],
+            [
+                [2, 0, 2, 0, 1, 1],
+                [0, 0, 0, 0, 0]
+            ],
+
+            [
+                [0, 0, 0, 0, 3, 0],
+                [0, 0, 0, 0, 0]
+            ],
+            [
+                [3, 0, 2, 0, 0, 0],
+                [0, 0, 0, 0, 0]
+            ],
+
+        ]
+        ,
+        [
+            [[1, 1, 0, 0, 0, 1, 1]]
+            , [[0, 0, 2, 2, 0]]
+            , [[0, 0, 2, 0, 0]]
+            [[0, 0, 0, 0, 0]],
+            [[0, 0, 0, 0, 0]],
+            [[0, 1, 0, 0, 1, 0]],
+            [[1, 0, 0, 0, 1, 0]],
+            [[0, 0, 2, 0, 0]],
+            [[0, 0, 1, 1, 1, 1, 0]],
+            [[0, 0, 0, 3, 0, 0, 0]],
+
+
+            [
+                [0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0]],
+
+            [
+                [1, 0, 1, 0, 1, 0, 1],
+                [0, 0, 0, 0, 0]
+            ],
+            [
+                [2, 0, 2, 0, 1, 1],
+                [0, 0, 0, 0, 0]
+            ],
+
+            [
+                [0, 0, 0, 0, 3, 0],
+                [0, 0, 0, 0, 0]
+            ],
+            [
+                [3, 0, 2, 0, 0, 0],
+                [0, 0, 0, 0, 0]
+            ],
+
+        ]
+        ,
+        [
+            [[1, 1, 0, 0, 0, 1, 1]]
+            , [[0, 0, 2, 2, 0]]
+            , [[0, 0, 2, 0, 0]]
+            [[0, 0, 0, 0, 0]],
+            [[0, 0, 0, 0, 0]],
+            [[0, 1, 0, 0, 1, 0]],
+            [[1, 0, 0, 0, 1, 0]],
+            [[0, 0, 2, 0, 0]],
+            [[0, 0, 1, 1, 1, 1, 0]],
+            [[0, 0, 0, 3, 0, 0, 0]],
+
+
+            [
+                [0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0]],
+
+            [
+                [1, 0, 1, 0, 1, 0, 1],
+                [0, 0, 0, 0, 0]
+            ],
+            [
+                [2, 0, 2, 0, 1, 1],
+                [0, 0, 0, 0, 0]
+            ],
+
+            [
+                [0, 0, 0, 0, 3, 0],
+                [0, 0, 0, 0, 0]
+            ],
+            [
+                [3, 0, 2, 0, 0, 0],
+                [0, 0, 0, 0, 0]
+            ],
+
         ]
     ]
 
-    y;
+    firstone = true;
     constructor(scene, x, y) {
         super(scene, x, y);
         this.scene = scene;
         this.y = y;
 
-        console.log(this.y)
-
     }
 
     spawnEnemies(round) {
+        if (this.firstone == true) {
+            this.y = -40;
+            this.firstone = false;
+        }
         const possibility = Phaser.Math.Between(0, this.enemiesSpawnPossibilities[round].length - 1)
+
         for (let i = 0; i < this.enemiesSpawnPossibilities[round][possibility].length; i++) {
             let lastEnemy = null;
             for (let j = 0; j < this.enemiesSpawnPossibilities[round][possibility][i].length; j++) {
+
                 const enemyValue = this.enemiesSpawnPossibilities[round][possibility][i][j];
                 let enemy = null
                 switch (enemyValue) {
@@ -54,18 +203,22 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
                         break;
 
                 }
-                console.log(enemy.width);
 
                 enemy.setX((lastEnemy === null ? enemy.width / 2 : lastEnemy.x + (lastEnemy.width / 2 + enemy.width / 2)));
-                enemy.setY((this.y - 32) * i)
 
-                console.log(lastEnemy === null ? 0 : lastEnemy.getWidth());
+
+                enemy.setY(this.y * i);
+                enemy.setDepth(10 - i)
                 this.scene.addEnemy(enemy);
 
                 lastEnemy = enemy;
             }
         }
 
+        if (this.firstone == true) {
+            this.y = -150;
+            this.firstone = 0;
+        }
     }
 
 }

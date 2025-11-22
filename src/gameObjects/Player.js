@@ -69,7 +69,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.shieldImage.x = this.x;
         this.shieldImage.y = this.y;
 
-        if (this.scene.getInBetweenRound() === 2) return;
+        if (this.scene.getInBetweenRound() === 2 || this.scene.getInBetweenRound() === 4) return;
 
         if (this.fireCounter > 0) this.fireCounter -= delta / 1000;
         if (this.nbMolotov < this.maxNBMolotov) {
@@ -387,12 +387,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     haveLivreDeMerdellaUpgrade() {
-        this.setFireRate(this.GetFireRate() - 0.5, true);
+        this.setFireRate(this.GetFireRate() - 0.7, true);
     }
 
 
     haveWheyUpgrade() {
-        this.setChanceToMultiShots(30, true);
+        this.setChanceToMultiShots(40, true);
+        this.setFireRate(this.GetFireRate() - 0.3, true);
         this.setNbShots(2);
 
     }

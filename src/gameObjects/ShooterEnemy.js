@@ -21,7 +21,6 @@ export default class ShooterEnemy extends EnemyFlying {
 
         if (this.fireCounter <= 0) this.fire();
 
-        console.log(this.fireCounter)
     }
 
     fire() {
