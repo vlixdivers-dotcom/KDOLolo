@@ -17,6 +17,8 @@ import SmokeEnemy from '../gameObjects/SmokeEnemy.js';
 import TankEnemy from '../gameObjects/TankEnemy.js';
 import EnemyBullet from '../gameObjects/EnemyBullet.js';
 
+import EnemySpawner from '../gameObjects/EnemySpawner.js'
+
 import Explosion from '../gameObjects/Explosion.js';
 
 import Presentateur from '../gameObjects/Presentateur.js';
@@ -116,7 +118,7 @@ export class Game extends Phaser.Scene {
         this.scrollSpeed = 1; // background scrolling speed (in pixels)
         this.scrollMovement = 0; // current scroll amount
 
-        this.spawnEnemyCounterValue = (4);
+        this.spawnEnemyCounterValue = (6);
         this.spawnEnemyCounter = (0);
 
         this.map; // rference to tile map
@@ -162,6 +164,8 @@ export class Game extends Phaser.Scene {
         ]
 
         this.maxRound = 4;
+
+        this.enemySpawner = new EnemySpawner(this, 0, 0 - 40);
     }
 
 
@@ -355,23 +359,14 @@ export class Game extends Phaser.Scene {
     // add a group of flying enemies
     addFlyingGroup() {
         this.spawnEnemyCounter = this.spawnEnemyCounterValue;
-        this.addEnemy(0, 0, 5);
+
+        this.enemySpawner.spawnEnemies(this.scoreUIObject.getScoreMilestoneIndex());
         // this.spawnEnemy = false;
         // const spawnCounter = 5 * 600;//Phaser.Math.RND.between(8, 12) * 100; // delay between spawning of each enemy
     }
 
-    addEnemy(x, y, nb) {
-        const enemyWidth = 64;
-        const nbRow = (nb / 5);
-
-        for (let rounds = 0; rounds < nbRow; rounds++) {
-            for (let i = 0; i < 5; i++) {
-                const spawnX = (enemyWidth / 2) + x + (enemyWidth * i);
-                const spawnY = (- 40) + (enemyWidth / 2) - (enemyWidth * rounds);
-                const enemy = new EnemyFlying(this, spawnX, spawnY);
-                this.enemyGroup.add(enemy);
-            }
-        }
+    addEnemy(enemy) {
+        this.enemyGroup.add(enemy);
     }
 
     removeEnemy(enemy, withScore) {
@@ -383,9 +378,9 @@ export class Game extends Phaser.Scene {
 
             if (Phaser.Math.Between(0, 100) < enemy.getChanceToDropUpgrade()) {
                 let upgrade = this.spawnUpgrade(5, enemy.GetXY().x, enemy.GetXY().y, enemy.GetSpeed());
-                console.log(upgrade);
+
                 if (upgrade !== null)
-                this.upgradePickupGroup.add(upgrade);
+                    this.upgradePickupGroup.add(upgrade);
             }
 
         }
@@ -401,34 +396,34 @@ export class Game extends Phaser.Scene {
         let upgrade = null;
         switch (Phaser.Math.Between(0, max - (this.maxRound - this.scoreUIObject.getScoreMilestoneIndex()))) {
             case 0:
-                upgrade = this.upgradeChancesToDrop(2, 5, 15, 30,x,y,speed);
+                upgrade = this.upgradeChancesToDrop(2, 5, 15, 30, x, y, speed);
                 break;
             case 1:
-                upgrade = this.upgradeChancesToDrop(10, 15, 30, 45,x,y,speed);
+                upgrade = this.upgradeChancesToDrop(10, 15, 30, 45, x, y, speed);
                 break;
             case 2:
-                upgrade = this.upgradeChancesToDrop(10, 20, 35, 50,x,y,speed);
+                upgrade = this.upgradeChancesToDrop(10, 20, 35, 50, x, y, speed);
                 break;
             case 3:
-                upgrade = this.upgradeChancesToDrop(15, 25, 30, 50,x,y,speed);
+                upgrade = this.upgradeChancesToDrop(15, 25, 30, 50, x, y, speed);
                 break;
             case 4:
-                upgrade = this.upgradeChancesToDrop(15, 25, 30, 50,x,y,speed);
+                upgrade = this.upgradeChancesToDrop(15, 25, 30, 50, x, y, speed);
                 break;
             case 5:
-                upgrade = this.upgradeChancesToDrop(25, 50, 70, 90,x,y,speed);
+                upgrade = this.upgradeChancesToDrop(25, 50, 70, 90, x, y, speed);
                 break;
         }
 
         return upgrade;
     }
 
-    upgradeChancesToDrop(explosiveChances, moreShotsChances, shieldChances, aoeTimerResetChances,x,y,speed) {
+    upgradeChancesToDrop(explosiveChances, moreShotsChances, shieldChances, aoeTimerResetChances, x, y, speed) {
         let upgrade = null;
 
         let mainUpgradeChances = Phaser.Math.Between(0, 100);
 
-        if (mainUpgradeChances <= 30) {
+        if (mainUpgradeChances <= 40) {
             upgrade = new MainWeaponFireRateUpgrade(this, x, y, speed);
             return upgrade;
         }
@@ -484,14 +479,14 @@ export class Game extends Phaser.Scene {
 
         this.addExplosion(player.x, player.y);
 
-        if (obstacle.getHealth() > 10) return;
+        if (obstacle.getData("enemyType") && obstacle.getHealth() > 10) return;
+        
         obstacle.die();
 
     }
 
     hitEnemy(bullet, enemy) {
         if (enemy.getData('enemyType') === 'smoke') {
-            bullet.remove();
             return;
         }
 
@@ -500,7 +495,7 @@ export class Game extends Phaser.Scene {
 
         if (bullet.getIsExplosive() && bullet.getEnemiesTouched() < 2) return;
 
-        if (!bullet.getIsPiercing()) {
+        if (!bullet.getIsPiercing() ) {
             bullet.remove();
         }
 
@@ -548,7 +543,7 @@ export class Game extends Phaser.Scene {
 
     launchNextRound() {
         this.scoreUIObject.setScoreMilestoneIndex(this.scoreUIObject.getScoreMilestoneIndex() + 1);
-
+        this.spawnEnemyCounter = 0;
 
         this.inBetweenRounds = 0;
     }

@@ -7,9 +7,9 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
     fireCounterMax = 300; // maximum fire rate
     fireCounter;
     power = 1; // enemy strength
-    speed = 40;
+    speed = 35;
 
-    chanceToDropUpgrade = 3;
+    chanceToDropUpgrade = 30;
 
 
     constructor(scene, x, y) {
@@ -21,6 +21,8 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
         this.setDepth(10);
         this.scene = scene;
 
+        this.setDataEnabled();
+        this.setData('enemyType', 'crs');
     }
 
     preUpdate(time, delta) {
@@ -54,6 +56,10 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
     initPath(pathId, speed) {
     }
 
+    getWidth()
+    {
+    return    this.width;
+    }
 
     getHealth(){
         return this.health;

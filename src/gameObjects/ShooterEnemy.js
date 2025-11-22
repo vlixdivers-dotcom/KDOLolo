@@ -3,12 +3,13 @@ import ASSETS from '../assets.js';
 
 export default class ShooterEnemy extends EnemyFlying {
 
-    fireCounterMin = 1; // minimum fire rate
-    fireCounterMax = 3; // maximum fire rate
+    fireCounterMin = 3; // minimum fire rate
+    fireCounterMax = 5; // maximum fire rate
 
     constructor(scene, x, y) {
         super(scene, x, y, ASSETS.image.enemyLBD.key);
         this.setTexture(ASSETS.image.enemyLBD.key);
+        this.setSize(32,64);
         this.health = 2;
 
         this.fireCounter = Phaser.Math.RND.between(this.fireCounterMin, this.fireCounterMax);

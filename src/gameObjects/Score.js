@@ -4,7 +4,7 @@ export default class Score extends Phaser.GameObjects.GameObject {
 
     scene = null;
     scoreValue = 0;
-    scoreMilestone = [5, 15, 21, 32];
+    scoreMilestone = [30, 100, 200, 300];
     scoreMilestoneIndex = 0;
     normalScoreLetters = [];
     litUpScoreLetters = [];

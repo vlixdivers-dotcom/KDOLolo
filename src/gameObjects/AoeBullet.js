@@ -2,7 +2,7 @@ import ASSETS from '../assets.js';
 
 
 export default class AoeBullet extends Phaser.Physics.Arcade.Sprite {
-    power = 1;
+    power = 0;
     moveVelocity = 250;
 
     constructor(scene, x, y, power) {

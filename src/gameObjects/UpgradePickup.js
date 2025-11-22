@@ -7,7 +7,7 @@ export default class UpgradePickup extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, speed) {
         super(scene, x, y, ASSETS.spritesheet.pickupPlaceHolder.key);
 
-        this.speed = speed;
+        this.speed = 150;
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.setDepth(10);

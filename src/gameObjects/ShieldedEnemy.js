@@ -6,7 +6,9 @@ export default class ShieldedEnemy extends EnemyFlying {
 
     constructor(scene, x, y) {
         super(scene, x, y, ASSETS.image.enemyLBD.key);
-        this.setTexture( ASSETS.image.enemyShielded.key);
+        this.setTexture(ASSETS.image.enemyShielded.key);
+        this.setSize(32, 64);
+
         this.health = 3;
 
     }
