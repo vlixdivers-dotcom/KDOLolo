@@ -3,8 +3,8 @@ import ASSETS from '../assets.js';
 
 export default class ShooterEnemy extends EnemyFlying {
 
-    fireCounterMin = 3; // minimum fire rate
-    fireCounterMax = 5; // maximum fire rate
+    fireCounterMin = 2; // minimum fire rate
+    fireCounterMax = 4; // maximum fire rate
 
     constructor(scene, x, y) {
         super(scene, x, y, ASSETS.image.enemyLBD.key);

@@ -106,6 +106,10 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
         return this.health;
     }
 
+    setHealth(value) {
+        this.health = value;
+    }
+
     getPower() {
         return this.power;
     }

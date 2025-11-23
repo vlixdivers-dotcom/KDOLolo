@@ -188,6 +188,9 @@ export class Game extends Phaser.Scene {
 
         this.healthPointUI = [];
         this.healthPointEmptyUI = [];
+
+        this.music = this.sound.add(ASSETS.audio.mainMusic.key, { loop: true, mute: false, volume: 1 });
+        this.music.play();
     }
 
     setHealthPointAlpha(index, litUp) {

@@ -4,6 +4,14 @@ export default {
             key: 'introMusic',
             args: ['assets/Music/LInternationaleLoop.ogg']
         },
+        mainMusic: {
+            key: 'mainMusic',
+            args: ['assets/Music/MainTheme.ogg']
+        },
+        prout: {
+            key: 'prout',
+            args: ['assets/SFX/prout.ogg']
+        },
     },
     'image': {
         enemy: {

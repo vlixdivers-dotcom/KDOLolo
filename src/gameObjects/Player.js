@@ -23,7 +23,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     molotovPower = 1;
 
     maxHealth = 3;
-    health = 1;
+    health = 3;
 
     clickCount = 0;
     clickCountTimerValue = 0.2;
@@ -266,6 +266,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     hit(damage) {
+        if (this.scene.getInBetweenRound() === 2 || this.scene.getInBetweenRound() >= 4) return;
         if (this.isShielded || this.hitCooldownCounter > 0) return;
 
 

@@ -6,23 +6,30 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
 
     storySpeech = [[
         { text: "Salut les fachos", frame: 1 },
-        // { text: "C'est Rascal Prout", frame: 3 },
-        // { text: "Aujourd'hui dans l'actualité", frame: 2 },
-        // { text: "Bla ", frame: 2 },
-        // { text: "Bla ", frame: 2 },
-        // { text: "Bla ", frame: 2 },
-        // { text: "Truc raciste", frame: 1 },
-        // { text: "Bla ", frame: 2 },
-        // { text: "B... Qu'est ce que ? ", frame: 3 },
-        // { text: "On nous informe", frame: 0 },
-        // { text: "D'une manifestation ", frame: 0 },
-        // { text: "Soudaine sur paris", frame: 2 },
-        // { text: "Il y as pas à s'inquiéter", frame: 1 },
-        // { text: "Les forces de l'ordre vont les tap..", frame: 1 },
-        // { text: "..Maitriser", frame: 2 },
+        { text: "C'est Rascal Prout", frame: 3 },
+        { text: "Aujourd'hui dans l'actualité", frame: 2 },
+        { text: "Bla ", frame: 2 },
+        { text: "Bla ", frame: 2 },
+        { text: "Bla ", frame: 2 },
+        { text: "Truc raciste", frame: 1 },
+        { text: "Bla ", frame: 2 },
+        { text: "B... Qu'est ce que ? ", frame: 3 },
+        { text: "On nous informe", frame: 0 },
+        { text: "D'une manifestation ", frame: 0 },
+        { text: "Soudaine sur paris", frame: 2 },
+        { text: "Il y as pas à s'inquiéter", frame: 1 },
+        { text: "Les forces de l'ordre vont les tap..", frame: 1 },
+        { text: "..Maitriser", frame: 2 },
     ],
     [
-        { text: "C'est Rascal Prout", frame: 3 },
+        { text: "De retour", frame: 1 },
+        { text: "pour decrypter l'actualité", frame: 1 },
+        { text: "Apparemment la manifestation", frame: 2 },
+        { text: "ne se passe pas comme prévue", frame: 2 },
+        { text: "Jean Luc Mélenchon", frame: 0 },
+        { text: "se serait emparer de la manifestation", frame: 0 },
+        { text: "On aurait entendu", frame: 0 },
+        { text: "'Vas-y Lolo abats la citadelle !!!'", frame: 0 },
     ],
     [
         { text: "C'est Rascal Prout", frame: 3 },
@@ -33,20 +40,27 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
     ],
     ];
 
+    slidingSpeechLastIndex = 0;
     slidingSpeech = [
         "ALERTE : Nicolas Sarkozy aurait chier liquide à cause du régime yaourt ",
         "Le gauchisme responsable du froid ?",
         "Pourquoi Clément Viktorovich parle de Lego...Affaire à suivre",
+        "L'aligot Hallal, jusqu'à où ira le wokisme...Affaire à suivre",
+        "Alain Soral de gauche ?",
+        "Pourquoi le PS est des traîte même pour nous...Affaire à suivre",
+        "Même les bateaux commence à porter le voile, les féres musulman au portes de l'atlantide",
+        "Bolloré, not all breton ?",
     ];
-    
+
     textSliding = false;
 
+    speechSFX;
 
     presentateurBoard;
     presentateurText;
 
     newText = false;
-    timeBeforeNewLetter = 0.1;
+    timeBeforeNewLetter = 0.05;
     timeBeforeNewLetterCounter = 0;
     textToPrint = "Vous voulez dire ?";
     textToPrintIndex = 0;
@@ -59,6 +73,7 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
     isSliding = false;
     slideProgress = 0;
 
+    deltaMultplicator = 1;
 
     positionPres;
     constructor(scene, x, y, board) {
@@ -74,7 +89,7 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
 
         this.presentateurText = this.scene.add.text(this.presentateurBoard.x + this.presentateurBoard.width / 2,
             this.presentateurBoard.y + this.presentateurBoard.height / 2, "Vous voulez dire ?", {
-            fontFamily: 'Arial', fontSize: 20, color: '#ffffff',
+            fontFamily: 'Arial', fontSize: 18, color: '#ffffff',
             stroke: '#000000', strokeThickness: 2,
             align: 'center'
         }).setOrigin(0.5).setDepth(120)
@@ -84,6 +99,7 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
         this.positionPres = [this.x, this.scene.scale.width + 100];
         this.speaking = true;
 
+        this.speechSFX = this.scene.sound.add(ASSETS.audio.prout.key, { loop: false, mute: false, volume: 1 });
     }
 
 
@@ -107,6 +123,8 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
             this.currentStoryDialogIndex += 1;
         }
         else {
+
+            this.deltaMultplicator = cursor ? 5 : 1;
             if (cursor && !this.newText) {
                 if (this.currentStoryDialogIndex < this.currentStoryDialog.length) {
                     this.setNewTextToPrint(this.currentStoryDialog[this.currentStoryDialogIndex].text);
@@ -125,6 +143,7 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
     }
 
     slidePresentateur(toSpeak) {
+        this.presentateurText.x = this.scene.scale.width + this.presentateurText.width / 2;
         this.speaking = toSpeak;
         this.isSliding = true;
     }
@@ -132,11 +151,12 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
         if (this.newText) {
-            this.timeBeforeNewLetterCounter -= (delta / 1000) * 10;
+            this.timeBeforeNewLetterCounter -= (delta / 1000) * this.deltaMultplicator;
 
             if (this.timeBeforeNewLetterCounter <= 0) {
                 this.presentateurText.text += this.textToPrint[this.textToPrintIndex];
                 this.timeBeforeNewLetterCounter = this.timeBeforeNewLetter;
+                this.speechSFX.play();
                 this.textToPrintIndex++;
             }
 
@@ -148,8 +168,10 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
 
         if (this.textSliding) {
             this.presentateurText.x -= (delta / 1000) * 200;
-            if (this.presentateurText.x < 0 - this.scene.scale.width - this.presentateurText.width/2) {
-                this.presentateurText.x = this.scene.scale.width + this.presentateurText.width/2 ;
+            if (this.presentateurText.x < 0 - this.scene.scale.width - this.presentateurText.width / 2) {
+                let textIndex = Phaser.Math.Between(0, this.slidingSpeech.length - 1);
+                this.presentateurText.text = this.slidingSpeech[textIndex];
+                this.presentateurText.x = this.scene.scale.width + this.presentateurText.width / 2;
             }
         }
 
@@ -161,7 +183,7 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
                     return;
                 }
 
-                 
+
                 this.x -= (delta / 1000) * 1000;
             }
             else {
@@ -170,8 +192,8 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
                     this.isSliding = false;
                     return;
                 }
-              
-                this.x += (delta / 1000)*100;
+
+                this.x += (delta / 1000) * 100;
             }
         }
 
