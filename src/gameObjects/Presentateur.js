@@ -105,7 +105,7 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
     slideProgress = 0;
 
     deltaMultplicator = 1;
-
+    frenzyMultiplicator = 1;
     positionPres;
     constructor(scene, x, y, board) {
         super(scene, x, y, ASSETS.spritesheet.presentateur.key, 3);
@@ -210,13 +210,13 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
 
 
         if (this.inFrenzy) {
+            this.x += ((delta / 1000) * 500) * this.frenzyMultiplicator;
             if (this.x <= this.positionPres[0]) {
-                this.x -= (delta / 1000) * 1000;
+                this.frenzyMultiplicator = 1;
             }
 
             if (this.x >= this.positionPres[1]) {
-                this.x += (delta / 1000) * 100;
-                return;
+                this.frenzyMultiplicator = -1;
             }
         }
 
