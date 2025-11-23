@@ -11,8 +11,8 @@ export default class SmokeEnemy extends EnemyFlying {
         this.power = 0;
         this.setTexture(ASSETS.spritesheet.smokeScreen.key, 1);
         this.anims.play(ANIMATION.smokeScreen.key);
-        this.setOrigin(0.5,0)
-        this.setSize(this.width,this.height/2);
+        this.setOrigin(0.5,0.5);
+        this.setSize(this.width,this.height/1.8);
 
         this.setDataEnabled();
         this.setData('enemyType', 'smoke');

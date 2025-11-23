@@ -438,6 +438,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.setFireRate(this.GetFireRate() - 0.2, true);
         this.chanceToFireExplosiveShot.unchanged += 5;
         this.chanceToFireExplosiveShot.realValue += 5;
+        this.molotovFireRate = 6;
     }
 
     haveSlipUpgrade() {
