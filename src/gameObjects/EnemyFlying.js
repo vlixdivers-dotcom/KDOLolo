@@ -74,10 +74,12 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
     }
 
     hit(damage) {
-        this.health -= damage;
 
         this.setTexture(this.touchedImage);
         this.touchedImageShown = true;
+        if (this.isSliding) return;
+        this.health -= damage;
+
         if (this.health <= 0) this.die();
     }
 
@@ -135,8 +137,8 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
         this.slideAimX = this.x;
         this.x = value;
         this.slideNeg = this.x < this.slideAimX ? 1 : -1;
+        console.log(value);
 
-        console.log(this.slideNeg);
         this.isSliding = true;
 
     }

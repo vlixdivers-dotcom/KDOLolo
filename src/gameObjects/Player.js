@@ -23,7 +23,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     molotovPower = 1;
 
     maxHealth = 3;
-    health = 2;
+    health = 1;
 
     clickCount = 0;
     clickCountTimerValue = 0.2;
@@ -69,7 +69,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.shieldImage.x = this.x;
         this.shieldImage.y = this.y;
 
-        if (this.scene.getInBetweenRound() === 2 || this.scene.getInBetweenRound() === 4) return;
+        if (this.scene.getInBetweenRound() === 2 || this.scene.getInBetweenRound() >= 4) return;
 
         if (this.fireCounter > 0) this.fireCounter -= delta / 1000;
         if (this.nbMolotov < this.maxNBMolotov) {
@@ -85,9 +85,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.setVisible(Phaser.Math.FloorTo(((this.hitCooldownCounter / this.hitCooldownTimer) * 10) % 2));
         }
 
-        if (this.smokeEffectTimer > 0 ) this.smokeEffectTimer -= delta/1000;
-        if (this.smokeEffectTimer <= 0 && this.smokeEffected)
-        {
+        if (this.smokeEffectTimer > 0) this.smokeEffectTimer -= delta / 1000;
+        if (this.smokeEffectTimer <= 0 && this.smokeEffected) {
             this.fireRate -= 0.5;
             this.smokeEffected = false;
         }
@@ -243,7 +242,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     GetMolotovFireCounterPercentage() {
-        return Phaser.Math.Clamp(1-(this.molotovFireCounter / this.molotovFireRate), 0.2, 1);
+        return Phaser.Math.Clamp(1 - (this.molotovFireCounter / this.molotovFireRate), 0.2, 1);
     }
 
     GetNBMolotov() {
@@ -275,8 +274,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.health -= damage;
 
 
-        this.scene.setHealthPointAlpha(this.health,0);
+        this.scene.setHealthPointAlpha(this.health, 0);
 
+        console.log(this.health);
         if (this.health <= 0) this.die();
     }
 
@@ -290,7 +290,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     heal(value) {
         this.health = Phaser.Math.Clamp(value, 1, this.maxHealth);
-        this.scene.setHealthPointAlpha(this.health-1,1);
+        this.scene.setHealthPointAlpha(this.health - 1, 1);
 
     }
 
@@ -311,7 +311,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 
     setFireRate(value, permanentUpgrade = false) {
-        let clampedValue = Phaser.Math.Clamp(value, this.minFireRate, this.maxFireRate)
+        let clampedValue = Phaser.Math.Clamp(value, (this.minFireRate) + ((4 - this.scene.getCurrentRound()) / 10), this.maxFireRate)
         if (permanentUpgrade == true) {
             this.unchangedFireRate = clampedValue;
         }

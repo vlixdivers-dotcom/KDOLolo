@@ -230,6 +230,22 @@ export default {
                 frameHeight: 209,
             }]
         },
+
+        gameOver: {
+            key: 'gameOver',
+            args: ['assets/TitleScreen/GameOver.svg', {
+                frameWidth: 320,
+                frameHeight: 480,
+            }]
+        },
+
+        tuto: {
+            key: 'tuto',
+            args: ['assets/TitleScreen/Tuto.svg', {
+                frameWidth: 320,
+                frameHeight: 480,
+            }]
+        },
     },
     'spritesheet': {
         ships: {

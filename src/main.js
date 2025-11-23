@@ -4,6 +4,7 @@ import { Start } from './scenes/Start.js';
 import { Game } from './scenes/Game.js';
 import { GameOver } from './scenes/GameOver.js';
 import { EndGame } from './scenes/EndGame.js';
+import { Tuto } from './scenes/Tuto.js';
 
 const config = {
     type: Phaser.AUTO,
@@ -25,6 +26,7 @@ const config = {
         Boot,
         Preloader,
         Start,
+        Tuto,
         Game,
         GameOver,
         EndGame

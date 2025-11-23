@@ -37,7 +37,7 @@ import RoundReward from '../gameObjects/RoundReward.js'
 export class Game extends Phaser.Scene {
 
     preload() {
-        this.load.image('background', 'assets/road_bg.png');
+        this.load.image('background', 'assets/road_bg.svg');
         this.load.image('aoe_frame', 'assets/aoe_frame.png');
 
     }
@@ -90,8 +90,8 @@ export class Game extends Phaser.Scene {
         }
 
         for (let i = 0; i < this.healthPointUI.length; i++) {
-
-            let litUp = this.player.getHealth() < i ? 0 : 1;
+            let litUp = 0;
+            litUp = this.player.getHealth() - 1 < i ? 0 : 1;
             this.healthPointUI[i].setAlpha(litUp);
 
         }
@@ -110,6 +110,11 @@ export class Game extends Phaser.Scene {
         } else {
             this.addFlyingGroup();
         }
+    }
+
+
+    getCurrentRound() {
+        return this.scoreUIObject.getScoreMilestoneIndex();
     }
 
     initVariables() {
@@ -410,7 +415,20 @@ export class Game extends Phaser.Scene {
         }
         this.enemyGroup.remove(enemy, true, true);
 
-        if (this.inBetweenRounds === 1 && this.enemyGroup.getLength() === 0) {
+        let onlySmoke = true;
+
+        for (let i = 0; i < this.enemyGroup.getChildren().length; i++) {
+            if (this.enemyGroup.getChildren()[i].getData("enemyType") !== 'smoke') {
+                onlySmoke = false;
+            }
+        }
+
+
+        if ((this.enemyGroup.getLength() === 0 || onlySmoke)) {
+            this.spawnEnemyCounter = 0;
+        }
+
+        if (this.inBetweenRounds === 1 && (this.enemyGroup.getLength() === 0 || onlySmoke)) {
             this.inBetweenRounds = 2;
             this.showInRoundReward();
         }
@@ -519,7 +537,7 @@ export class Game extends Phaser.Scene {
             return;
         }
 
-        
+
         bullet.setEnemiesTouched(bullet.getEnemiesTouched() + 1);
         enemy.hit(bullet.getPower());
 
@@ -586,7 +604,7 @@ export class Game extends Phaser.Scene {
 
     finishPresentateurDialog() {
         if (this.scoreUIObject.getScoreMilestoneIndex() >= this.maxRound) {
-            this.cameras.getCamera('').fadeOut(1500, 0, 0, 0, (camera, progress) => { }).on("camerafadeoutcomplete", () => this.scene.start('EndGame'));
+            this.cameras.getCamera('').fadeOut(1500, 1, 1, 1, (camera, progress) => { }).on("camerafadeoutcomplete", () => this.scene.start('EndGame'));
             return;
         }
         this.inBetweenRounds = 0;
@@ -594,7 +612,15 @@ export class Game extends Phaser.Scene {
     }
 
     GameOver() {
+        for (let i = 0; i < this.healthPointUI.length; i++) {
+            let litUp = 0;
+            this.healthPointUI[i].setAlpha(litUp);
+        }
         this.gameStarted = false;
-        this.gameOverText.setVisible(true);
+
+        this.inBetweenRounds = 5;
+
+
+        this.cameras.getCamera('').fadeOut(1500, 0, 0, 0, (camera, progress) => { }).on("camerafadeoutcomplete", () => this.scene.start('GameOver'));
     }
 }

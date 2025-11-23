@@ -3,6 +3,7 @@ export class EndGame extends Phaser.Scene {
     music;
     fadeInStarted = false;
 
+    music;
 
     textImage;
     textImageMinZoom = 0.85;
@@ -28,14 +29,20 @@ export class EndGame extends Phaser.Scene {
 
 
     update(time, delta) {
+
+
+
+
         if (!this.fadeInStarted) {
             this.fadeInStarted = true
-            this.cameras.getCamera('').fadeIn(1500, 0, 0, 0, (camera, progress) => {
+            this.cameras.getCamera('').fadeIn(1500, 1, 1, 1, (camera, progress) => {
                 this.music.volume = progress;
             }).on("camerafadeincomplete", () => {
                 this.ableToStart = true;
             })
         }
+
+  
 
         if (this.textImageZooming) {
             if (this.textImage.scaleX >= this.textImageMaxZoom) {

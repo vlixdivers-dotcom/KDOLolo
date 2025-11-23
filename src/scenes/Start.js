@@ -49,12 +49,12 @@ export class Start extends Phaser.Scene {
         ];
 
 
-        this.pressPlayText = this.add.text(this.scale.width / 2, this.scale.height / 2 + 175, 'APPUI POUR\nCOMMENCER LA LUTTE', {
+        this.pressPlayText = this.add.text(this.scale.width / 2, this.scale.height / 2 + 175, 'APPUIE POUR\nCOMMENCER LA LUTTE', {
             fontFamily: 'vintageWarehouse', fontSize: '12px', fill: '#FFF', stroke: '#000000', strokeThickness: 8,
             align: 'center'
         }).setOrigin(0.5).setDepth(30);
 
-        this.musicByText = this.add.text(this.scale.width / 2, this.scale.height / 2 - 200, 'Musique faite par :\n el Bombaflexos l\'annaconda', {
+        this.musicByText = this.add.text(this.scale.width / 2, this.scale.height / 2 - 200, 'Musique faite par :\n el Bombaflexos', {
             fontSize: '10px', fill: '#FFF', stroke: '#000000', strokeThickness: 8,
             align: 'center'
         }).setOrigin(0.5).setDepth(30);
@@ -85,10 +85,6 @@ export class Start extends Phaser.Scene {
 
     update(time, delta) {
 
-        // if (!this.musicPlay){
-
-        //     this.musicPlay = true;
-        // }
 
         this.heads.forEach((element) => {
             element.image.angle += (0.75 * element.rotation);
@@ -121,10 +117,10 @@ export class Start extends Phaser.Scene {
         if (this.fadeOutStarted || !this.ableToStart) return;
         this.cursor = this.input.activePointer;
         if (this.cursor.isDown) {
-            this.cameras.getCamera('').fadeOut(2000, 0, 0, 0, (camera, progress) => {
+            this.cameras.getCamera('').fadeOut(1000, 0, 0, 0, (camera, progress) => {
                 this.music.volume = 1 - progress;
             }).on("camerafadeoutcomplete", () => {
-                this.scene.start('Game');
+                this.scene.start('Tuto');
             })
             this.fadeOutStarted = true;
         }
