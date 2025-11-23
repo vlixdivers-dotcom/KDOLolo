@@ -40,7 +40,7 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
             [[0, 0, 0, 0, 2]],
             [[0, 1, 0, 0, 1, 0]],
             [[0, 1, 0, 0, 1, 0]],
-            [[0, 0, 0, 1, 1, 1]],
+            [[0, 0, 0, 1, 1, 1, 1]],
             [[0, 0, 2, 0, 0]],
             [[0, 0, 0, 1, 1, 0]],
             [[0, 0, 2, 0, 0]],
@@ -167,7 +167,6 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
         ]
     ]
 
-    firstone = true;
     constructor(scene, x, y) {
         super(scene, x, y);
         this.scene = scene;
@@ -176,11 +175,10 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
     }
 
     spawnEnemies(round) {
-        if (this.firstone == true) {
-            this.y = -40;
-            this.firstone = false;
-        }
+
         const possibility = Phaser.Math.Between(0, this.enemiesSpawnPossibilities[round].length - 1)
+
+        console.log(possibility);
 
         for (let i = 0; i < this.enemiesSpawnPossibilities[round][possibility].length; i++) {
             let lastEnemy = null;
@@ -213,8 +211,8 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
 
                 enemy.setX((lastEnemy === null ? enemy.width / 2 : lastEnemy.x + (lastEnemy.width / 2 + enemy.width / 2)));
 
-                enemy.setY(100);
-                enemy.setDepth(10 - i)
+                enemy.setY(this.y + (this.y * i));
+                enemy.setDepth(10 + i)
                 this.scene.addEnemy(enemy);
 
                 lastEnemy = { x: enemy.GetXY().x, width: enemy.width };

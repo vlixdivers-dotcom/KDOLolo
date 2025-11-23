@@ -22,7 +22,7 @@ export default class PlayerBullet extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         this.power = power;
 
-        this.explosive = true;
+        this.explosive = explosive;
         this.piercing = piercing;
         this.setSize(12 * (explosive ? 5.2 : 1), 32 * (explosive ? 1 : 1)); // resize hitbox to correctly fit image instead of using the entire tile size
         this.setDepth(10);
@@ -69,7 +69,7 @@ export default class PlayerBullet extends Phaser.Physics.Arcade.Sprite {
     }
 
     setEnemiesTouched(value) {
-        if (this.enemiesTouched === 0)
+        if (this.explosive && this.enemiesTouched === 0)
         {
             this.scene.addExplosion(this.x,this.y)
         }

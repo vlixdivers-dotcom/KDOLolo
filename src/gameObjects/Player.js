@@ -14,7 +14,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     shotPower = 1;
 
-    molotovFireRate = 20;
+    molotovFireRate = 5;
     molotovFireCounter = 0;
     nbMolotov = 1;
     maxNBMolotov = 1;
@@ -75,8 +75,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if (this.nbMolotov < this.maxNBMolotov) {
             this.molotovFireCounter -= delta / 1000;
             if (this.molotovFireCounter <= 0) {
-                this.molotovFireCounter = this.molotovFireRate;
-                this.nbMolotov++;
+                this.addAMolotov();
             }
         }
         if (this.timedUpgradeCounter > 0) this.timedUpgradeCounter -= delta / 1000;
@@ -254,7 +253,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     addAMolotov() {
         if (this.nbMolotov < this.maxNBMolotov) {
             this.nbMolotov = Phaser.Math.Clamp(this.nbMolotov + 1, 0, this.maxNBMolotov);
-            if (this.nbMolotov >= this.maxNBMolotov) {
+            if (this.nbMolotov < this.maxNBMolotov) {
                 this.molotovFireCounter = this.molotovFireRate;
             }
         }

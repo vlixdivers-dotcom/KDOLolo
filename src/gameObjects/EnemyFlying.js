@@ -40,7 +40,7 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
 
         if (this.isSliding) {
 
-            this.x += ((this.speed * 5) * (delta / 1000)) * this.slideNeg;
+            this.x += ((this.speed * 10) * (delta / 1000)) * this.slideNeg;
 
             if (this.slideNeg > 0 && this.x >= this.slideAimX) {
                 this.isSliding = false;

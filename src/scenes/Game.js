@@ -179,7 +179,7 @@ export class Game extends Phaser.Scene {
 
         this.maxRound = 4;
 
-        this.enemySpawner = new EnemySpawner(this, 0, -180);
+        this.enemySpawner = new EnemySpawner(this, 0, 32);
 
         this.healthPointUI = [];
         this.healthPointEmptyUI = [];

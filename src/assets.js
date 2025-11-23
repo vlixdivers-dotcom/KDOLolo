@@ -8,19 +8,23 @@ export default {
     'image': {
         enemy: {
             key: 'crs',
-            args: ['assets/enemies/Enemy.png', { frameWidth: 64, frameHeight: 64 }]
+            args: ['assets/enemies/Enemy.svg', { frameWidth: 64, frameHeight: 64 }]
         },
         enemyLBD: {
             key: 'enemyLBD',
-            args: ['assets/enemies/ShooterEnemy.png', { frameWidth: 32, frameHeight: 64 }]
+            args: ['assets/enemies/ShooterEnemy.svg', { frameWidth: 32, frameHeight: 64 }]
+        },
+        lbdShot: {
+            key: 'lbdShot',
+            args: ['assets/enemies/LBDShot.svg', { frameWidth: 24, frameHeight: 32 }]
         },
         enemyShielded: {
             key: 'enemyShielded',
-            args: ['assets/enemies/ShieldedEnemy.png', { frameWidth: 32, frameHeight: 64 }]
+            args: ['assets/enemies/ShieldedEnemy.svg', { frameWidth: 32, frameHeight: 64 }]
         },
         enemyTank: {
             key: 'enemyTank',
-            args: ['assets/enemies/TankEnemy.png', { frameWidth: 176, frameHeight: 128 }]
+            args: ['assets/enemies/TankEnemy.svg', { frameWidth: 176, frameHeight: 128 }]
         },
 
 
@@ -43,31 +47,31 @@ export default {
 
         tempExplosiveShot: {
             key: 'tempExplosiveShot',
-            args: ['assets/Upgrade/TempExplosiveRate.png', { frameWidth: 32, frameHeight: 32 }]
+            args: ['assets/Upgrade/TempExplosiveRate.svg', { frameWidth: 32, frameHeight: 32 }]
         },
         tempMultiShot: {
             key: 'tempMultiShot',
-            args: ['assets/Upgrade/TempDoubleShot.png', { frameWidth: 32, frameHeight: 32 }]
+            args: ['assets/Upgrade/TempDoubleShot.svg', { frameWidth: 32, frameHeight: 32 }]
         },
         tempShield: {
             key: 'tempShield',
-            args: ['assets/Upgrade/TempShield.png', { frameWidth: 32, frameHeight: 32 }]
+            args: ['assets/Upgrade/TempShield.svg', { frameWidth: 32, frameHeight: 32 }]
         },
         tempFireRate: {
             key: 'tempFireRate',
-            args: ['assets/Upgrade/TempFireRate.png', { frameWidth: 32, frameHeight: 32 }]
+            args: ['assets/Upgrade/TempFireRate.svg', { frameWidth: 32, frameHeight: 32 }]
         },
         molotovAdd: {
             key: 'molotovAdd',
-            args: ['assets/Upgrade/MolotovAdd.png', { frameWidth: 32, frameHeight: 32 }]
+            args: ['assets/Upgrade/MolotovAdd.svg', { frameWidth: 32, frameHeight: 32 }]
         },
         heal: {
             key: 'heal',
-            args: ['assets/Upgrade/Heal.png', { frameWidth: 32, frameHeight: 32 }]
+            args: ['assets/Upgrade/Heal.svg', { frameWidth: 32, frameHeight: 32 }]
         },
         shieldImage: {
             key: 'shieldImage',
-            args: ['assets/Shield.png', { frameWidth: 64, frameHeight: 75 }]
+            args: ['assets/Shield.svg', { frameWidth: 64, frameHeight: 75 }]
         },
         livre: {
             key: 'livre',
@@ -230,7 +234,7 @@ export default {
     'spritesheet': {
         ships: {
             key: 'ships',
-            args: ['assets/player.png', {
+            args: ['assets/player.svg', {
                 frameWidth: 64,
                 frameHeight: 75,
             }]
@@ -244,35 +248,35 @@ export default {
         },
         bullets: {
             key: 'stone',
-            args: ['assets/bullet.png', {
+            args: ['assets/bullet.svg', {
                 frameWidth: 32,
                 frameHeight: 32,
             }]
         },
         aoe: {
             key: 'aoe',
-            args: ['assets/aoe.png', {
+            args: ['assets/aoe.svg', {
                 frameWidth: 32,
                 frameHeight: 32,
             }]
         },
         aoeExplosion: {
             key: 'aoeExplosion',
-            args: ['assets/explosion_sheet.png', {
+            args: ['assets/explosion_sheet.svg', {
                 frameWidth: 320,
                 frameHeight: 160,
             }]
         },
         aoeFrame: {
             key: 'aoeFrame',
-            args: ['assets/aoe_frame.png', {
+            args: ['assets/aoe_frame.svg', {
                 frameWidth: 24,
                 frameHeight: 24,
             }]
         },
         presentateur: {
             key: 'presentateur',
-            args: ['assets/Presentateur/presentateur_sheet.png', {
+            args: ['assets/Presentateur/presentateur_sheet.svg', {
                 frameWidth: 96,
                 frameHeight: 80,
             }]
@@ -286,7 +290,7 @@ export default {
         },
         smokeScreen: {
             key: 'smokeScreen',
-            args: ['assets/enemies/Smoke15Frames.png', { frameWidth: 64, frameHeight: 64 }]
+            args: ['assets/enemies/Smoke15Frames.svg', { frameWidth: 64, frameHeight: 64 }]
         },
 
     }
