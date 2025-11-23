@@ -54,7 +54,7 @@ export class Start extends Phaser.Scene {
             align: 'center'
         }).setOrigin(0.5).setDepth(30);
 
-        this.musicByText = this.add.text(this.scale.width / 2, this.scale.height / 2 - 200, 'Musique faite par :\n el Bombaflexos', {
+        this.musicByText = this.add.text(this.scale.width / 2, this.scale.height / 2 - 200, 'Musiques par :\n el Bombaflexos', {
             fontSize: '11px', fill: '#FFF', stroke: '#000000', strokeThickness: 4,
             align: 'center'
         }).setOrigin(0.5).setDepth(30);
