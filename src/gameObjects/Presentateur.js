@@ -66,7 +66,7 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
     [
         { text: "AaaAAAaaaAA", frame: 3 },
         { text: "Que faire ", frame: 3 },
-        { text: "Elle est l..", frame: 3 },
+        { text: "Elle est lààà", frame: 3 },
     ],
     ];
 
@@ -90,7 +90,7 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
     presentateurText;
 
     newText = false;
-    timeBeforeNewLetter = 0.05;
+    timeBeforeNewLetter = 0.03;
     timeBeforeNewLetterCounter = 0;
     textToPrint = "Vous voulez dire ?";
     textToPrintIndex = 0;
@@ -184,7 +184,7 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
         if (this.newText) {
-            this.timeBeforeNewLetterCounter -= (delta / 1000) * 10;
+            this.timeBeforeNewLetterCounter -= (delta / 1000);
 
             if (this.timeBeforeNewLetterCounter <= 0) {
                 this.presentateurText.text += this.textToPrint[this.textToPrintIndex];
