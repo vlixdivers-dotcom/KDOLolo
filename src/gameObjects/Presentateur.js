@@ -16,10 +16,10 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
         { text: "B... Qu'est ce que ? ", frame: 3 },
         { text: "On nous informe", frame: 0 },
         { text: "D'une manifestation ", frame: 0 },
-        { text: "Soudaine sur paris", frame: 2 },
+        { text: "soudaine sur Paris", frame: 2 },
         { text: "Il y as pas à s'inquiéter", frame: 1 },
         { text: "Les forces de l'ordre vont les tap..", frame: 1 },
-        { text: "..Maitriser", frame: 2 },
+        { text: "..Maitriser", frame: 3 },
     ],
     [
         { text: "De retour", frame: 1 },
@@ -32,11 +32,41 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
         { text: "'Vas-y Lolo abats la citadelle !!!'", frame: 0 },
     ],
     [
-        { text: "C'est Rascal Prout", frame: 3 },
+        { text: "Rien ne va plus", frame: 2 },
+        { text: "J'ai reçu un appel de Bolloré", frame: 2 },
+        { text: "On va devoir arrêter", frame: 1 },
+        { text: "L'heure des frouts", frame: 3 },
+        { text: "Une tragédie pour la Fronce", frame: 1 },
+        { text: "Comment les gens vont savoir", frame: 2 },
+        { text: "....", frame: 2 },
+        { text: "....", frame: 0 },
+        { text: "vont savoir quoi ...", frame: 3 },
     ],
     [
-        { text: "Je m'en vais couvrir ma maison de tranche de jambon", frame: 2 },
-        { text: "de tranche de jambon", frame: 3 },
+        { text: "L'individu se rapproche", frame: 0 },
+        { text: "Décrit par nos gentis policiers", frame: 2 },
+        { text: "Comme une islamo-gauchiste", frame: 3 },
+        { text: "Elle serait actuellement", frame: 0 },
+        { text: "sous grosse frozen", frame: 2 },
+        { text: "Néanmoins elle représente", frame: 0 },
+        { text: "un danger pour la république", frame: 0 },
+        { text: "contrairement au RN", frame: 3 },
+        { text: "*téléphone qui sonne*", frame: 0 },
+        { text: "Oui Patron ?", frame: 2 },
+        { text: "Elle est dans la rue..o..", frame: 1 },
+        { text: "..Et l'emmision s'arrête ???", frame: 2 },
+        { text: "D...D'accord", frame: 1 },
+        { text: "Bon moi ça suffit", frame: 0 },
+        { text: "Je fais ", frame: 0 },
+        { text: "mes clics", frame: 1 },
+        { text: "et mes claques", frame: 2 },
+        { text: "Puis je vais recouvrir ma maison", frame: 0 },
+        { text: "de tranches de jambon", frame: 3 },
+    ],
+    [
+        { text: "AaaAAAaaaAA", frame: 3 },
+        { text: "Que faire ", frame: 3 },
+        { text: "Elle est l..", frame: 3 },
     ],
     ];
 
@@ -71,6 +101,7 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
 
     speaking = true;
     isSliding = false;
+    inFrenzy = false;
     slideProgress = 0;
 
     deltaMultplicator = 1;
@@ -108,7 +139,10 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
     }
 
     startStoryText(round, cursor) {
-
+        if (round === 4 && this.inFrenzy == false) {
+            this.positionPres = [0 + this.width, this.scene.scale.width - this.width];
+            this.inFrenzy = true;
+        }
         if (this.currentStoryDialogIndex === 0) {
 
             this.slidePresentateur(true);
@@ -124,7 +158,6 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
         }
         else {
 
-            this.deltaMultplicator = (cursor && this.newText) ? 5 : 1;
             if (cursor && !this.newText) {
                 if (this.currentStoryDialogIndex < this.currentStoryDialog.length) {
                     this.setNewTextToPrint(this.currentStoryDialog[this.currentStoryDialogIndex].text);
@@ -151,7 +184,7 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
         if (this.newText) {
-            this.timeBeforeNewLetterCounter -= (delta / 1000) * this.deltaMultplicator;
+            this.timeBeforeNewLetterCounter -= (delta / 1000) * 10;
 
             if (this.timeBeforeNewLetterCounter <= 0) {
                 this.presentateurText.text += this.textToPrint[this.textToPrintIndex];
@@ -176,23 +209,30 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
         }
 
 
+        if (this.inFrenzy) {
+            if (this.x <= this.positionPres[0]) {
+                this.x -= (delta / 1000) * 1000;
+            }
+
+            if (this.x >= this.positionPres[1]) {
+                this.x += (delta / 1000) * 100;
+                return;
+            }
+        }
+
         if (this.isSliding) {
             if (this.speaking) {
                 if (this.x <= this.positionPres[0]) {
                     this.isSliding = false;
                     return;
                 }
-
-
                 this.x -= (delta / 1000) * 1000;
             }
             else {
-
                 if (this.x >= this.positionPres[1]) {
                     this.isSliding = false;
                     return;
                 }
-
                 this.x += (delta / 1000) * 100;
             }
         }

@@ -374,6 +374,22 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
                 [0, 0, 0, 0, 0]
             ],
             [
+                [0, 0, 1, 1, 0,],
+                [0, 0, 0, 0, 0]
+            ],
+            [
+                [2, 0, 1, 1, 0, 2],
+                [0, 0, 0, 0, 0]
+            ],
+            [
+                [0, 0, 1, 1, 0,],
+                [0, 0, 0, 0, 0]
+            ],
+            [
+                [2, 0, 1, 1, 0, 2],
+                [0, 0, 0, 0, 0]
+            ],
+            [
                 [1, 1, 3, 3, 1, 1, 0, 1, 1],
                 [0, 0, 2, 2, 0]
             ],
@@ -672,9 +688,9 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
 
             [
                 [0, 0, 1, 1, 0, 0],
-                [0, 0, 0, 0, 0]
+                [0, 0, 0, 0, 0],
                 [0, 2, 3, 3, 0, 0],
-                [0, 0, 0, 0, 2]
+                [0, 0, 0, 0, 2],
                 [0, 0, 2, 0, 0]
             ]
             ,
@@ -682,7 +698,7 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                 [0, 0, 0, 0, 0]
                 [0, 2, 3, 3, 0, 0],
-                [0, 0, 0, 0, 2]
+                [0, 0, 0, 0, 2],
                 [0, 0, 2, 0, 0]
             ]
             ,
@@ -695,9 +711,9 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
             ],
             [
                 [4, 1, 1, 1, 1],
-                [0, 0, 0, 0, 0]
+                [0, 0, 0, 0, 0],
                 [0, 2, 3, 3, 0, 0],
-                [0, 0, 0, 0, 2]
+                [0, 0, 0, 0, 2],
                 [0, 0, 2, 0, 0]
             ],
             [
@@ -768,20 +784,21 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
 
 
                 if (round >= 2) {
-                    enemy.setHealth(enemy.getHealth() + (round-1));
+                    enemy.setHealth(enemy.getHealth() + (round / 2));
                 }
 
                 lastEnemy = { x: enemy.GetXY().x, width: enemy.width };
 
                 enemy.startSlide(enemy.GetXY().x + slideMultiplicator);
 
-                const soundToPlay = Phaser.Math.Between(0, 100) > 50 ? this.policierArrivalSFX1 : this.policierArrivalSFX2;
-                soundToPlay.setDetune(50 + (Phaser.Math.Between(0, 50) * (Phaser.Math.Between(0, 100) > 50 ? 1 : -1)));
-                soundToPlay.play();
+
 
             }
         }
 
+        const soundToPlay = Phaser.Math.Between(0, 100) > 50 ? this.policierArrivalSFX1 : this.policierArrivalSFX2;
+        soundToPlay.setDetune(50 + (Phaser.Math.Between(0, 50) * (Phaser.Math.Between(0, 100) > 50 ? 1 : -1)));
+        soundToPlay.play();
 
     }
 

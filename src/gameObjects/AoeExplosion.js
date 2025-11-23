@@ -20,12 +20,14 @@ export default class AoeExplosion extends Phaser.Physics.Arcade.Sprite {
         this.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
             this.scene.removeAoeExplosion(this);
         }, this);
+        this.maxTouch = 10 + (1 * this.scene.getCurrentRound());
+
     }
 
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
         this.checkWorldBounds();
-   
+
     }
 
     getPower() {
@@ -46,7 +48,7 @@ export default class AoeExplosion extends Phaser.Physics.Arcade.Sprite {
     }
 
 
-    canDealDamage(){
+    canDealDamage() {
         return this.enemiesTouched <= this.maxTouch;
     }
 }

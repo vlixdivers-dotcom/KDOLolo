@@ -468,11 +468,11 @@ export class Game extends Phaser.Scene {
 
         let mainUpgradeChances = Phaser.Math.Between(0, 100);
 
-        if (mainUpgradeChances <= 60) {
+        if (mainUpgradeChances <= 40) {
             upgrade = new MainWeaponFireRateUpgrade(this, x, y, speed);
             return upgrade;
         }
-        else if (mainUpgradeChances <= 70 + ((this.player.getMaxHealth() - this.player.getHealth()) * 10)) {
+        else if (mainUpgradeChances <= 50 + ((this.player.getMaxHealth() - this.player.getHealth()) * 10)) {
             upgrade = new HealUpgrade(this, x, y, speed);
             return upgrade;
         }
@@ -607,7 +607,12 @@ export class Game extends Phaser.Scene {
 
     finishPresentateurDialog() {
         if (this.scoreUIObject.getScoreMilestoneIndex() >= this.maxRound) {
-            this.cameras.getCamera('').fadeOut(1500, 1, 1, 1, (camera, progress) => { }).on("camerafadeoutcomplete", () => this.scene.start('EndGame'));
+            this.cameras.getCamera('').fadeOut(1500, 1, 1, 1, (camera, progress) => {
+                this.music.volume = 1 - progress;
+            }).on("camerafadeoutcomplete", () => {
+                this.music.stop();
+                this.scene.start('EndGame')
+            });
             return;
         }
         this.inBetweenRounds = 0;

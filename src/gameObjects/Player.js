@@ -14,7 +14,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     shotPower = 1;
 
-    molotovFireRate = 5;
+    molotovFireRate = 15;
     molotovFireCounter = 0;
     nbMolotov = 1;
     maxNBMolotov = 1;
@@ -95,7 +95,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         if (this.smokeEffectTimer > 0) this.smokeEffectTimer -= delta / 1000;
         if (this.smokeEffectTimer <= 0 && this.smokeEffected) {
-            this.fireRate -= 0.5;
+            this.setFireRate(this.GetFireRate()-0.5);
             this.smokeEffected = false;
         }
 
@@ -268,6 +268,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.nbMolotov = Phaser.Math.Clamp(this.nbMolotov + 1, 0, this.maxNBMolotov);
             if (this.nbMolotov < this.maxNBMolotov) {
                 this.molotovFireCounter = this.molotovFireRate;
+            }else{
+                this.molotovFireCounter = 0;
             }
         }
     }
@@ -407,6 +409,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     haveLivreDeMerdellaUpgrade() {
         this.setFireRate(this.GetFireRate() - 0.7, true);
+        this.setChanceToMultiShots(10, true);
     }
 
 
@@ -420,21 +423,28 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     haveLarmeUpgrade() {
         this.chanceToFireExplosiveShot.unchanged = 30;
         this.chanceToFireExplosiveShot.realValue = 30;
+        this.setFireRate(this.GetFireRate() - 0.2, true);
     }
 
     haveTalcUpgrade() {
-        this.setFireRate(this.GetFireRate() - 0.5, true);
-
+        this.setFireRate(this.GetFireRate() - 0.7, true);
+        this.chanceToFireExplosiveShot.unchanged += 10;
+        this.chanceToFireExplosiveShot.realValue += 10;
     }
 
     haveSainteSolineUpgrade() {
         this.maxNBMolotov = 3;
         this.nbMolotov = this.maxNBMolotov;
+        this.setFireRate(this.GetFireRate() - 0.2, true);
+        this.chanceToFireExplosiveShot.unchanged += 5;
+        this.chanceToFireExplosiveShot.realValue += 5;
     }
 
     haveSlipUpgrade() {
         this.setFireRate(this.GetFireRate() - 0.5, true);
         this.shotPower = 2;
+        this.chanceToFireMultiShot.unchanged += 5;
+        this.chanceToFireMultiShot.realValue += 5;
     }
 
     haveLesFaitUpgrade() {
