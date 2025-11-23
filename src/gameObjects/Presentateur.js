@@ -124,7 +124,7 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
         }
         else {
 
-            this.deltaMultplicator = cursor ? 5 : 1;
+            this.deltaMultplicator = (cursor && this.newText) ? 5 : 1;
             if (cursor && !this.newText) {
                 if (this.currentStoryDialogIndex < this.currentStoryDialog.length) {
                     this.setNewTextToPrint(this.currentStoryDialog[this.currentStoryDialogIndex].text);

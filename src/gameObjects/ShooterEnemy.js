@@ -6,6 +6,7 @@ export default class ShooterEnemy extends EnemyFlying {
     fireCounterMin = 2; // minimum fire rate
     fireCounterMax = 4; // maximum fire rate
 
+    policierShootSfx;
     constructor(scene, x, y) {
         super(scene, x, y, ASSETS.image.enemyLBD.key);
         this.setTexture(ASSETS.image.enemyLBD.key);
@@ -14,6 +15,8 @@ export default class ShooterEnemy extends EnemyFlying {
         this.baseImage = ASSETS.image.enemyLBD.key;
         this.touchedImage = ASSETS.image.enemyLBDTouched.key;
         this.fireCounter = Phaser.Math.RND.between(this.fireCounterMin, this.fireCounterMax);
+
+        this.policierShootSfx = this.scene.sound.add(ASSETS.audio.policierShoot.key, { loop: false, mute: false, volume: 1.5 });
     }
 
     preUpdate(time, delta) {
@@ -27,5 +30,7 @@ export default class ShooterEnemy extends EnemyFlying {
     fire() {
         this.fireCounter = Phaser.Math.RND.between(this.fireCounterMin, this.fireCounterMax);
         this.scene.fireEnemyBullet(this.x, this.y, this.power);
+        this.policierShootSfx.setDetune(50 + (Phaser.Math.Between(0, 50) * (Phaser.Math.Between(0, 100) > 50 ? 1 : -1)));
+        this.policierShootSfx.play();
     }
 }

@@ -19,6 +19,8 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
     slideAimX = 0;
     slideNeg = false;
     isSliding = false;
+
+    hitSFX;
     constructor(scene, x, y) {
         super(scene, x, y, ASSETS.image.enemy.key);
 
@@ -33,6 +35,9 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
 
         this.setDataEnabled();
         this.setData('enemyType', 'crs');
+
+        this.hitSFX = this.scene.sound.add(ASSETS.audio.policierHit.key, { loop: false, mute: false, volume: 0.4 });
+
     }
 
     preUpdate(time, delta) {
@@ -79,6 +84,10 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
         this.touchedImageShown = true;
         if (this.isSliding) return;
         this.health -= damage;
+
+        
+        this.hitSFX.setDetune(50 + (Phaser.Math.Between(0, 500) * (Phaser.Math.Between(0, 100) > 50 ? 1 : -1)));
+        this.hitSFX.play();
 
         if (this.health <= 0) this.die();
     }

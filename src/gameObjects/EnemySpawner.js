@@ -3,6 +3,7 @@ import ShieldedEnemy from '../gameObjects/ShieldedEnemy.js';
 import ShooterEnemy from '../gameObjects/ShooterEnemy.js';
 import SmokeEnemy from '../gameObjects/SmokeEnemy.js';
 import TankEnemy from '../gameObjects/TankEnemy.js';
+import ASSETS from '../assets.js';
 
 
 export default class EnemySpawner extends Phaser.GameObjects.GameObject {
@@ -713,11 +714,15 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
         ]
     ]
 
+    policierArrivalSFX1;
+    policierArrivalSFX2;
+
     constructor(scene, x, y) {
         super(scene, x, y);
         this.scene = scene;
         this.y = y;
-
+        this.policierArrivalSFX1 = this.scene.sound.add(ASSETS.audio.policierArrival1.key, { loop: false, mute: false, volume: 1.5 });
+        this.policierArrivalSFX2 = this.scene.sound.add(ASSETS.audio.policierArrival2.key, { loop: false, mute: false, volume: 1.5 });
     }
 
     spawnEnemies(round) {
@@ -763,21 +768,21 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
 
 
                 if (round >= 2) {
-                    enemy.setHealth(enemy.getHealth() + round);
+                    enemy.setHealth(enemy.getHealth() + (round-1));
                 }
 
                 lastEnemy = { x: enemy.GetXY().x, width: enemy.width };
 
                 enemy.startSlide(enemy.GetXY().x + slideMultiplicator);
 
+                const soundToPlay = Phaser.Math.Between(0, 100) > 50 ? this.policierArrivalSFX1 : this.policierArrivalSFX2;
+                soundToPlay.setDetune(50 + (Phaser.Math.Between(0, 50) * (Phaser.Math.Between(0, 100) > 50 ? 1 : -1)));
+                soundToPlay.play();
 
             }
         }
 
-        if (this.firstone == true) {
-            this.y = -150;
-            this.firstone = 0;
-        }
+
     }
 
 }

@@ -624,6 +624,11 @@ export class Game extends Phaser.Scene {
         this.inBetweenRounds = 5;
 
 
-        this.cameras.getCamera('').fadeOut(1500, 0, 0, 0, (camera, progress) => { }).on("camerafadeoutcomplete", () => this.scene.start('GameOver'));
+        this.cameras.getCamera('').fadeOut(1500, 0, 0, 0, (camera, progress) => {
+            this.music.volume = 1 - progress;
+        }).on("camerafadeoutcomplete", () => {
+            this.music.stop();
+            this.scene.start('GameOver');
+        });
     }
 }

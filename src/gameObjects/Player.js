@@ -46,6 +46,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     smokeEffectTimer = 0;
     smokeEffected = false;
 
+
+
+    mainAttackSFX;
+    fireAoeSFX;
+    pickupSFX;
     constructor(scene, x, y, shipId) {
         super(scene, x, y, ASSETS.spritesheet.ships.key, shipId);
 
@@ -60,6 +65,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.y -= this.width + 20;
 
         this.shieldImage = this.scene.add.image(this.x, this.y, ASSETS.image.shieldImage.key).setOrigin(0.5).setDepth(52).setAlpha(0);
+        this.mainAttackSFX = this.scene.sound.add(ASSETS.audio.mainAttack.key, { loop: false, mute: false, volume: 0.5 });
+        this.fireAoeSFX = this.scene.sound.add(ASSETS.audio.fireAoe.key, { loop: false, mute: false, volume: 0.6 });
+        this.pickupSFX = this.scene.sound.add(ASSETS.audio.pickup.key, { loop: false, mute: false, volume: 0.6 });
 
     }
 
@@ -229,6 +237,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             }
             return;
         }
+
+        this.mainAttackSFX.setDetune(50 + (Phaser.Math.Between(0, 100) * (Phaser.Math.Between(0, 100) > 50 ? 1 : -1)));
+        this.mainAttackSFX.play();
+
         this.scene.fireBullet(this.x, this.y, this.shotPower,
             (Phaser.Math.Between(0, 100) < this.chanceToFireExplosiveShot.realValue),
             (Phaser.Math.Between(0, 100) < this.chanceToFirePiercingShot.realValue));
@@ -239,6 +251,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.nbMolotov--;
         this.molotovFireCounter = this.molotovFireRate;
         this.scene.fireAoe(this.x, this.y, this.molotovPower);
+        this.fireAoeSFX.setDetune(50 + (Phaser.Math.Between(0, 100) * (Phaser.Math.Between(0, 100) > 50 ? 1 : -1)));
+        this.fireAoeSFX.play();
     }
 
     GetMolotovFireCounterPercentage() {
@@ -277,7 +291,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.scene.setHealthPointAlpha(this.health, 0);
 
-        console.log(this.health);
         if (this.health <= 0) this.die();
     }
 
@@ -356,6 +369,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 
     upgrade(upgradePickup) {
+        this.pickupSFX.setDetune(50 + (Phaser.Math.Between(0, 100) * (Phaser.Math.Between(0, 100) > 50 ? 1 : -1)));
+        this.pickupSFX.play();
         upgradePickup.SetUpgradeEffect(this);
     }
 
@@ -384,6 +399,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     startSmokeEffect(timer) {
         this.smokeEffectTimer = timer;
+        if (this.smokeEffected) return;
         this.smokeEffected = true;
 
         this.setFireRate(this.GetFireRate() + 0.5);

@@ -12,6 +12,34 @@ export default {
             key: 'prout',
             args: ['assets/SFX/prout.ogg']
         },
+        mainAttack: {
+            key: 'mainAttack',
+            args: ['assets/SFX/mainAttack.ogg']
+        },
+        fireAoe: {
+            key: 'fireAoe',
+            args: ['assets/SFX/fireAoe.ogg']
+        },
+        policierHit: {
+            key: 'policierHit',
+            args: ['assets/SFX/policierHit.ogg']
+        },
+        policierShoot: {
+            key: 'policierShoot',
+            args: ['assets/SFX/policierShoot.ogg']
+        },
+        policierArrival1: {
+            key: 'policierArrival1',
+            args: ['assets/SFX/policierArrival1.ogg']
+        },
+        policierArrival2: {
+            key: 'policierArrival2',
+            args: ['assets/SFX/policierArrival2.ogg']
+        },
+        pickup: {
+            key: 'pickup',
+            args: ['assets/SFX/pickup.ogg']
+        },
     },
     'image': {
         enemy: {
