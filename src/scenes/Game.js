@@ -89,6 +89,13 @@ export class Game extends Phaser.Scene {
             }
         }
 
+        for (let i = 0; i < this.healthPointUI.length; i++) {
+
+            let litUp = this.player.getHealth() < i ? 0 : 1;
+            this.healthPointUI[i].setAlpha(litUp);
+
+        }
+
         this.aoe_frame.alpha = this.player.GetMolotovFireCounterPercentage();
         this.nb_aoe.text = `X${this.player.GetNBMolotov()}`;
 
@@ -179,7 +186,6 @@ export class Game extends Phaser.Scene {
     }
 
     setHealthPointAlpha(index, litUp) {
-        this.healthPointUI[index].setAlpha(litUp);
     }
 
     initGameUi() {
@@ -342,7 +348,6 @@ export class Game extends Phaser.Scene {
     }
 
     fireBullet(x, y, power, explosive, piercing) {
-        console.log(explosive);
 
         const bullet = new PlayerBullet(this, x, y, power, explosive, piercing);
 
@@ -483,8 +488,9 @@ export class Game extends Phaser.Scene {
         this.playerAoeExplosionGroup.add(aoeExplosion);
     }
 
-    removeAoeExplosion(aoeExplosion,removeCollisionOnly = false) {
-        this.playerAoeExplosionGroup.remove(aoeExplosion, !removeCollisionOnly, true);
+    removeAoeExplosion(aoeExplosion, removeCollisionOnly = false) {
+
+        this.playerAoeExplosionGroup.remove(aoeExplosion,removeCollisionOnly , true);
     }
 
 
@@ -513,7 +519,7 @@ export class Game extends Phaser.Scene {
             return;
         }
 
-        bullet.setEnemiesTouched(bullet.getEnemiesTouched() + 1)
+        bullet.setEnemiesTouched(bullet.getEnemiesTouched() + 1);
         enemy.hit(bullet.getPower());
 
         if (bullet.getIsExplosive() && bullet.getEnemiesTouched() < 2) return;
@@ -534,7 +540,10 @@ export class Game extends Phaser.Scene {
     }
 
     hitEnemyWithAoeExplosion(explosionAoe, enemy) {
-        explosionAoe.setEnemiesTouched(explosionAoe.getEnemiesTouched()+1);
+        if (enemy.getData('enemyType') === 'smoke' || !explosionAoe.canDealDamage() ) {
+            return;
+        }
+        explosionAoe.setEnemiesTouched(explosionAoe.getEnemiesTouched() + 1);
         enemy.hit(explosionAoe.getPower());
     }
 
@@ -575,7 +584,7 @@ export class Game extends Phaser.Scene {
     }
 
     finishPresentateurDialog() {
-        if (this.scoreUIObject.getScoreMilestoneIndex() >= this.maxRound ) {
+        if (this.scoreUIObject.getScoreMilestoneIndex() >= this.maxRound) {
             this.cameras.getCamera('').fadeOut(1500, 0, 0, 0, (camera, progress) => { }).on("camerafadeoutcomplete", () => this.scene.start('EndGame'));
             return;
         }

@@ -148,7 +148,6 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
 
         if (this.textSliding) {
             this.presentateurText.x -= (delta / 1000) * 200;
-            console.log(0 - this.scene.scale.width - this.presentateurText.width/2);
             if (this.presentateurText.x < 0 - this.scene.scale.width - this.presentateurText.width/2) {
                 this.presentateurText.x = this.scene.scale.width + this.presentateurText.width/2 ;
             }

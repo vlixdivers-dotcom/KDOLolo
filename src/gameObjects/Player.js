@@ -23,7 +23,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     molotovPower = 1;
 
     maxHealth = 3;
-    health = 3;
+    health = 2;
 
     clickCount = 0;
     clickCountTimerValue = 0.2;
@@ -244,7 +244,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     GetMolotovFireCounterPercentage() {
-        return Phaser.Math.Clamp( (this.molotovFireCounter / this.molotovFireRate), 0.2, 1);
+        return Phaser.Math.Clamp(1-(this.molotovFireCounter / this.molotovFireRate), 0.2, 1);
     }
 
     GetNBMolotov() {
