@@ -483,8 +483,8 @@ export class Game extends Phaser.Scene {
         this.playerAoeExplosionGroup.add(aoeExplosion);
     }
 
-    removeAoeExplosion(aoeExplosion) {
-        this.playerAoeExplosionGroup.remove(aoeExplosion, true, true);
+    removeAoeExplosion(aoeExplosion,removeCollisionOnly = false) {
+        this.playerAoeExplosionGroup.remove(aoeExplosion, !removeCollisionOnly, true);
     }
 
 
@@ -534,7 +534,7 @@ export class Game extends Phaser.Scene {
     }
 
     hitEnemyWithAoeExplosion(explosionAoe, enemy) {
-        explosionAoe.remove();
+        explosionAoe.setEnemiesTouched(explosionAoe.getEnemiesTouched()+1);
         enemy.hit(explosionAoe.getPower());
     }
 

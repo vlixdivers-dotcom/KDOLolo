@@ -1,13 +1,13 @@
 import ASSETS from '../assets.js';
 
 export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
-    health = 2; // enemy health
+    health = 1; // enemy health
     scorePoints = 1;
     fireCounterMin = 100; // minimum fire rate
     fireCounterMax = 300; // maximum fire rate
     fireCounter;
     power = 1; // enemy strength
-    speed = 35;
+    speed = 50;
 
     chanceToDropUpgrade = 30;
 
