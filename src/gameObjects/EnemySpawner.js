@@ -93,18 +93,18 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
             ],
             [
                 [0, 0, 0, 2, 1, 1],
-                [0, 0, 0, 0,0,]
+                [0, 0, 0, 0, 0,]
             ],
             [
-                [1, 1, 0,1,1, 0, 1, 1],
+                [1, 1, 0, 1, 1, 0, 1, 1],
                 [0, 0, 2, 2, 0]
             ],
             [
-                [1, 1, 0,1,1, 0, 1, 1],
+                [1, 1, 0, 1, 1, 0, 1, 1],
                 [0, 0, 0, 0, 0]
             ],
             [
-                [0, 0, 1, 1, 0, ]
+                [0, 0, 1, 1, 0,]
                 [0, 0, 0, 0, 0]
             ],
             [
@@ -184,6 +184,7 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
 
         for (let i = 0; i < this.enemiesSpawnPossibilities[round][possibility].length; i++) {
             let lastEnemy = null;
+            const slideMultiplicator = (320 * (Phaser.Math.Between(0, 100) > 50 ? -1 : 1))
             for (let j = 0; j < this.enemiesSpawnPossibilities[round][possibility][i].length; j++) {
 
                 const enemyValue = this.enemiesSpawnPossibilities[round][possibility][i][j];
@@ -212,12 +213,13 @@ export default class EnemySpawner extends Phaser.GameObjects.GameObject {
 
                 enemy.setX((lastEnemy === null ? enemy.width / 2 : lastEnemy.x + (lastEnemy.width / 2 + enemy.width / 2)));
 
-
-                enemy.setY(this.y * i);
+                enemy.setY(100);
                 enemy.setDepth(10 - i)
                 this.scene.addEnemy(enemy);
 
-                lastEnemy = enemy;
+                lastEnemy = { x: enemy.GetXY().x, width: enemy.width };
+
+                enemy.startSlide(enemy.GetXY().x + slideMultiplicator);
             }
         }
 

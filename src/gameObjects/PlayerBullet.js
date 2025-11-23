@@ -9,7 +9,12 @@ export default class PlayerBullet extends Phaser.Physics.Arcade.Sprite {
     piercing = false;
 
     enemiesTouched = 0;
+    maxTouch = 2;
+
     timeAfterTrigger = 0;
+
+
+    explosionAnim;
     constructor(scene, x, y, power, explosive = false, piercing = false) {
         super(scene, x, y, ASSETS.spritesheet.bullets.key, 0);
 
@@ -17,12 +22,14 @@ export default class PlayerBullet extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         this.power = power;
 
-        this.explosive = explosive;
+        this.explosive = true;
         this.piercing = piercing;
         this.setSize(12 * (explosive ? 5.2 : 1), 32 * (explosive ? 1 : 1)); // resize hitbox to correctly fit image instead of using the entire tile size
         this.setDepth(10);
         this.scene = scene;
         this.setVelocityY(-this.moveVelocity); // bullet vertical speed
+
+
     }
 
     preUpdate(time, delta) {
@@ -62,23 +69,29 @@ export default class PlayerBullet extends Phaser.Physics.Arcade.Sprite {
     }
 
     setEnemiesTouched(value) {
+        if (this.enemiesTouched === 0)
+        {
+            this.scene.addExplosion(this.x,this.y)
+        }
         this.enemiesTouched = value;
+
+        if (this.explosive && this.enemiesTouched > this.maxTouch) {
+            this.remove();
+        }
     }
 
 
     remove() {
         this.scene.removeBullet(this);
 
-        if (this.explosive) {
-
-        }
+    
     }
 
 
     removeCollision() {
-        this.scene.removeBulletCollision(this);
 
-        this.setVisible(false);
+        this.remove();
+
     }
 
 }

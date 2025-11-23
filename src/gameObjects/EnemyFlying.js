@@ -14,6 +14,11 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
     baseImage;
     touchedImage;
     touchedImageShown = false;
+
+
+    slideAimX = 0;
+    slideNeg = false;
+    isSliding = false;
     constructor(scene, x, y) {
         super(scene, x, y, ASSETS.image.enemy.key);
 
@@ -32,6 +37,22 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
 
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
+
+        if (this.isSliding) {
+
+            this.x += ((this.speed * 5) * (delta / 1000)) * this.slideNeg;
+
+            if (this.slideNeg > 0 && this.x >= this.slideAimX) {
+                this.isSliding = false;
+            }
+            else if (this.slideNeg < 0 && this.x <= this.slideAimX) {
+                this.isSliding = false;
+
+            }
+
+            return;
+        }
+
         this.y += this.speed * (delta / 1000);
 
 
@@ -107,5 +128,16 @@ export default class EnemyFlying extends Phaser.Physics.Arcade.Sprite {
 
     GetSpeed() {
         return this.speed;
+    }
+
+
+    startSlide(value) {
+        this.slideAimX = this.x;
+        this.x = value;
+        this.slideNeg = this.x < this.slideAimX ? 1 : -1;
+
+        console.log(this.slideNeg);
+        this.isSliding = true;
+
     }
 }
