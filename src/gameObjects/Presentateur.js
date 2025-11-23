@@ -140,7 +140,7 @@ export default class Presentateur extends Phaser.Physics.Arcade.Sprite {
 
     startStoryText(round, cursor) {
         if (round === 4 && this.inFrenzy == false) {
-            this.positionPres = [0 + this.width, this.scene.scale.width - this.width];
+            this.positionPres = [0 + this.width/2, this.scene.scale.width - this.width/2];
             this.inFrenzy = true;
         }
         if (this.currentStoryDialogIndex === 0) {
