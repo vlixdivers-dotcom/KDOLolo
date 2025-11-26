@@ -10,6 +10,7 @@ export class EndGame extends Phaser.Scene {
     textImageMaxZoom = 1.15;
     textImageZooming = true;
     ableToStart = false;
+    fadeOutStarted = false;
     constructor() {
         super('EndGame');
     }
