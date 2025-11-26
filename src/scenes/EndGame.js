@@ -9,6 +9,7 @@ export class EndGame extends Phaser.Scene {
     textImageMinZoom = 0.85;
     textImageMaxZoom = 1.15;
     textImageZooming = true;
+    ableToStart = false;
     constructor() {
         super('EndGame');
     }
@@ -58,6 +59,17 @@ export class EndGame extends Phaser.Scene {
                 this.textImage.scaleX -= (delta / 2500);
                 this.textImage.scaleY -= (delta / 2500);
             }
+        }
+
+        if (this.fadeOutStarted || this.ableToStart) return;
+        this.cursor = this.input.activePointer;
+        if (this.cursor.isDown) {
+            this.cameras.getCamera('').fadeOut(2000, 0, 0, 0, (camera, progress) => {
+                this.music.volume = 1 - progress;
+            }).on("camerafadeoutcomplete", () => {
+                this.scene.start('Game');
+            })
+            this.fadeOutStarted = true;
         }
 
     }
